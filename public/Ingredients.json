@@ -1,34 +1,30 @@
 [
   {
     "id": "1",
-    "uniqueId": "111",
     "name": "Tomato",
     "calories": 18,
-    "price": 0.5,
+    "price": 100,
     "image": "https://i.ibb.co/YXK7yd0/tomato.jpg"
   },
   {
     "id": "2",
-    "uniqueId": "121",
     "name": "Meat",
     "calories": 250,
-    "price": 3.0,
+    "price": 250,
     "image": "https://i.ibb.co/3SbhqGz/meat.jpg"
   },
   {
     "id": "3",
-    "uniqueId": "131",
     "name": "Lettuse",
     "calories": 110,
-    "price": 1.5,
+    "price": 50,
     "image": "https://i.ibb.co/y0zFvnT/lettuse.jpg"
   },
   {
     "id": "4",
-    "uniqueId": "141",
     "name": "Cheese",
-    "calories": 110,
-    "price": 1.5,
+    "calories": 200,
+    "price": 40,
     "image": "https://i.ibb.co/yPGfcVQ/cheese.jpg"
   }
 ]

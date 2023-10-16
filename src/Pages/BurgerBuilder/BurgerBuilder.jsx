@@ -2,6 +2,7 @@
 import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import Cart from "../../Components/Cart/Cart";
 
 const BurgerBuilder = () => {
   let [ingredients, setIngredients] = useState([]);
@@ -29,7 +30,6 @@ const BurgerBuilder = () => {
     setBuilder(items);
   }
 
-  console.log(builder);
   return (
     <div>
       <div className="w-[95%] main mt-10 grid grid-cols-3 mx-auto gap-5">
@@ -119,7 +119,9 @@ const BurgerBuilder = () => {
         </div>
 
         {/* Cart block */}
-        <div className="cart bg-blue-400 h-10"></div>
+        <div className="cart">
+          <Cart ingredients={builder} />
+        </div>
       </div>
     </div>
   );
