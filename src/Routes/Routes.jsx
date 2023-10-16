@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home";
 import BurgerBuilder from "../Pages/BurgerBuilder/BurgerBuilder";
+import CheckOut from "../Pages/CheckOut/CheckOut";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/burger-builder",
         element: <BurgerBuilder />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckOut />,
       },
     ],
   },

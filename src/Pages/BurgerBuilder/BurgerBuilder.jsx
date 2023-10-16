@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Cart from "../../Components/Cart/Cart";
 
+// Icons
+import { MdDragHandle } from "react-icons/md";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+
 const BurgerBuilder = () => {
   let [ingredients, setIngredients] = useState([]);
   let [builder, setBuilder] = useState([]);
@@ -29,6 +35,33 @@ const BurgerBuilder = () => {
     items.splice(result.destination.index, 0, reorderedItem);
     setBuilder(items);
   }
+
+  const handleDeleteIngredient = (id, name) => {
+    const updatedBuilder = builder.filter((item) => item.id !== id);
+    console.log(id);
+    Swal.fire({
+      title: `Are you sure you want to remove ${name}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setBuilder(updatedBuilder);
+        toast.success(`${name} has been removed!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -58,7 +91,7 @@ const BurgerBuilder = () => {
         </Card>
 
         {/* Builder block */}
-        <div className="builder bg-white shadow-xl">
+        <div className="builder flex items-center justify-center bg-white shadow-xl">
           <div>
             <img
               className="w-[200px] mx-auto"
@@ -87,6 +120,7 @@ const BurgerBuilder = () => {
                                 >
                                   {(provided) => (
                                     <div
+                                      className="flex gap-5 relative left-9"
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
@@ -96,6 +130,19 @@ const BurgerBuilder = () => {
                                         src={item.image}
                                         alt={item.id}
                                       />
+                                      <div className="flex items-center gap-4">
+                                        <MdDragHandle fontSize={"20px"} />
+                                        <AiOutlineCloseCircle
+                                          onClick={() =>
+                                            handleDeleteIngredient(
+                                              item.id,
+                                              item.name
+                                            )
+                                          }
+                                          fontSize={"18px"}
+                                          className="cursor-pointer"
+                                        />
+                                      </div>
                                     </div>
                                   )}
                                 </Draggable>

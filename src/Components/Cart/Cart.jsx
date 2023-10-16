@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const Cart = ({ ingredients }) => {
+  let navigate = useNavigate();
   // Calculating ingredients
   const calculateIngredientCounts = (ingredients) => {
     const ingredientCounts = {};
@@ -37,7 +41,29 @@ const Cart = ({ ingredients }) => {
 
   // Handling add to cart
   const handleAddToCart = () => {
-    localStorage.setItem("selectedIngredients", JSON.stringify(ingredients));
+    const customBurger = JSON.parse(localStorage.getItem("customBurger")) || [];
+
+    const updatedBurger = [
+      ...customBurger,
+      {
+        ingredients: ingredients,
+        totalPrice: totalPrice,
+      },
+    ];
+
+    localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
+
+    toast.success("Custom Burger added to cart", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    navigate("/checkout");
   };
 
   return (
