@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         element: <BurgerBuilder />,
       },
       {
-        path: "/checkout",
+        path: "/cart",
         element: <CheckOut />,
       },
     ],

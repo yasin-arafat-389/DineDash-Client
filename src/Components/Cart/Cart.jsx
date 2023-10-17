@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
+import { Textarea, Typography } from "@material-tailwind/react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Cart = ({ ingredients }) => {
   let navigate = useNavigate();
+  let [customNote, setCustomNote] = useState();
+
   // Calculating ingredients
   const calculateIngredientCounts = (ingredients) => {
     const ingredientCounts = {};
@@ -27,17 +31,7 @@ const Cart = ({ ingredients }) => {
     return totalPrice.toFixed(2); // Assuming you want the price rounded to two decimal places
   };
 
-  // Calculating total calories
-  const calculateTotalCalories = () => {
-    let totalCalories = 0;
-    ingredients.forEach((item) => {
-      totalCalories += item.calories; // Assuming each ingredient has a 'calories' property
-    });
-    return totalCalories;
-  };
-
   const totalPrice = calculateTotalPrice();
-  const totalCalories = calculateTotalCalories();
 
   // Handling add to cart
   const handleAddToCart = () => {
@@ -48,6 +42,7 @@ const Cart = ({ ingredients }) => {
       {
         ingredients: ingredients,
         totalPrice: totalPrice,
+        note: customNote,
       },
     ];
 
@@ -63,7 +58,7 @@ const Cart = ({ ingredients }) => {
       progress: undefined,
       theme: "dark",
     });
-    navigate("/checkout");
+    navigate("/cart");
   };
 
   return (
@@ -93,14 +88,35 @@ const Cart = ({ ingredients }) => {
                 </div>
               ))}
               <hr className="my-2" />
-              <div className="flex justify-between mb-2">
+              <div className="flex justify-between mb-5">
                 <span className="font-semibold">Total Price</span>
                 <span className="font-semibold">{`৳ ${totalPrice}`}</span>
               </div>
-              <div className="flex justify-between mb-2">
-                <span className="font-semibold">Total Calories</span>
-                <span className="font-semibold">{totalCalories}</span>
-              </div>
+
+              <Textarea
+                color="cyan"
+                label="Custom Note"
+                onChange={(e) => setCustomNote(e.target.value)}
+              />
+              <Typography
+                variant="small"
+                color="gray"
+                className="mt-2 flex items-center gap-1 font-normal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="-mt-px h-4 w-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Add a note e.g. label of spice, allergic agent to avoid etc.
+              </Typography>
               <button
                 onClick={handleAddToCart}
                 className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"

@@ -21,6 +21,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { HiBars2 } from "react-icons/hi2";
 import { HiRocketLaunch } from "react-icons/hi2";
 import { BiUser } from "react-icons/bi";
+import { HiMiniShoppingCart } from "react-icons/hi2";
 
 import { NavLink } from "react-router-dom";
 
@@ -129,6 +130,11 @@ const navListItems = [
     label: "Burger Builder",
     href: "/burger-builder",
     icon: FaBurger,
+  },
+  {
+    label: "Cart",
+    href: "/cart",
+    icon: HiMiniShoppingCart,
   },
 ];
 

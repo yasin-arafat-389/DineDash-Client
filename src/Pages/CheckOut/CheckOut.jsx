@@ -1,17 +1,32 @@
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  Textarea,
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { PiHamburgerBold } from "react-icons/pi";
+import { Link } from "react-router-dom";
+import { BiSolidCommentEdit } from "react-icons/bi";
+import "./CheckOut.css";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const CheckOut = () => {
   // Get data from local storage
-
   const [burger, setBurger] = useState([]);
+
+  // Modal
+  const [open, setOpen] = useState(false);
+  const [note, setNote] = useState("");
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("customBurger"));
@@ -20,10 +35,83 @@ const CheckOut = () => {
     }
   }, []);
 
-  console.log(burger);
+  // misc
+  const handleOpen = (note, index) => {
+    setOpen(true);
+    setNote(note);
+    setSelectedItemIndex(index);
+  };
+
+  const handleNoteUpdate = (updatedNote) => {
+    const updatedBurger = [...burger];
+    updatedBurger[selectedItemIndex].note = updatedNote;
+    setBurger(updatedBurger);
+    localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
+  };
+
+  const handleDeleteBurger = (index) => {
+    Swal.fire({
+      title: "Are you sure you want to remove this burger?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedBurger = [...burger];
+        updatedBurger.splice(index, 1);
+        setBurger(updatedBurger);
+        localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
+        toast.success("Burger has been removed!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    });
+  };
 
   return (
     <div className="mb-10">
+      {/* Modal for updating note */}
+      <Dialog open={open} handler={() => setOpen(false)}>
+        <DialogHeader>{note ? "Edit Your Note" : "Add a Note"}</DialogHeader>
+        <DialogBody>
+          <Textarea
+            color="cyan"
+            label="Custom Note"
+            defaultValue={note ? note : ""}
+            onChange={(e) => setNote(e.target.value)}
+          />
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setOpen(false)}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button
+            variant="gradient"
+            color="green"
+            onClick={() => {
+              handleNoteUpdate(note);
+              setOpen(false);
+            }}
+          >
+            <span>{note ? "Update" : "Add"}</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+
       <div className="flex flex-col items-center bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32"></div>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
         <div className="px-4 pt-8">
@@ -34,7 +122,18 @@ const CheckOut = () => {
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
             <h3 className="text-xl font-medium">Custom Burger</h3>
             {burger.length === 0 ? (
-              <div>No Data</div>
+              <div className="text-gray-400 ">
+                <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
+                <Link to="/burger-builder">
+                  <Button
+                    color="amber"
+                    className="flex items-center gap-3 mx-auto mt-3"
+                  >
+                    <PiHamburgerBold fontSize={"25px"} />
+                    Create and add custom burger
+                  </Button>
+                </Link>
+              </div>
             ) : (
               <>
                 <div>
@@ -65,21 +164,41 @@ const CheckOut = () => {
                         />
                       </CardHeader>
                       <CardBody>
-                        <Typography
-                          variant="h5"
-                          color="blue-gray"
-                          className="mb-2"
-                        >
-                          Custom Burger
-                        </Typography>
                         <Typography color="gray" className="mb-4 font-normal">
-                          custom note
+                          <div className="flex items-center">
+                            {item.note ? (
+                              <div className="quote-container">
+                                <i className="pin"></i>
+                                <blockquote className="note yellow flex gap-4">
+                                  {item.note}
+
+                                  <BiSolidCommentEdit
+                                    className="text-[25px] cursor-pointer"
+                                    onClick={() => handleOpen(item.note, index)}
+                                  />
+                                </blockquote>
+                              </div>
+                            ) : (
+                              <div className="quote-container">
+                                <i className="pin"></i>
+                                <blockquote className="note yellow flex gap-4">
+                                  No Notes
+                                  <BiSolidCommentEdit
+                                    className="text-[25px] cursor-pointer"
+                                    onClick={() => handleOpen(item.note, index)}
+                                  />
+                                </blockquote>
+                              </div>
+                            )}
+                          </div>
                         </Typography>
+
                         <p className="text-lg font-bold">৳ {item.totalPrice}</p>
                       </CardBody>
                       <AiOutlineCloseCircle
                         fontSize={"20px"}
                         className="font-bold cursor-pointer"
+                        onClick={() => handleDeleteBurger(index)}
                       />
                     </Card>
                   ))}
