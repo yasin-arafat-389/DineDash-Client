@@ -35,7 +35,6 @@ const CheckOut = () => {
     }
   }, []);
 
-  // misc
   const handleOpen = (note, index) => {
     setOpen(true);
     setNote(note);
@@ -76,6 +75,8 @@ const CheckOut = () => {
       }
     });
   };
+
+  console.log(burger);
 
   return (
     <div className="mb-10">
@@ -194,6 +195,9 @@ const CheckOut = () => {
                         </Typography>
 
                         <p className="text-lg font-bold">৳ {item.totalPrice}</p>
+                        <p className="text-lg font-bold mt-3">
+                          Provider: {item.provider}
+                        </p>
                       </CardBody>
                       <AiOutlineCloseCircle
                         fontSize={"20px"}
