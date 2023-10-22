@@ -46,7 +46,7 @@ const Cart = ({ ingredients }) => {
     if (!selectedValue) {
       Swal.fire(
         "You must select a provider",
-        "Select a restaurent where you want to get the burger from",
+        "Select a restaurent you want to get your burger from.",
         "warning"
       );
       return;
@@ -117,7 +117,7 @@ const Cart = ({ ingredients }) => {
               <div>
                 <Textarea
                   color="cyan"
-                  label="Custom Note"
+                  label="Add a Note"
                   onChange={(e) => setCustomNote(e.target.value)}
                 />
                 <Typography

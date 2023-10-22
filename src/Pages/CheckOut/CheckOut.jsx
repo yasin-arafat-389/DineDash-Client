@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import { PiHamburgerBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { BiSolidCommentEdit } from "react-icons/bi";
@@ -70,7 +69,7 @@ const CheckOut = () => {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: "dark",
         });
       }
     });
@@ -82,7 +81,7 @@ const CheckOut = () => {
     <div className="mb-10">
       {/* Modal for updating note */}
       <Dialog open={open} handler={() => setOpen(false)}>
-        <DialogHeader>{note ? "Edit Your Note" : "Add a Note"}</DialogHeader>
+        <DialogHeader>Edit your note</DialogHeader>
         <DialogBody>
           <Textarea
             color="cyan"
@@ -108,7 +107,7 @@ const CheckOut = () => {
               setOpen(false);
             }}
           >
-            <span>{note ? "Update" : "Add"}</span>
+            <span>Add</span>
           </Button>
         </DialogFooter>
       </Dialog>
@@ -195,15 +194,31 @@ const CheckOut = () => {
                         </Typography>
 
                         <p className="text-lg font-bold">৳ {item.totalPrice}</p>
-                        <p className="text-lg font-bold mt-3">
-                          Provider: {item.provider}
-                        </p>
+                        <span className="inline-flex mt-2 items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-500 text-white">
+                          {item.provider}
+                        </span>
                       </CardBody>
-                      <AiOutlineCloseCircle
-                        fontSize={"20px"}
-                        className="font-bold cursor-pointer"
-                        onClick={() => handleDeleteBurger(index)}
-                      />
+                      <div>
+                        <button
+                          className="btn btn-circle bg-gray-200 hover:bg-gray-300 p-1 rounded-xl"
+                          onClick={() => handleDeleteBurger(index)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                     </Card>
                   ))}
                 </div>
