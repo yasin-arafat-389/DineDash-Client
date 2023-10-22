@@ -3,22 +3,47 @@ import { Button, Card, CardBody, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Cart from "../../Components/Cart/Cart";
+import { FcInfo } from "react-icons/fc";
 
 // Icons
 import { MdDragHandle } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import ProvidersLoader from "../../Components/Loaders/ProvidersLoader/ProvidersLoader";
 
 const BurgerBuilder = () => {
+  //loading state handling
+  let [loading, setLoading] = useState(false);
+
+  let [providers, setProviders] = useState([]);
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
+  const [selectedData, setSelectedData] = useState([]);
+
+  const handleSelectProvider = (index, data) => {
+    setSelectedButtonIndex(index);
+    setSelectedData(data);
+  };
+
+  // running
   let [ingredients, setIngredients] = useState([]);
   let [builder, setBuilder] = useState([]);
 
   useEffect(() => {
-    fetch("Ingredients.json")
+    setLoading(true);
+    fetch("https://dine-dash-server.vercel.app/providers")
       .then((res) => res.json())
-      .then((data) => setIngredients(data));
+      .then((data) => {
+        setProviders(data);
+        setLoading(false);
+      });
   }, []);
+
+  useEffect(() => {
+    if (selectedData) {
+      setIngredients(selectedData.ing);
+    }
+  }, [selectedData]);
 
   let handleAddIngredients = (id) => {
     let selectedIngredient = ingredients.find((ing) => ing.id === id);
@@ -67,17 +92,51 @@ const BurgerBuilder = () => {
     <div>
       <div className="w-[95%] main mt-10 grid grid-cols-3 mx-auto gap-5">
         {/* Ingredients block */}
-        <Card className="bg-[#00acc1]">
+        <Card className="">
           <CardBody>
             <Typography
               variant="h5"
               color="blue-gray"
-              className="mb-2 text-center gradient-text text-[30px] text-[#fff]"
+              className="mb-2 text-center gradient-text text-[30px] text-[#000]"
             >
-              All Ingredients
+              Select Provider
             </Typography>
+
+            <Typography
+              variant="small"
+              color="gray"
+              className="my-2 flex items-center gap-1 justify-center font-normal text-[13px]"
+            >
+              <FcInfo fontSize={"15"} />
+              Select a provider you want to get your burger from.
+            </Typography>
+            <div className={` grid gap-5 grid-cols-3 mb-10 mt-4 `}>
+              {loading ? (
+                <ProvidersLoader />
+              ) : (
+                <>
+                  {providers.map((item, index) => (
+                    <Button
+                      key={index}
+                      size="sm"
+                      className={`text-[12px] ${
+                        selectedButtonIndex === index ? "disabled" : ""
+                      }`}
+                      onClick={() => handleSelectProvider(index, item)}
+                      disabled={
+                        selectedButtonIndex !== null &&
+                        selectedButtonIndex !== index
+                      }
+                    >
+                      {item.provider}
+                    </Button>
+                  ))}
+                </>
+              )}
+            </div>
+
             <Typography className="grid grid-cols-2 gap-7">
-              {ingredients.map((item, index) => (
+              {ingredients?.map((item, index) => (
                 <Button
                   onClick={() => handleAddIngredients(item.id)}
                   key={index}
@@ -167,7 +226,7 @@ const BurgerBuilder = () => {
 
         {/* Cart block */}
         <div className="cart">
-          <Cart ingredients={builder} />
+          <Cart ingredients={builder} provider={selectedData.provider} />
         </div>
       </div>
     </div>

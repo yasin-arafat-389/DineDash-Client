@@ -19,7 +19,6 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 const CheckOut = () => {
-  // Get data from local storage
   const [burger, setBurger] = useState([]);
 
   // Modal
@@ -117,7 +116,7 @@ const CheckOut = () => {
         <div className="px-4 pt-8">
           <p className="text-xl font-medium">Order Summary</p>
           <p className="text-gray-400">
-            Check your order and select and proceed to payment.
+            Check your order and proceed to payment.
           </p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
             <h3 className="text-xl font-medium">Custom Burger</h3>
@@ -194,7 +193,7 @@ const CheckOut = () => {
                         </Typography>
 
                         <p className="text-lg font-bold">৳ {item.totalPrice}</p>
-                        <span className="inline-flex mt-2 items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-blue-500 text-white">
+                        <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded mt-2">
                           {item.provider}
                         </span>
                       </CardBody>
