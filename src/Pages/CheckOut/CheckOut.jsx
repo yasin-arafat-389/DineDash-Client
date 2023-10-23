@@ -17,6 +17,7 @@ import { BiSolidCommentEdit } from "react-icons/bi";
 import "./CheckOut.css";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import OrderConfirmation from "../../Components/PopUp/OrderConfirmation/OrderConfirmation";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -74,7 +75,11 @@ const CheckOut = () => {
     });
   };
 
-  console.log(burger);
+  // Handling place order event
+  const [confirmation, setConfirmation] = useState(false);
+  let handlePlaceOrder = () => {
+    setConfirmation(!confirmation);
+  };
 
   return (
     <div className="mb-10">
@@ -109,6 +114,11 @@ const CheckOut = () => {
             <span>Add</span>
           </Button>
         </DialogFooter>
+      </Dialog>
+
+      {/* Modal for order confirmation message */}
+      <Dialog open={confirmation} handler={handlePlaceOrder}>
+        <OrderConfirmation state={handlePlaceOrder} />
       </Dialog>
 
       <div className="flex flex-col items-center bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32"></div>
@@ -475,7 +485,11 @@ const CheckOut = () => {
               <p className="text-2xl font-semibold text-gray-900">$408.00</p>
             </div>
           </div>
-          <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
+
+          <button
+            onClick={() => handlePlaceOrder()}
+            className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+          >
             Place Order
           </button>
         </div>

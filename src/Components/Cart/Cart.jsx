@@ -67,7 +67,7 @@ const Cart = ({ ingredients, provider }) => {
   return (
     <div>
       <div>
-        <div className="rounded-lg shadow-md p-6 ">
+        <div className="rounded-lg p-6 ">
           {ingredients.length === 0 ? (
             <div>
               <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
