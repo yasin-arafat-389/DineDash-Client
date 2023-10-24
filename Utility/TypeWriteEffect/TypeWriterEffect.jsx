@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 
-const AddIngredients = ({ texts }) => {
+const TypeWriterEffect = ({ texts }) => {
   const [index, setIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
 
@@ -40,4 +40,4 @@ const AddIngredients = ({ texts }) => {
   );
 };
 
-export default AddIngredients;
+export default TypeWriterEffect;

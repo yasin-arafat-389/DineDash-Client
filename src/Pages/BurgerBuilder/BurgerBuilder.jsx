@@ -5,14 +5,12 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Cart from "../../Components/Cart/Cart";
 import { FcInfo } from "react-icons/fc";
 import "./BurgerBuilder.css";
-
-// Icons
 import { MdDragHandle } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import ProvidersLoader from "../../Components/Loaders/ProvidersLoader/ProvidersLoader";
-import AddIngredients from "../../Components/AddIngredients/AddIngredients";
+import TypeWriterEffect from "../../../Utility/TypeWriteEffect/TypeWriterEffect";
 
 const BurgerBuilder = () => {
   //loading state handling
@@ -186,7 +184,7 @@ const BurgerBuilder = () => {
               />
               <div className="flex flex-col items-center">
                 {builder.length === 0 ? (
-                  <AddIngredients
+                  <TypeWriterEffect
                     texts={[
                       "Add Ingredients",
                       "Add Patty",

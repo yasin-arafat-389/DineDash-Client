@@ -167,8 +167,8 @@ export default function NavBar() {
   }, []);
 
   return (
-    <div className="mx-auto p-2 shadow-lg">
-      <div className="relative w-[95%] mx-auto flex items-center text-blue-gray-900">
+    <div className="mx-auto p-2 shadow-lg sticky top-0 bg-white z-10">
+      <div className="w-[95%] mx-auto flex items-center text-blue-gray-900">
         <img
           className="w-[100px]"
           src="https://i.ibb.co/kBDBhVs/dinedash.png"
