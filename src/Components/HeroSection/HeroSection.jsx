@@ -1,4 +1,4 @@
-import TryBurgerBuilder from "../../../Utility/FancyButton/TryBurgerBuilder/TryBurgerBuilder";
+import BrowseFoods from "../../../Utility/FancyButton/BrowseFoods/BrowseFoods";
 import "./HeroSection.css";
 
 const HeroSection = () => {
@@ -24,7 +24,7 @@ const HeroSection = () => {
               </h1>
 
               <div className="flex flex-col gap-2.5 sm:flex-row items-center md:items-start lg:items-start">
-                <TryBurgerBuilder />
+                <BrowseFoods />
               </div>
             </div>
 

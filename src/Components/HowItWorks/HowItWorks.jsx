@@ -1,6 +1,6 @@
 const HowItWorks = () => {
   return (
-    <div className="mt-10 md:mt-10 lg:mt-20">
+    <div className="mt-10 md:mt-10 lg:mt-20 mb-10">
       <div className="title&subtitle">
         <h1 className="text-center text-[40px] md:text-[58px] lg:text-[58px] font-bold">
           How It Works

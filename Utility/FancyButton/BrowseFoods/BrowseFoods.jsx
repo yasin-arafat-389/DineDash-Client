@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import "./TryBurgerBuilder.css";
+import "./BrowseFoods.css";
 
-const TryBurgerBuilder = () => {
+const BrowseFoods = () => {
   return (
     <div>
-      <Link to="/burger-builder">
+      <Link>
         <button className="cta">
-          <span className="span">Try our Burger Builder</span>
+          <span className="span">Browse Foods</span>
           <span className="second">
             <svg
               width="50px"
@@ -47,4 +47,4 @@ const TryBurgerBuilder = () => {
   );
 };
 
-export default TryBurgerBuilder;
+export default BrowseFoods;
