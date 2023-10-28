@@ -32,7 +32,7 @@ const RestaurentsSlider = () => {
   }, []);
 
   return (
-    <div className="py-[30px] bg-[#f3f5ed]">
+    <div className="pt-[30px] pb-[30px] md:pb-[60px] lg:pb-[60px] bg-[#f3f5ed]">
       <>
         <h2 className="text-center text-[30px] md:text-[40px] lg:text-[40px] font-bold leading-tight text-gray-800 my-0 mb-7 md:my-3 md:mb-7 lg:my-10">
           Browse by <span className="text-blue-600">Restaurents</span>
