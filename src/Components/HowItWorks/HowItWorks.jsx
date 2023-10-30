@@ -12,8 +12,8 @@ const HowItWorks = () => {
         </p>
       </div>
 
-      {/* Card 1 */}
       <div className="images&description grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-10 w-[90%] mx-auto mt-8">
+        {/* Card 1 */}
         <div className="flex flex-col items-center">
           <img src="https://i.ibb.co/BTxHZs9/illustration-1.png" alt="" />
           <div className="flex items-center my-2">

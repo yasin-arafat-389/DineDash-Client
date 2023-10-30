@@ -62,15 +62,17 @@ const Cart = ({ ingredients, provider }) => {
     navigate("/cart");
   };
 
-  console.log(ingredients);
-
   return (
     <div>
       <div>
         <div className="rounded-lg p-6 ">
           {ingredients.length === 0 ? (
             <div>
-              <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
+              <img
+                className="mx-auto"
+                src="https://i.ibb.co/v3XtdVh/empty-cart.png"
+                alt=""
+              />
             </div>
           ) : (
             <>

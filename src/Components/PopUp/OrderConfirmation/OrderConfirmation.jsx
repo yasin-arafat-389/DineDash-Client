@@ -4,7 +4,7 @@ import "./OrderConfirmation.css";
 const OrderConfirmation = ({ state }) => {
   return (
     <div className="flex justify-center ">
-      <div className="card">
+      <div className="confirmationCard">
         <button onClick={state} className="dismiss" type="button">
           X
         </button>

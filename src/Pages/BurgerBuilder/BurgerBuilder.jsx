@@ -9,7 +9,6 @@ import { MdDragHandle } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import ProvidersLoader from "../../Components/Loaders/ProvidersLoader/ProvidersLoader";
 import TypeWriterEffect from "../../../Utility/TypeWriteEffect/TypeWriterEffect";
 
 const BurgerBuilder = () => {
@@ -110,26 +109,36 @@ const BurgerBuilder = () => {
                 <FcInfo fontSize={"16"} />
                 Select a provider you want to get your burger from.
               </Typography>
-              <div className={` grid gap-5 grid-cols-3 mb-6 mt-4 `}>
+              <div
+                className={` grid gap-5 grid-cols-3 mb-6 mt-4 justify-items-center`}
+              >
                 {loading ? (
-                  <ProvidersLoader />
+                  <>
+                    <div className="w-[70px] h-[70px] rounded-lg bg-[#e3e3e3] pulseForLoader"></div>
+                    <div className="w-[70px] h-[70px] rounded-lg bg-[#e3e3e3] pulseForLoader"></div>
+                    <div className="w-[70px] h-[70px] rounded-lg bg-[#e3e3e3] pulseForLoader"></div>
+                  </>
                 ) : (
                   <>
                     {providers.map((item, index) => (
                       <Button
                         key={index}
                         size="sm"
-                        className={`text-[12px] ${
+                        className={`bg-transparent border-2 border-blue-500 h-[70px] w-[70px] ${
                           selectedButtonIndex === index ? "disabled" : ""
                         }`}
+                        style={{
+                          backgroundImage: `url(${item.provider_thumb})`,
+                          backgroundSize: "contain",
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center center",
+                        }}
                         onClick={() => handleSelectProvider(index, item)}
                         disabled={
                           selectedButtonIndex !== null &&
                           selectedButtonIndex !== index
                         }
-                      >
-                        {item.provider}
-                      </Button>
+                      ></Button>
                     ))}
                   </>
                 )}
@@ -170,7 +179,7 @@ const BurgerBuilder = () => {
           <Typography
             variant="small"
             color="gray"
-            className="my-2 flex items-center gap-1 justify-center font-normal text-[12px]"
+            className="my-2 flex items-center gap-1 justify-center font-normal text-[11px] md:text-[12px] lg:text-[12px]"
           >
             <FcInfo fontSize={"15"} />
             Reorder ingredients to your preference by dragging and dropping.

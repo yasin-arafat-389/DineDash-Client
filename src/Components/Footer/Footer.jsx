@@ -8,7 +8,7 @@ const Footer = () => {
               <div className="mb-4 lg:-mt-2">
                 <img
                   src="https://i.ibb.co/kBDBhVs/dinedash.png"
-                  className="w-[30%]"
+                  className="w-[30%] md:w-[15%] lg:w-[30%]"
                 />
               </div>
 

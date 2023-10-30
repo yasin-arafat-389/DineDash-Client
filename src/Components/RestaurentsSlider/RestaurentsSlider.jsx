@@ -37,9 +37,8 @@ const RestaurentsSlider = () => {
         <h2 className="text-center text-[30px] md:text-[40px] lg:text-[40px] font-bold leading-tight text-gray-800 my-0 mb-7 md:my-3 md:mb-7 lg:my-10">
           Browse by <span className="text-blue-600">Restaurents</span>
         </h2>
-        {/*<!-- Component: Carousel with controls outside --> */}
+
         <div className="glide-04 relative w-[80%] mx-auto">
-          {/*    <!-- Slides --> */}
           <div className="overflow-hidden" data-glide-el="track">
             <ul className="whitespace-no-wrap flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
               <li>

@@ -11,13 +11,12 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { PiHamburgerBold } from "react-icons/pi";
-import { Link } from "react-router-dom";
 import { BiSolidCommentEdit } from "react-icons/bi";
 import "./CheckOut.css";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import OrderConfirmation from "../../Components/PopUp/OrderConfirmation/OrderConfirmation";
+import TryBurgerBuilder from "../../../Utility/FancyButton/TryBurgerBuilder/TryBurgerBuilder";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -131,17 +130,11 @@ const CheckOut = () => {
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
             <h3 className="text-xl font-medium">Custom Burger</h3>
             {burger.length === 0 ? (
-              <div className="text-gray-400 ">
+              <div>
                 <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
-                <Link to="/burger-builder">
-                  <Button
-                    color="amber"
-                    className="flex items-center gap-3 mx-auto mt-3"
-                  >
-                    <PiHamburgerBold fontSize={"25px"} />
-                    Create and add custom burger
-                  </Button>
-                </Link>
+                <div className="flex justify-center mt-7">
+                  <TryBurgerBuilder text="Create and add a burger" />
+                </div>
               </div>
             ) : (
               <>

@@ -5,3 +5,19 @@
   box-shadow: 10px 10px #323232;
   border: 3px solid #323232;
 }
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.pulseForLoader {
+  animation: pulse-animation 0.7s infinite;
+}

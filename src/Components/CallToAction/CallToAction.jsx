@@ -48,7 +48,7 @@ const CallToAction = () => {
           </div>
 
           <div className="mt-6">
-            <TryBurgerBuilder />
+            <TryBurgerBuilder text="Try Burger Builder" />
           </div>
         </div>
       </div>
