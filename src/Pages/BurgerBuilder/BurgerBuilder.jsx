@@ -8,13 +8,12 @@ import "./BurgerBuilder.css";
 import { MdDragHandle } from "react-icons/md";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import TypeWriterEffect from "../../../Utility/TypeWriteEffect/TypeWriterEffect";
+import toast from "react-hot-toast";
 
 const BurgerBuilder = () => {
   //loading state handling
   let [loading, setLoading] = useState(false);
-
   let [providers, setProviders] = useState([]);
   const [selectedButtonIndex, setSelectedButtonIndex] = useState(null);
   const [selectedData, setSelectedData] = useState([]);
@@ -73,14 +72,15 @@ const BurgerBuilder = () => {
       if (result.isConfirmed) {
         setBuilder(updatedBuilder);
         toast.success(`${name} has been removed!`, {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
         });
       }
     });

@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Nosifer&family=Righteous&display=swap");
+
+.restaurantTitle {
+  font-family: "Righteous", sans-serif;
+}
+
+.elipseDesc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.elipseTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}

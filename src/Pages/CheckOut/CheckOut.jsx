@@ -14,9 +14,9 @@ import { useEffect, useState } from "react";
 import { BiSolidCommentEdit } from "react-icons/bi";
 import "./CheckOut.css";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import OrderConfirmation from "../../Components/PopUp/OrderConfirmation/OrderConfirmation";
 import TryBurgerBuilder from "../../../Utility/FancyButton/TryBurgerBuilder/TryBurgerBuilder";
+import toast from "react-hot-toast";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -60,15 +60,16 @@ const CheckOut = () => {
         updatedBurger.splice(index, 1);
         setBurger(updatedBurger);
         localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
-        toast.success("Burger has been removed!", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
+        toast.success(`Burger has been removed!`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
         });
       }
     });

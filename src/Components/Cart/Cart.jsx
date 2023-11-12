@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Textarea, Typography } from "@material-tailwind/react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const Cart = ({ ingredients, provider }) => {
   let navigate = useNavigate();
@@ -49,15 +49,16 @@ const Cart = ({ ingredients, provider }) => {
 
     localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
 
-    toast.success("Custom Burger added to cart", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
+    toast.success(`Custom burger added to cart!`, {
+      style: {
+        border: "2px solid green",
+        padding: "8px",
+        color: "#713200",
+      },
+      iconTheme: {
+        primary: "green",
+        secondary: "#FFFAEE",
+      },
     });
     navigate("/cart");
   };

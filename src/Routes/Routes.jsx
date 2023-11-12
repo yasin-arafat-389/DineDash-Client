@@ -4,6 +4,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home";
 import BurgerBuilder from "../Pages/BurgerBuilder/BurgerBuilder";
 import CheckOut from "../Pages/CheckOut/CheckOut";
+import RestaurantPage from "../Pages/RestaurantPage/RestaurantPage";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <CheckOut />,
+      },
+      {
+        path: "/restaurants/:name",
+        element: <RestaurantPage />,
       },
     ],
   },
