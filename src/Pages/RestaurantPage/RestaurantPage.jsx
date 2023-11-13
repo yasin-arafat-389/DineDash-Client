@@ -34,6 +34,17 @@ const RestaurantPage = () => {
     setDetails(items);
   };
 
+  // Handle Save data to local storage
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncreaseQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+    setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
+  };
+
   return (
     <div>
       {loading ? (
@@ -112,9 +123,15 @@ const RestaurantPage = () => {
 
                     <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
                       <div className="flex flex-row gap-3">
-                        <AiFillMinusCircle className="text-pink-500 text-[30px] cursor-pointer" />
-                        <p className="text-[20px] font-bold">1</p>
-                        <AiFillPlusCircle className="text-pink-500 text-[30px] cursor-pointer" />
+                        <AiFillMinusCircle
+                          className="text-pink-500 text-[30px] cursor-pointer"
+                          onClick={handleDecreaseQuantity}
+                        />
+                        <p className="text-[20px] font-bold">{quantity}</p>
+                        <AiFillPlusCircle
+                          className="text-pink-500 text-[30px] cursor-pointer"
+                          onClick={handleIncreaseQuantity}
+                        />
                       </div>
                       <Button
                         fullWidth

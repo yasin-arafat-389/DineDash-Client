@@ -3,3 +3,32 @@
   color: #fff;
   border-radius: 10px;
 }
+
+.loginBTN {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+  background-color: #0866ff;
+  border-style: none;
+  border-radius: 8px;
+  padding: 10px;
+  transform: scale(1);
+  transition: 0.2s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.loginBTN:hover {
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loginBTN:active {
+  transform: scale(0.95);
+  box-shadow: none;
+}
