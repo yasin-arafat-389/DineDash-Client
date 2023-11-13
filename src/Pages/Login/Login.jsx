@@ -32,7 +32,7 @@ const Login = () => {
 
     login(formData.email, formData.password)
       .then(() => {
-        navigate(location?.state ? location.state : "/");
+        navigate(location?.state ? -1 : "/");
         toast.success(`Successfully Logged In!`, {
           style: {
             border: "2px solid green",

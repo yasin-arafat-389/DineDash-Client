@@ -1,5 +1,5 @@
 import useAxios from "../../Hooks/useAxios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 import "./RestaurantPage.css";
 import { AiFillFire } from "react-icons/ai";
@@ -7,11 +7,14 @@ import { useEffect, useState } from "react";
 import { Button, Dialog } from "@material-tailwind/react";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { AiFillPlusCircle } from "react-icons/ai";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const RestaurantPage = () => {
   let restaurantPath = useParams();
   let pathname = restaurantPath.name;
   let axios = useAxios();
+  let { user } = useAuth();
 
   // States
   const [loading, setLoading] = useState(false);
@@ -26,6 +29,20 @@ const RestaurantPage = () => {
       setLoading(false);
     });
   }, [axios, pathname]);
+
+  let handleShowAlert = () => {
+    toast.error(`You must login first!!`, {
+      style: {
+        border: "2px solid red",
+        padding: "8px",
+        color: "#713200",
+      },
+      iconTheme: {
+        primary: "red",
+        secondary: "#FFFAEE",
+      },
+    });
+  };
 
   // Handle Modal Open
   const [open, setOpen] = useState(false);
@@ -44,6 +61,12 @@ const RestaurantPage = () => {
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
   };
+
+  useEffect(() => {
+    if (!open) {
+      setQuantity(1);
+    }
+  }, [open]);
 
   return (
     <div>
@@ -133,12 +156,23 @@ const RestaurantPage = () => {
                           onClick={handleIncreaseQuantity}
                         />
                       </div>
-                      <Button
-                        fullWidth
-                        className="bg-indigo-600 hover:bg-indigo-800"
-                      >
-                        Add To Cart
-                      </Button>
+                      {user ? (
+                        <Button
+                          fullWidth
+                          className="bg-indigo-600 hover:bg-indigo-800"
+                        >
+                          Add To Cart
+                        </Button>
+                      ) : (
+                        <Link to="/sign-in" state={location?.pathname}>
+                          <Button
+                            className="bg-indigo-600 hover:bg-indigo-800 block px-[150px]"
+                            onClick={handleShowAlert}
+                          >
+                            Add To Cart
+                          </Button>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </Dialog>

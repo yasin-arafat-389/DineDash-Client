@@ -2,11 +2,13 @@
 import { Textarea, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
 
 const Cart = ({ ingredients, provider }) => {
   let navigate = useNavigate();
   let [customNote, setCustomNote] = useState();
+  let { user } = useAuth();
 
   // Calculating ingredients
   const calculateIngredientCounts = (ingredients) => {
@@ -61,6 +63,20 @@ const Cart = ({ ingredients, provider }) => {
       },
     });
     navigate("/cart");
+  };
+
+  let handleShowAlert = () => {
+    toast.error(`You must login first!!`, {
+      style: {
+        border: "2px solid red",
+        padding: "8px",
+        color: "#713200",
+      },
+      iconTheme: {
+        primary: "red",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   return (
@@ -127,12 +143,23 @@ const Cart = ({ ingredients, provider }) => {
                 </Typography>
               </div>
 
-              <button
-                onClick={handleAddToCart}
-                className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
-              >
-                Add To Cart
-              </button>
+              {user ? (
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                >
+                  Add To Cart
+                </button>
+              ) : (
+                <Link to="/sign-in" state={location?.pathname}>
+                  <button
+                    className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                    onClick={handleShowAlert}
+                  >
+                    Add To Cart
+                  </button>
+                </Link>
+              )}
             </>
           )}
         </div>
