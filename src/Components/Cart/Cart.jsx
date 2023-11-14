@@ -36,12 +36,14 @@ const Cart = ({ ingredients, provider }) => {
   const totalPrice = calculateTotalPrice();
 
   // Handling add to cart
-  const handleAddToCart = () => {
-    const customBurger = JSON.parse(localStorage.getItem("customBurger")) || [];
+  const handleAddToCart = async () => {
+    const customBurger =
+      JSON.parse(localStorage.getItem(`${user?.email}`)) || [];
 
     const updatedBurger = [
       ...customBurger,
       {
+        user: user?.email,
         ingredients: ingredients,
         totalPrice: totalPrice,
         note: customNote,
@@ -49,7 +51,7 @@ const Cart = ({ ingredients, provider }) => {
       },
     ];
 
-    localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
+    localStorage.setItem(`${user?.email}`, JSON.stringify(updatedBurger));
 
     toast.success(`Custom burger added to cart!`, {
       style: {

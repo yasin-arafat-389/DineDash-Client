@@ -17,21 +17,26 @@ import Swal from "sweetalert2";
 import OrderConfirmation from "../../Components/PopUp/OrderConfirmation/OrderConfirmation";
 import TryBurgerBuilder from "../../../Utility/FancyButton/TryBurgerBuilder/TryBurgerBuilder";
 import toast from "react-hot-toast";
+import useAuth from "../../Hooks/useAuth";
+import { BsTrash3 } from "react-icons/bs";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
+  const [cartFoods, setCartFoods] = useState([]);
+  let { user } = useAuth();
 
   // Modal
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState("");
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
+  // Handling Custom Burger
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("customBurger"));
+    const storedData = JSON.parse(localStorage.getItem(`${user?.email}`));
     if (storedData) {
       setBurger(storedData);
     }
-  }, []);
+  }, [user]);
 
   const handleOpen = (note, index) => {
     setOpen(true);
@@ -43,7 +48,7 @@ const CheckOut = () => {
     const updatedBurger = [...burger];
     updatedBurger[selectedItemIndex].note = updatedNote;
     setBurger(updatedBurger);
-    localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
+    localStorage.setItem(`${user?.email}`, JSON.stringify(updatedBurger));
   };
 
   const handleDeleteBurger = (index) => {
@@ -59,8 +64,80 @@ const CheckOut = () => {
         const updatedBurger = [...burger];
         updatedBurger.splice(index, 1);
         setBurger(updatedBurger);
-        localStorage.setItem("customBurger", JSON.stringify(updatedBurger));
+        localStorage.setItem(`${user?.email}`, JSON.stringify(updatedBurger));
         toast.success(`Burger has been removed!`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
+        });
+      }
+    });
+  };
+
+  // Handlimg Cart foods
+  useEffect(() => {
+    const storedFood = JSON.parse(localStorage.getItem(`${user?.email}Cart`));
+    if (storedFood) {
+      setCartFoods(storedFood);
+    }
+  }, [user]);
+
+  const handleIncrement = (id) => {
+    const updatedCart = cartFoods.map((item) => {
+      if (item.id === id) {
+        const updatedQuantity = item.quantity + 1;
+        const updatedTotalPrice = updatedQuantity * item.price;
+        return {
+          ...item,
+          quantity: updatedQuantity,
+          totalPrice: updatedTotalPrice,
+        };
+      }
+      return item;
+    });
+    setCartFoods(updatedCart);
+    localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
+  };
+
+  const handleDecrement = (id) => {
+    const updatedCart = cartFoods.map((item) => {
+      if (item.id === id) {
+        const updatedQuantity = Math.max(item.quantity - 1, 1); // Ensure quantity is not less than 1
+        const updatedTotalPrice = updatedQuantity * item.price;
+        return {
+          ...item,
+          quantity: updatedQuantity,
+          totalPrice: updatedTotalPrice,
+        };
+      }
+      return item;
+    });
+
+    setCartFoods(updatedCart);
+    localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
+  };
+
+  const handleRemoveFromCart = (index, food) => {
+    Swal.fire({
+      title: `Are you sure you want to remove ${food}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedCart = [...cartFoods];
+        updatedCart.splice(index, 1);
+        setCartFoods(updatedCart);
+        localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
+        toast.success(`${food} has been removed!`, {
           style: {
             border: "2px solid green",
             padding: "8px",
@@ -128,6 +205,8 @@ const CheckOut = () => {
           <p className="text-gray-400">
             Check your order and proceed to payment.
           </p>
+
+          {/* Burger in cart */}
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
             <h3 className="text-xl font-medium">Custom Burger</h3>
             {burger.length === 0 ? (
@@ -154,7 +233,7 @@ const CheckOut = () => {
                           src="https://i.ibb.co/HYR6fx4/top.jpg"
                           className="w-[80%] object-cover"
                         />
-                        {item.ingredients.map((item, index) => (
+                        {item?.ingredients?.map((item, index) => (
                           <img
                             key={index}
                             src={item.image}
@@ -229,37 +308,72 @@ const CheckOut = () => {
             )}
           </div>
 
-          <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-            <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-              <img
-                className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
-              />
-              <div className="flex w-full flex-col px-4 py-4">
-                <span className="font-semibold">
-                  Nike Air Max Pro 8888 - Super Light
-                </span>
-                <span className="float-right text-gray-400">42EU - 8.5US</span>
-                <p className="text-lg font-bold">$138.99</p>
-              </div>
-            </div>
-            <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-              <img
-                className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
-              />
-              <div className="flex w-full flex-col px-4 py-4">
-                <span className="font-semibold">
-                  Nike Air Max Pro 8888 - Super Light
-                </span>
-                <span className="float-right text-gray-400">42EU - 8.5US</span>
-                <p className="mt-auto text-lg font-bold">$238.99</p>
-              </div>
-            </div>
+          {/* Foods In Cart */}
+          <div
+            className={`mt-8 space-y-3 rounded-lg border ${
+              cartFoods.length === 0 ? "bg-white" : "bg-blue-400"
+            } px-2 py-4 sm:px-6`}
+          >
+            {cartFoods.length === 0 ? (
+              <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
+            ) : (
+              cartFoods.map((item, index) => (
+                <>
+                  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                    <img
+                      src={item?.image}
+                      alt="product-image"
+                      className="w-full rounded-lg sm:w-40"
+                    />
+                    <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+                      <div className="mt-5 sm:mt-0">
+                        <h2 className="text-lg font-bold text-gray-900">
+                          {item?.name}
+                        </h2>
+                        <p className="mt-1 text-xs text-gray-700">
+                          {item?.restaurant}
+                        </p>
+                      </div>
+
+                      <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                        <div className="flex items-center border-gray-100 justify-center">
+                          <span
+                            className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-pink-500 hover:text-blue-50"
+                            onClick={() => handleDecrement(item.id)}
+                          >
+                            -
+                          </span>
+                          <h2 className="mx-3">{item?.quantity}</h2>
+                          <span
+                            className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100        hover:bg-pink-500 hover:text-blue-50"
+                            onClick={() => handleIncrement(item.id)}
+                          >
+                            +
+                          </span>
+                        </div>
+                        <div className="flex flex-col gap-4 items-center space-x-4">
+                          <h2 className="text-lg font-bold text-gray-900">
+                            ৳ {item?.totalPrice}
+                          </h2>
+
+                          <button
+                            onClick={() =>
+                              handleRemoveFromCart(index, item?.name)
+                            }
+                            className="bg-red-600 p-2 rounded-lg"
+                          >
+                            <BsTrash3 className="text-[#fff] text-[20px]" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ))
+            )}
           </div>
 
+          {/* Shipping Methods */}
           <p className="mt-8 text-lg font-medium">Shipping Methods</p>
           <form className="mt-5 grid gap-6">
             <div className="relative">

@@ -62,6 +62,51 @@ const RestaurantPage = () => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
   };
 
+  let totalPrice = quantity * details?.price;
+
+  const handleAddToCart = () => {
+    const existingCart =
+      JSON.parse(localStorage.getItem(`${user?.email}Cart`)) || [];
+
+    let saveToLocalStorage = {
+      id: details?._id,
+      user: user?.email,
+      name: details?.name,
+      image: details?.image,
+      price: details?.price,
+      quantity: quantity,
+      totalPrice: totalPrice,
+      restaurant: pathname,
+    };
+
+    const existingItemIndex = existingCart.findIndex(
+      (item) => item.id === details?._id
+    );
+
+    if (existingItemIndex !== -1) {
+      existingCart[existingItemIndex].quantity += quantity;
+      existingCart[existingItemIndex].totalPrice +=
+        saveToLocalStorage.totalPrice;
+    } else {
+      existingCart.push(saveToLocalStorage);
+    }
+
+    localStorage.setItem(`${user?.email}Cart`, JSON.stringify(existingCart));
+
+    toast.success(`${details?.name} added to cart!`, {
+      style: {
+        border: "2px solid green",
+        padding: "8px",
+        color: "#713200",
+      },
+      iconTheme: {
+        primary: "green",
+        secondary: "#FFFAEE",
+      },
+    });
+    setOpen();
+  };
+
   useEffect(() => {
     if (!open) {
       setQuantity(1);
@@ -160,6 +205,7 @@ const RestaurantPage = () => {
                         <Button
                           fullWidth
                           className="bg-indigo-600 hover:bg-indigo-800"
+                          onClick={handleAddToCart}
                         >
                           Add To Cart
                         </Button>
