@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardBody,
   CardHeader,
   Dialog,
   DialogBody,
@@ -207,11 +206,14 @@ const CheckOut = () => {
           </p>
 
           {/* Burger in cart */}
-          <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+          <div
+            className="mt-8 space-y-3 rounded-lg border-2 border-dashed border-blue-500 bg-white px-2 py-4 
+           sm:px-6"
+          >
             <h3 className="text-xl font-medium">Custom Burger</h3>
             {burger.length === 0 ? (
-              <div>
-                <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
+              <div className="flex flex-col justify-center items-center">
+                <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" />
                 <div className="flex justify-center mt-7">
                   <TryBurgerBuilder text="Create and add a burger" />
                 </div>
@@ -221,13 +223,13 @@ const CheckOut = () => {
                 <div>
                   {burger.map((item, index) => (
                     <Card
-                      className="w-full max-w-[48rem] flex-row shadow-none"
+                      className="w-full max-w-[48rem] grid grid-cols-2 shadow-none"
                       key={index}
                     >
                       <CardHeader
                         shadow={false}
                         floated={false}
-                        className="m-0 w-2/5 shrink-0 rounded-r-none flex flex-col justify-center items-center"
+                        className="m-0 w-5/5 shrink-0 rounded-r-none flex flex-col justify-center items-center"
                       >
                         <img
                           src="https://i.ibb.co/HYR6fx4/top.jpg"
@@ -245,7 +247,8 @@ const CheckOut = () => {
                           className="w-[80%] object-cover"
                         />
                       </CardHeader>
-                      <CardBody>
+
+                      <div className="flex flex-col justify-center items-center gap-5">
                         <Typography color="gray" className="mb-4 font-normal">
                           <div className="flex items-center">
                             {item.note ? (
@@ -276,31 +279,20 @@ const CheckOut = () => {
                         </Typography>
 
                         <p className="text-lg font-bold">৳ {item.totalPrice}</p>
-                        <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded mt-2">
-                          {item.provider}
-                        </span>
-                      </CardBody>
-                      <div>
-                        <button
-                          className="btn btn-circle bg-gray-200 hover:bg-gray-300 p-1 rounded-xl"
-                          onClick={() => handleDeleteBurger(index)}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+
+                        <div className="flex gap-5 justify-center items-center">
+                          <span className="inline-flex items-center justify-center p-2 text-xs font-bold leading-none text-white bg-indigo-700 rounded">
+                            {item.provider}
+                          </span>
+                          <button
+                            onClick={() => handleDeleteBurger(index)}
+                            className="bg-red-600 p-2 rounded-lg"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
+                            <BsTrash3 className="text-[#fff] text-[20px]" />
+                          </button>
+                        </div>
                       </div>
+                      <div></div>
                     </Card>
                   ))}
                 </div>
@@ -310,16 +302,20 @@ const CheckOut = () => {
 
           {/* Foods In Cart */}
           <div
-            className={`mt-8 space-y-3 rounded-lg border ${
-              cartFoods.length === 0 ? "bg-white" : "bg-blue-400"
+            className={`mt-8 space-y-3 rounded-lg border-2 border-dashed border-blue-500 ${
+              cartFoods.length === 0
+                ? "bg-white"
+                : "bg-blue-100 !border !border-solid"
             } px-2 py-4 sm:px-6`}
           >
             {cartFoods.length === 0 ? (
-              <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
+              <div className="flex flex-col justify-center items-center">
+                <img src="https://i.ibb.co/v3XtdVh/empty-cart.png" alt="" />
+              </div>
             ) : (
               cartFoods.map((item, index) => (
                 <>
-                  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-xl sm:flex sm:justify-start">
                     <img
                       src={item?.image}
                       alt="product-image"
@@ -379,32 +375,6 @@ const CheckOut = () => {
             <div className="relative">
               <input
                 className="peer hidden"
-                id="radio_1"
-                type="radio"
-                name="radio"
-                checked
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_1"
-              >
-                <img
-                  className="w-14 object-contain"
-                  src="/images/naorrAeygcJzX0SyNI4Y0.png"
-                  alt=""
-                />
-                <div className="ml-5">
-                  <span className="mt-2 font-semibold">Fedex Delivery</span>
-                  <p className="text-slate-500 text-sm leading-6">
-                    Delivery: 2-4 Days
-                  </p>
-                </div>
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                className="peer hidden"
                 id="radio_2"
                 type="radio"
                 name="radio"
@@ -416,14 +386,14 @@ const CheckOut = () => {
                 htmlFor="radio_2"
               >
                 <img
-                  className="w-14 object-contain"
-                  src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
+                  className="w-[120px] object-contain"
+                  src="https://static.vecteezy.com/system/resources/previews/002/952/794/original/cash-on-delivery-steacker-free-vector.jpg"
                   alt=""
                 />
-                <div className="ml-5">
-                  <span className="mt-2 font-semibold">Fedex Delivery</span>
+                <div className="ml-5 flex flex-col items-center justify-center">
+                  <span className="font-semibold">Cash On Delivery</span>
                   <p className="text-slate-500 text-sm leading-6">
-                    Delivery: 2-4 Days
+                    Delivery: 3-4 Hours
                   </p>
                 </div>
               </label>

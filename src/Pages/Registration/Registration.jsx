@@ -1,47 +1,38 @@
-import { Input, Spinner } from "@material-tailwind/react";
+import { Input } from "@material-tailwind/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
+import { imageUpload } from "../../../Utility/ImageUpload/ImageUpload";
 
 const Registration = () => {
   const [loading, setLoading] = useState(false);
   let { createUser, update, logOut } = useAuth();
   let navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    photo: "",
-    email: "",
-    password: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
   };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+  const handleRegister = async (e) => {
     setLoading(true);
+    e.preventDefault();
+
+    let form = e.target;
+    let name = form.name.value;
+    let email = form.email.value;
+    let password = form.password.value;
+    let image = form.image.files[0];
+
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     const passRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:;<>,.?/~`])(.{6,})$/;
-    const validPassword = passRegex.test(formData.password);
-    const validGmail = gmailRegex.test(formData.email);
+    const validPassword = passRegex.test(password);
+    const validGmail = gmailRegex.test(email);
 
-    if (!validPassword) {
-      Swal.fire({
-        icon: "warning",
-        title: "Oops...",
-        text: "Password must be at least 6 characters long, containing at least one upper case and special character",
-      });
-      setLoading(false);
-      return;
-    }
     if (!validGmail) {
       Swal.fire({
         icon: "warning",
@@ -51,10 +42,26 @@ const Registration = () => {
       setLoading(false);
       return;
     }
+    if (!validPassword) {
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "Password must be at least 6 characters long, containing at least one upper case and special character",
+      });
+      setLoading(false);
+      return;
+    }
 
-    createUser(formData.email, formData.password)
+    let imgData = null;
+
+    if (selectedFile) {
+      let imageData = await imageUpload(image);
+      imgData = imageData;
+    }
+
+    createUser(email, password)
       .then(() => {
-        update(formData.name, formData.photo)
+        update(name, imgData?.data?.display_url)
           .then(() => {})
           .catch((error) => {
             console.log(error);
@@ -126,28 +133,15 @@ const Registration = () => {
             <form onSubmit={handleRegister} id="regForm">
               <div className="w-full mt-4">
                 <Input
-                  value={formData.name}
-                  onChange={handleInputChange}
                   color="blue"
                   label="Enter your Name"
                   name="name"
                   required
                 />
               </div>
+
               <div className="w-full mt-4">
                 <Input
-                  value={formData.photo}
-                  onChange={handleInputChange}
-                  color="blue"
-                  label="Enter your Photo URL"
-                  name="photo"
-                  required
-                />
-              </div>
-              <div className="w-full mt-4">
-                <Input
-                  value={formData.email}
-                  onChange={handleInputChange}
                   color="blue"
                   label="Enter your email"
                   name="email"
@@ -155,10 +149,9 @@ const Registration = () => {
                   required
                 />
               </div>
+
               <div className="w-full mt-4">
                 <Input
-                  value={formData.password}
-                  onChange={handleInputChange}
                   color="blue"
                   label="Enter a password"
                   name="password"
@@ -167,11 +160,42 @@ const Registration = () => {
                 />
               </div>
 
+              <div className="w-full mt-4">
+                <div>
+                  <label className="flex gap-4 p-2 cursor-pointer border-2 border-gray-400 rounded-lg shadow-xl justify-center items-center">
+                    <svg
+                      className="w-8 h-8"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                    </svg>
+                    <span className="text-base font-medium">
+                      {selectedFile
+                        ? selectedFile.name
+                        : "Select profile picture"}
+                    </span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      id="image"
+                      name="image"
+                      accept="image/*"
+                    />
+                  </label>
+                </div>
+              </div>
+
               <div className="flex items-center justify-between mt-4">
-                <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                <button
+                  className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                  disabled={loading ? true : false}
+                >
                   {loading ? (
                     <div className="flex items-center justify-center gap-4">
-                      <Spinner color="black" />
+                      <ImSpinner9 className="animate-spin text-[20px]" />
                       Signing Up
                     </div>
                   ) : (

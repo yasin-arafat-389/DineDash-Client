@@ -121,7 +121,7 @@ const RestaurantPage = () => {
         <>
           {/* Banner */}
           <div
-            className="h-[200px] flex justify-center items-center text-[50px] restaurantTitle"
+            className="h-[200px] flex justify-center items-center text-[40px] md:ext-[50px] lg:ext-[50px] restaurantTitle"
             style={{
               backgroundImage: `url("https://i.ibb.co/YNFfVNq/res-bg.png")`,
               backgroundRepeat: "no-repeat",
@@ -143,7 +143,7 @@ const RestaurantPage = () => {
               </div>
 
               {/* Cards */}
-              <div className="resCards grid grid-cols-2 gap-10 pb-16">
+              <div className="resCards grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 pb-16">
                 {food.map((item, index) => (
                   <div key={index}>
                     <button
@@ -212,7 +212,7 @@ const RestaurantPage = () => {
                       ) : (
                         <Link to="/sign-in" state={location?.pathname}>
                           <Button
-                            className="bg-indigo-600 hover:bg-indigo-800 block px-[150px]"
+                            className="bg-indigo-600 hover:bg-indigo-800"
                             onClick={handleShowAlert}
                           >
                             Add To Cart

@@ -1,4 +1,4 @@
-import { Button, Input, Spinner } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import LoginPageAnimation from "../../Assets/loginPageAnimation.json";
 import Lottie from "lottie-react";
+import { ImSpinner9 } from "react-icons/im";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ const Login = () => {
 
     login(formData.email, formData.password)
       .then(() => {
-        navigate(location?.state ? -1 : "/");
+        navigate(location?.state ? location?.state : "/", { replace: true });
         toast.success(`Successfully Logged In!`, {
           style: {
             border: "2px solid green",
@@ -66,7 +67,7 @@ const Login = () => {
   let handleGoogleLogin = () => {
     googleLogin()
       .then(() => {
-        navigate(location?.state ? location.state : "/");
+        navigate(location?.state ? location.state : "/", { replace: true });
         toast.success(`Successfully Logged In!`, {
           style: {
             border: "2px solid green",
@@ -166,10 +167,12 @@ const Login = () => {
                   <button
                     className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 flex justify-center`}
                     type="submit"
+                    disabled={loading ? true : false}
                   >
                     {loading ? (
                       <div className="flex items-center gap-5 ">
-                        <Spinner color="red" /> Signing In
+                        <ImSpinner9 className="animate-spin text-[20px]" />
+                        Signing In
                       </div>
                     ) : (
                       "Sign In"

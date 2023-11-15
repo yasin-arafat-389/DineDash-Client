@@ -23,7 +23,7 @@ const PrivateRoute = ({ children }) => {
         secondary: "#FFFAEE",
       },
     });
-    return <Navigate state={location.pathname} to="/sign-in" />;
+    return <Navigate state={location.pathname} to="/sign-in" replace={true} />;
   }
 
   return <div>{children}</div>;

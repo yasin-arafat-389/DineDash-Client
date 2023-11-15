@@ -60,7 +60,7 @@ const BurgerBuilder = () => {
 
   const handleDeleteIngredient = (id, name) => {
     const updatedBuilder = builder.filter((item) => item.id !== id);
-    console.log(id);
+
     Swal.fire({
       title: `Are you sure you want to remove ${name}?`,
       icon: "warning",
