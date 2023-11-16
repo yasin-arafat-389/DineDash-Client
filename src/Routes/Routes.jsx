@@ -8,6 +8,7 @@ import RestaurantPage from "../Pages/RestaurantPage/RestaurantPage";
 import Registration from "../Pages/Registration/Registration";
 import Login from "../Pages/Login/Login";
 import PrivateRoute from "./PrivateRoute";
+import BrowseFoods from "../Pages/BrowseFoods/BrowseFoods";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/burger-builder",
         element: <BurgerBuilder />,
+      },
+      {
+        path: "/browse-foods",
+        element: <BrowseFoods />,
       },
       {
         path: "/cart",

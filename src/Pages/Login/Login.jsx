@@ -11,9 +11,9 @@ import { ImSpinner9 } from "react-icons/im";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   let { login, googleLogin } = useAuth();
-
-  let navigate = useNavigate();
   let location = useLocation();
+  let navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",

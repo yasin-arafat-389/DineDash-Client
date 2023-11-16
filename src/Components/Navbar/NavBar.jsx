@@ -10,13 +10,11 @@ import {
 import ProfileMenu from "./ProfileMenu";
 
 // Icons
-import { AiFillHome } from "react-icons/ai";
-import { FaBurger } from "react-icons/fa6";
 import { HiBars2 } from "react-icons/hi2";
 import { HiRocketLaunch } from "react-icons/hi2";
-import { HiMiniShoppingCart } from "react-icons/hi2";
 import { Link, NavLink } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
+import { FiShoppingCart } from "react-icons/fi";
 import useAuth from "../../Hooks/useAuth";
 
 function MyProfileMenu() {
@@ -59,37 +57,35 @@ function NavListMenu() {
   );
 }
 
-// nav list component
-const navListItems = [
-  {
-    label: "Home",
-    href: "/",
-    icon: AiFillHome,
-  },
-  {
-    label: "Burger Builder",
-    href: "/burger-builder",
-    icon: FaBurger,
-  },
-  {
-    label: "Cart",
-    href: "/cart",
-    icon: HiMiniShoppingCart,
-  },
-];
-
 function NavList() {
   return (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
+    <ul className="mb-4 mt-2 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <NavListMenu />
-      {navListItems.map(({ label, icon, href }) => (
-        <NavLink key={label} to={href} className="text-[#000]">
-          <div className="flex items-center gap-2  p-2">
-            {React.createElement(icon, { className: "h-[18px] w-[18px]" })}
-            {label}
-          </div>
+
+      {/* Main Menu */}
+      <li>
+        <NavLink to="/" className="p-3 font-bold">
+          Home
         </NavLink>
-      ))}
+      </li>
+
+      <li>
+        <NavLink to="/burger-builder" className="p-3 font-bold">
+          Burger Builder
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/browse-foods" className="p-3 font-bold">
+          Browse Food
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/cart" className="p-3 font-bold">
+          Cart
+        </NavLink>
+      </li>
     </ul>
   );
 }
