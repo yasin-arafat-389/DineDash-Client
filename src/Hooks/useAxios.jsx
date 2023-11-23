@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-  baseURL: "dine-dash-server.vercel.app",
+  baseURL: "https://dine-dash-server.vercel.app/",
   withCredentials: true,
 });
 
