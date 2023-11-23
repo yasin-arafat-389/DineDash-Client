@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import "./NavBar.css";
 import {
@@ -14,7 +15,6 @@ import { HiBars2 } from "react-icons/hi2";
 import { HiRocketLaunch } from "react-icons/hi2";
 import { Link, NavLink } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
-import { FiShoppingCart } from "react-icons/fi";
 import useAuth from "../../Hooks/useAuth";
 
 function MyProfileMenu() {

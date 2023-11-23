@@ -28,7 +28,7 @@ const BurgerBuilder = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://dine-dash-server.vercel.app/providers")
+    fetch("http://localhost:5000/providers")
       .then((res) => res.json())
       .then((data) => {
         setProviders(data);
