@@ -189,7 +189,7 @@ const BrowseFoods = () => {
                 {/* Modal fo details of food */}
                 <Dialog open={open} handler={handleOpen}>
                   <div className="p-5">
-                    <img src={details?.image} className="rounded-lg" />
+                    <img src={details?.image} className="rounded-lg mx-auto" />
 
                     <h1 className="text-[#333333] font-bold text-[30px] mt-4 text-center">
                       {details?.name}
