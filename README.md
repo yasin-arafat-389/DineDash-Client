@@ -1,6 +1,7 @@
 # About Project
 
 - Project name:- DineDash
+- Type:- Food delivery web application
 - [Project live URL](https://dine-dash-client.web.app/)
 
 # Features
