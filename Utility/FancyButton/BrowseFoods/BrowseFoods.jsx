@@ -4,7 +4,7 @@ import "./BrowseFoods.css";
 const BrowseFoods = () => {
   return (
     <div>
-      <Link>
+      <Link to={"/browse-foods"}>
         <button className="cta">
           <span className="span">Browse Foods</span>
           <span className="second">
