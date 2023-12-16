@@ -16,6 +16,7 @@ import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
+import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 
 const BrowseFoods = () => {
   let axios = useAxios();
@@ -43,7 +44,7 @@ const BrowseFoods = () => {
 
   let totalPrice = quantity * details?.price;
 
-  let { data } = useQuery({
+  let { data, isLoading } = useQuery({
     queryKey: ["allFoods", page],
     queryFn: async () => {
       let res = await axios.get(`/foods/pagination?page=${page}`).then();
@@ -51,13 +52,23 @@ const BrowseFoods = () => {
     },
   });
 
+  if (isLoading) {
+    return <RouteChangeLoader />;
+  }
+
   if (!data?.foodCounts) return;
 
   const totalPages = Math.ceil(data?.foodCounts / 6);
   const pages = [...new Array(totalPages).fill(0)];
 
+  const handlePagination = (page) => {
+    setPage(page);
+    window.scrollTo(0, 0);
+  };
+
   const handlePageChange = (newPage) => {
     setPage(newPage);
+    window.scrollTo(0, 0);
   };
 
   const handleAddToCart = () => {
@@ -266,7 +277,7 @@ const BrowseFoods = () => {
                         ? "bg-black text-white rounded-lg hover:bg-black"
                         : "bg-transparent"
                     }`}
-                    onClick={() => setPage(index)}
+                    onClick={() => handlePagination(index)}
                   >
                     {index + 1}
                   </button>

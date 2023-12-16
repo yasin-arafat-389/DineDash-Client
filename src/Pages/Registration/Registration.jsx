@@ -136,7 +136,7 @@ const Registration = () => {
                   Sign Up
                 </h3>
 
-                <p className="mt-1 text-center font-semibold text-[#000] ">
+                <p className="mt-1 text-center font-semibold text-gray-600">
                   Sign Up to join DineDash Family
                 </p>
 
