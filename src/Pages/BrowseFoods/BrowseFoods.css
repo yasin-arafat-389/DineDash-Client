@@ -1,0 +1,14 @@
+select {
+  padding: 10px;
+  background: transparent;
+  border: 2px solid #0866ff;
+  outline: none;
+  border-radius: 10px;
+  color: black;
+  font-size: 20px;
+}
+
+option {
+  background: #f8e8ee;
+  font-size: 20px;
+}

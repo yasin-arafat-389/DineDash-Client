@@ -1,11 +1,4 @@
-import {
-  Button,
-  Chip,
-  Dialog,
-  Input,
-  Option,
-  Select,
-} from "@material-tailwind/react";
+import { Button, Chip, Dialog, Input } from "@material-tailwind/react";
 import { useQuery } from "@tanstack/react-query";
 import { FcSearch } from "react-icons/fc";
 import useAxios from "../../Hooks/useAxios";
@@ -17,6 +10,7 @@ import toast from "react-hot-toast";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
+import "./BrowseFoods.css";
 
 const BrowseFoods = () => {
   let axios = useAxios();
@@ -26,6 +20,7 @@ const BrowseFoods = () => {
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   let { user } = useAuth();
 
@@ -45,12 +40,16 @@ const BrowseFoods = () => {
   let totalPrice = quantity * details?.price;
 
   let { data, isLoading } = useQuery({
-    queryKey: ["allFoods", page],
+    queryKey: ["allFoods", page, selectedCategory],
     queryFn: async () => {
-      let res = await axios.get(`/foods/pagination?page=${page}`).then();
+      let res = await axios
+        .get(`/foods/pagination?page=${page}&category=${selectedCategory}`)
+        .then();
       return res.data;
     },
   });
+
+  // Handling browse by category
 
   if (isLoading) {
     return <RouteChangeLoader />;
@@ -147,15 +146,22 @@ const BrowseFoods = () => {
             {/* Filters */}
             <div className="foodItems w-full grid grid-cols-2 gap-10">
               {/* filter by category */}
-              <Select color="blue" label="Filter by category">
-                <Option>Burger</Option>
-                <Option>Chicken</Option>
-                <Option>Side</Option>
-                <Option>Vegetarian</Option>
-                <Option>Pizza</Option>
-                <Option>Pasta</Option>
-                <Option>Appetizer</Option>
-              </Select>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option disabled value="">
+                  Browse by category
+                </option>
+                <option value="All">All Category</option>
+                <option value="Chicken">Chicken</option>
+                <option value="Side">Side</option>
+                <option value="Burger">Burger</option>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Pizza">Pizza</option>
+                <option value="Pasta">Pasta</option>
+                <option value="Appetizer">Appetizer</option>
+              </select>
 
               {/* Search bar */}
               <div className="flex gap-4">
@@ -257,8 +263,8 @@ const BrowseFoods = () => {
                   </div>
                 </Dialog>
               </div>
-              {/* Pagination */}
 
+              {/* Pagination */}
               <div className="flex items-center justify-center gap-3">
                 <Button
                   variant="text"
