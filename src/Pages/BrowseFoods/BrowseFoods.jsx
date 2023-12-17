@@ -12,6 +12,7 @@ import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteC
 import "./BrowseFoods.css";
 import { IoSearch } from "react-icons/io5";
 import Swal from "sweetalert2";
+import NoDataFound from "../../../Utility/NoDataFound/NoDataFound";
 
 const BrowseFoods = () => {
   let axios = useAxios();
@@ -85,6 +86,8 @@ const BrowseFoods = () => {
 
       if (res.data.noResultFound) {
         setNoSearchResult(true);
+      } else {
+        setNoSearchResult(false);
       }
 
       setSearchLoading(false);
@@ -102,12 +105,12 @@ const BrowseFoods = () => {
 
   const handlePagination = (page) => {
     setPage(page);
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 220);
   };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 220);
   };
 
   const handleAddToCart = () => {
@@ -167,6 +170,8 @@ const BrowseFoods = () => {
     });
   };
 
+  console.log(searchResult);
+
   return (
     <>
       <div>
@@ -185,9 +190,7 @@ const BrowseFoods = () => {
           <div className="flex flex-col w-[90%] mx-auto py-20 gap-3">
             <div
               className={`${
-                selectedCategory || searchResult.length > 0 || noSearchResult
-                  ? "block"
-                  : "hidden"
+                selectedCategory || searchResult.length > 0 ? "block" : "hidden"
               } flex justify-center items-center mb-5`}
             >
               <Button
@@ -208,7 +211,7 @@ const BrowseFoods = () => {
                 value={selectedCategory}
                 onChange={(e) => {
                   setSelectedCategory(e.target.value);
-                  window.scrollTo(0, 0);
+                  window.scrollTo(0, 220);
                 }}
               >
                 <option disabled value="">
@@ -471,38 +474,44 @@ const BrowseFoods = () => {
               <div
                 className={`resCards ${
                   searchResult.length > 0 || noSearchResult ? "grid" : "hidden"
-                } grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 pb-16`}
+                } ${
+                  noSearchResult
+                    ? "grid-cols-1"
+                    : "grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10"
+                }  pb-16`}
               >
-                {noSearchResult
-                  ? "No result found"
-                  : searchResult?.map((item, index) => (
-                      <div key={index}>
-                        <button
-                          onClick={() => handleOpen(item)}
-                          className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
-                        >
-                          <div className="foodContent w-2/3 flex flex-col gap-2">
-                            <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
-                              {item?.name}
-                            </h1>
-                            <p className="elipseDesc text-[#767676] text-[15px]">
-                              {item?.description}
-                            </p>
+                {noSearchResult ? (
+                  <NoDataFound />
+                ) : (
+                  searchResult?.map((item, index) => (
+                    <div key={index}>
+                      <button
+                        onClick={() => handleOpen(item)}
+                        className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
+                      >
+                        <div className="foodContent w-2/3 flex flex-col gap-2">
+                          <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
+                            {item?.name}
+                          </h1>
+                          <p className="elipseDesc text-[#767676] text-[15px]">
+                            {item?.description}
+                          </p>
 
-                            <p className="text-[#333333] text-[22px] font-bold">
-                              ৳ {item?.price}
-                            </p>
-                          </div>
+                          <p className="text-[#333333] text-[22px] font-bold">
+                            ৳ {item?.price}
+                          </p>
+                        </div>
 
-                          <div className="foodImage-rc w-1/3">
-                            <img
-                              src={item?.image}
-                              className="rounded-xl h-[120px]"
-                            />
-                          </div>
-                        </button>
-                      </div>
-                    ))}
+                        <div className="foodImage-rc w-1/3">
+                          <img
+                            src={item?.image}
+                            className="rounded-xl h-[120px]"
+                          />
+                        </div>
+                      </button>
+                    </div>
+                  ))
+                )}
 
                 {/* Modal fo details of food */}
                 <Dialog open={open2} handler={handleOpen2}>
@@ -568,7 +577,9 @@ const BrowseFoods = () => {
               {/* Pagination */}
               <div
                 className={`${
-                  selectedCategory !== "" || searchResult.length > 0
+                  selectedCategory !== "" ||
+                  searchResult.length > 0 ||
+                  noSearchResult
                     ? "hidden"
                     : "flex"
                 } items-center justify-center gap-3`}
