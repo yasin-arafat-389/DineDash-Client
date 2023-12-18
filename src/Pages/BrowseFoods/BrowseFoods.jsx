@@ -105,12 +105,12 @@ const BrowseFoods = () => {
 
   const handlePagination = (page) => {
     setPage(page);
-    window.scrollTo(0, 220);
+    window.scrollTo(0, 0);
   };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    window.scrollTo(0, 220);
+    window.scrollTo(0, 0);
   };
 
   const handleAddToCart = () => {
@@ -170,8 +170,6 @@ const BrowseFoods = () => {
     });
   };
 
-  console.log(searchResult);
-
   return (
     <>
       <div>
@@ -211,7 +209,7 @@ const BrowseFoods = () => {
                 value={selectedCategory}
                 onChange={(e) => {
                   setSelectedCategory(e.target.value);
-                  window.scrollTo(0, 220);
+                  window.scrollTo(0, 0);
                 }}
               >
                 <option disabled value="">
@@ -265,7 +263,11 @@ const BrowseFoods = () => {
                     className="!border-black !border-2 !text-[#000] !font-bold placeholder:text-gray-600 placeholder:font-bold"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
-                    icon={<IoSearch className="text-[20px] text-[#000]" />}
+                    icon={
+                      <button>
+                        <IoSearch className="text-[20px] text-[#000]" />
+                      </button>
+                    }
                   />
                 </form>
               </div>
