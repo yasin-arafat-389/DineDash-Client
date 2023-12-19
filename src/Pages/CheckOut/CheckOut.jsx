@@ -155,6 +155,17 @@ const CheckOut = () => {
 
   // Handling place order event
   const [confirmation, setConfirmation] = useState(false);
+
+  const customBurgerTotalPrice = burger.reduce((accumulator, currentValue) => {
+    return accumulator + parseInt(currentValue.totalPrice);
+  }, 0);
+
+  const otherFoodsTotalPrice = cartFoods.reduce((accumulator, currentValue) => {
+    return accumulator + parseInt(currentValue.totalPrice);
+  }, 0);
+
+  let subtotal = customBurgerTotalPrice + otherFoodsTotalPrice;
+
   let handlePlaceOrder = (e) => {
     e.preventDefault();
 
@@ -495,16 +506,18 @@ const CheckOut = () => {
               <div className="mt-6 border-t border-b py-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                  <p className="font-semibold text-gray-900">$399.00</p>
+                  <p className="font-semibold text-gray-900">৳ {subtotal}.00</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Shipping</p>
-                  <p className="font-semibold text-gray-900">$8.00</p>
+                  <p className="font-semibold text-gray-900">৳ 50.00</p>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Total</p>
-                <p className="text-2xl font-semibold text-gray-900">$408.00</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  ৳ {subtotal + 50}
+                </p>
               </div>
             </div>
 
