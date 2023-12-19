@@ -39,11 +39,15 @@ const ProfileMenu = () => {
       });
   };
 
+  let goToProfile = () => {
+    navigate("/");
+  };
+
   const profileMenuItems = [
     {
-      label: user?.displayName ? user?.displayName : "User",
+      label: "Profile",
       icon: <AiOutlineUser fontSize={"20px"} />,
-      action: "",
+      action: goToProfile,
     },
     {
       label: "Sign Out",
@@ -54,7 +58,7 @@ const ProfileMenu = () => {
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const closeMenu = () => setIsMenuOpen(false);
+  // const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -86,14 +90,13 @@ const ProfileMenu = () => {
 
       <MenuList className="p-1">
         {profileMenuItems.map((item, index) => (
-          <MenuItem key={index} onClick={closeMenu}>
-            <button
-              onClick={item.action}
-              className="flex justify-center items-center gap-4 text-[15px] font-bold"
-            >
-              <span>{item.icon}</span>
-              {item.label}
-            </button>
+          <MenuItem
+            key={index}
+            onClick={item.action}
+            className="flex items-center gap-4 text-[15px] font-bold"
+          >
+            <span>{item.icon}</span>
+            {item.label}
           </MenuItem>
         ))}
       </MenuList>
