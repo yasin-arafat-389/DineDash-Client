@@ -9,6 +9,8 @@ import Registration from "../Pages/Registration/Registration";
 import Login from "../Pages/Login/Login";
 import PrivateRoute from "./PrivateRoute";
 import BrowseFoods from "../Pages/BrowseFoods/BrowseFoods";
+import MyProfile from "../Pages/MyProfile/MyProfile";
+import MyOrders from "../Pages/MyOrders/MyOrders";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,16 @@ const router = createBrowserRouter([
       {
         path: "/browse-foods",
         element: <BrowseFoods />,
+      },
+
+      // -------------------------- Use profile menus --------------------------
+      {
+        path: "/my-profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "/my-orders",
+        element: <MyOrders />,
       },
       {
         path: "/cart",

@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlinePoweroff } from "react-icons/ai";
+import { TbShoppingBagCheck } from "react-icons/tb";
 import { BsChevronDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -40,7 +41,11 @@ const ProfileMenu = () => {
   };
 
   let goToProfile = () => {
-    navigate("/");
+    navigate("/my-profile");
+  };
+
+  let goToMyOrders = () => {
+    navigate("/my-orders");
   };
 
   const profileMenuItems = [
@@ -48,6 +53,11 @@ const ProfileMenu = () => {
       label: "Profile",
       icon: <AiOutlineUser fontSize={"20px"} />,
       action: goToProfile,
+    },
+    {
+      label: "Orders",
+      icon: <TbShoppingBagCheck fontSize={"20px"} />,
+      action: goToMyOrders,
     },
     {
       label: "Sign Out",

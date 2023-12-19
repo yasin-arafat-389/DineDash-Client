@@ -13,18 +13,22 @@ import { useEffect, useState } from "react";
 import { BiSolidCommentEdit } from "react-icons/bi";
 import "./CheckOut.css";
 import Swal from "sweetalert2";
-import OrderConfirmation from "../../Components/PopUp/OrderConfirmation/OrderConfirmation";
 import TryBurgerBuilder from "../../../Utility/FancyButton/TryBurgerBuilder/TryBurgerBuilder";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import { BsTrash3 } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { FaAddressCard, FaPhone } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import useAxios from "../../Hooks/useAxios";
+import { ImSpinner9 } from "react-icons/im";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
   const [cartFoods, setCartFoods] = useState([]);
   let { user } = useAuth();
+  let axios = useAxios();
+  let navigate = useNavigate();
 
   // Modal
   const [open, setOpen] = useState(false);
@@ -154,7 +158,11 @@ const CheckOut = () => {
   };
 
   // Handling place order event
-  const [confirmation, setConfirmation] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleRadioChange = (event) => {
+    setSelectedOption(event.target.id);
+  };
 
   const customBurgerTotalPrice = burger.reduce((accumulator, currentValue) => {
     return accumulator + parseInt(currentValue.totalPrice);
@@ -165,12 +173,70 @@ const CheckOut = () => {
   }, 0);
 
   let subtotal = customBurgerTotalPrice + otherFoodsTotalPrice;
+  let total = subtotal + 50;
+
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [loading, setLoading] = useState(false);
 
   let handlePlaceOrder = (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    setConfirmation(!confirmation);
+    if (subtotal <= 0) {
+      return Swal.fire({
+        title: "Oopss!!",
+        text: "Your cart is empty",
+        icon: "warning",
+      });
+    }
+
+    if (!selectedOption) {
+      return Swal.fire({
+        title: "Oopss!!",
+        text: "Your have not selected payment method",
+        icon: "warning",
+      });
+    }
+
+    let order = {
+      email: user?.email,
+      phone: phone,
+      address: address,
+      burger: burger.length > 0 ? burger : "no custom burger",
+      cartFood: cartFoods.length > 0 ? cartFoods : "no cart foods",
+      paymentMethod:
+        selectedOption === "radio_1" ? "Cash On Delivery" : "SSLCOMMERZ",
+    };
+
+    if (selectedOption === "radio_1") {
+      axios.post("/orders", order).then(() => {
+        setLoading(false);
+        toast.success(`Successfully placed order 👍`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
+        });
+
+        navigate("/my-orders");
+      });
+    }
+
+    if (selectedOption === "radio_2") {
+      navigate("/burger-builder");
+    }
+
+    localStorage.removeItem(user?.email);
+    localStorage.removeItem(`${user?.email}Cart`);
   };
+
+  console.log(burger, cartFoods);
 
   return (
     <div className="mb-10">
@@ -205,11 +271,6 @@ const CheckOut = () => {
             <span>Add</span>
           </Button>
         </DialogFooter>
-      </Dialog>
-
-      {/* Modal for order confirmation message */}
-      <Dialog open={confirmation} handler={handlePlaceOrder}>
-        <OrderConfirmation state={handlePlaceOrder} />
       </Dialog>
 
       <div className="flex flex-col items-center bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32"></div>
@@ -383,56 +444,6 @@ const CheckOut = () => {
               ))
             )}
           </div>
-
-          {/* Shipping Methods */}
-          <p className="mt-8 text-lg font-medium">Shipping Methods</p>
-          <form className="mt-5 grid gap-6">
-            <div className="relative">
-              <input
-                className="peer hidden"
-                id="radio_1"
-                type="radio"
-                name="radio"
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_1"
-              >
-                <img
-                  className="w-[120px] object-contain"
-                  src="https://i.ibb.co/kBmCdgH/cash-on-delivery-steacker-free-vector.jpg"
-                  alt=""
-                />
-                <div className="ml-5 flex flex-col items-center justify-center">
-                  <span className="font-semibold">Cash On Delivery</span>
-                </div>
-              </label>
-            </div>
-
-            <div className="relative">
-              <input
-                className="peer hidden"
-                id="radio_2"
-                type="radio"
-                name="radio"
-              />
-              <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                htmlFor="radio_2"
-              >
-                <img
-                  className="w-[120px] object-contain"
-                  src="https://i.ibb.co/FHHN9BV/sslcommerz.png"
-                  alt=""
-                />
-                <div className="ml-5 flex flex-col items-center justify-center">
-                  <span className="font-semibold">SSLCOMMERZ</span>
-                </div>
-              </label>
-            </div>
-          </form>
         </div>
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
           <p className="text-xl font-medium">Payment Details</p>
@@ -471,11 +482,19 @@ const CheckOut = () => {
               </label>
               <div className="relative">
                 <input
-                  type="number"
+                  type="text"
                   id="phone"
                   name="phone"
                   className="w-full rounded-md border border-blue-500 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500 placeholder:text-gray-600"
                   placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(e) => {
+                    const enteredValue = e.target.value;
+                    const isNumeric = /^\d+$/.test(enteredValue);
+                    if (isNumeric || enteredValue === "") {
+                      setPhone(enteredValue);
+                    }
+                  }}
                   required
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -496,10 +515,64 @@ const CheckOut = () => {
                   name="address"
                   className="w-full rounded-md border border-blue-500 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500 placeholder:text-gray-600"
                   placeholder="Enter your full address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   required
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                   <FaAddressCard className="text-blue-600" />
+                </div>
+              </div>
+
+              {/* Payment Methods */}
+              <div className="flex flex-col gap-5">
+                <p className="mt-8 text-lg font-medium">Payment Methods</p>
+                <div className="relative">
+                  <input
+                    className="peer hidden"
+                    id="radio_1"
+                    type="radio"
+                    name="radio"
+                    onChange={handleRadioChange}
+                  />
+                  <span className="peer-checked:border-blue-500 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                  <label
+                    className="peer-checked:border-2 peer-checked:border-blue-500 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-500 p-4"
+                    htmlFor="radio_1"
+                  >
+                    <img
+                      className="w-[120px] object-contain"
+                      src="https://i.ibb.co/kBmCdgH/cash-on-delivery-steacker-free-vector.jpg"
+                      alt=""
+                    />
+                    <div className="ml-5 flex flex-col items-center justify-center">
+                      <span className="font-semibold">Cash On Delivery</span>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="relative">
+                  <input
+                    className="peer hidden"
+                    id="radio_2"
+                    type="radio"
+                    name="radio"
+                    onChange={handleRadioChange}
+                  />
+                  <span className="peer-checked:border-blue-500 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                  <label
+                    className="peer-checked:border-2 peer-checked:border-blue-500 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-500 p-4"
+                    htmlFor="radio_2"
+                  >
+                    <img
+                      className="w-[120px] object-contain"
+                      src="https://i.ibb.co/FHHN9BV/sslcommerz.png"
+                      alt=""
+                    />
+                    <div className="ml-5 flex flex-col items-center justify-center">
+                      <span className="font-semibold">SSLCOMMERZ</span>
+                    </div>
+                  </label>
                 </div>
               </div>
 
@@ -510,13 +583,15 @@ const CheckOut = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Shipping</p>
-                  <p className="font-semibold text-gray-900">৳ 50.00</p>
+                  <p className="font-semibold text-gray-900">
+                    {subtotal <= 0 ? "৳ 0.00" : ` ৳ 50.00`}
+                  </p>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Total</p>
                 <p className="text-2xl font-semibold text-gray-900">
-                  ৳ {subtotal + 50}
+                  {subtotal <= 0 ? "৳ 0.00" : ` ৳ ${total}.00`}
                 </p>
               </div>
             </div>
@@ -524,8 +599,16 @@ const CheckOut = () => {
             <button
               type="submit"
               className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+              disabled={loading ? true : false}
             >
-              Place Order
+              {loading ? (
+                <div className="flex justify-center items-center gap-4">
+                  <ImSpinner9 className="animate-spin text-[20px]" />
+                  Placing Order
+                </div>
+              ) : (
+                "Place Order"
+              )}
             </button>
           </form>
         </div>
