@@ -43,7 +43,7 @@ const Cart = ({ ingredients, provider }) => {
     const updatedBurger = [
       ...customBurger,
       {
-        user: user?.email,
+        name: "customBurger",
         ingredients: ingredients,
         totalPrice: totalPrice,
         note: customNote,

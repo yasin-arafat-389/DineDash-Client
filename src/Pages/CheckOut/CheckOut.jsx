@@ -184,6 +184,7 @@ const CheckOut = () => {
     setLoading(true);
 
     if (subtotal <= 0) {
+      setLoading(false);
       return Swal.fire({
         title: "Oopss!!",
         text: "Your cart is empty",
@@ -192,6 +193,7 @@ const CheckOut = () => {
     }
 
     if (!selectedOption) {
+      setLoading(false);
       return Swal.fire({
         title: "Oopss!!",
         text: "Your have not selected payment method",
@@ -200,11 +202,14 @@ const CheckOut = () => {
     }
 
     let order = {
+      name: user?.displayName,
       email: user?.email,
       phone: phone,
       address: address,
-      burger: burger.length > 0 ? burger : "no custom burger",
-      cartFood: cartFoods.length > 0 ? cartFoods : "no cart foods",
+      burger: burger.length > 0 ? burger : [],
+      cartFood: cartFoods.length > 0 ? cartFoods : [],
+      orderTotal: total,
+      deliveryCharge: 50,
       paymentMethod:
         selectedOption === "radio_1" ? "Cash On Delivery" : "SSLCOMMERZ",
     };
@@ -582,7 +587,9 @@ const CheckOut = () => {
                   <p className="font-semibold text-gray-900">৳ {subtotal}.00</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">Shipping</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    Delivery Charge
+                  </p>
                   <p className="font-semibold text-gray-900">
                     {subtotal <= 0 ? "৳ 0.00" : ` ৳ 50.00`}
                   </p>
