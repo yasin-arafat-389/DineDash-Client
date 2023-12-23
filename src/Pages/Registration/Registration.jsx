@@ -1,6 +1,6 @@
 import { Input } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
@@ -55,8 +55,9 @@ const Registration = () => {
     let imgData = null;
 
     if (selectedFile) {
-      let imageData = await imageUpload(image);
+      let imageData = await imageUpload(image, setLoading);
       imgData = imageData;
+      console.log(imgData);
     }
 
     createUser(email, password)
@@ -68,7 +69,9 @@ const Registration = () => {
           });
 
         logOut()
-          .then(() => {})
+          .then(() => {
+            navigate("/sign-in");
+          })
           .catch((error) => {
             console.log(error);
           });
@@ -84,7 +87,6 @@ const Registration = () => {
             secondary: "#FFFAEE",
           },
         });
-        navigate("/sign-in");
       })
       .catch(() => {
         toast.error(`User Already Exists`, {
@@ -102,11 +104,9 @@ const Registration = () => {
       });
   };
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+  if (user) {
+    <Navigate to="/" />;
+  }
 
   return (
     <div>
@@ -181,7 +181,7 @@ const Registration = () => {
                         >
                           <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                         </svg>
-                        <span className="text-base font-medium">
+                        <span className="text-base line-clamp-1 font-medium">
                           {selectedFile
                             ? selectedFile.name
                             : "Select profile picture"}

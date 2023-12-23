@@ -28,3 +28,4 @@ dist-ssr
 .firebaserc
 firebase.json
 Firebase
+.env
