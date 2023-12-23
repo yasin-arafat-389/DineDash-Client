@@ -1,7 +1,7 @@
 import { Button, Chip, Dialog, Input } from "@material-tailwind/react";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../Hooks/useAxios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
@@ -52,6 +52,12 @@ const BrowseFoods = () => {
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity - 1));
   };
+
+  useEffect(() => {
+    if (!open) {
+      setQuantity(1);
+    }
+  }, [open]);
 
   let totalPrice = quantity * details?.price;
 

@@ -229,19 +229,28 @@ const CheckOut = () => {
           },
         });
 
+        localStorage.removeItem(user?.email);
+        localStorage.removeItem(`${user?.email}Cart`);
         navigate("/my-orders");
       });
     }
 
-    if (selectedOption === "radio_2") {
-      navigate("/burger-builder");
+    if (selectedOption !== "radio_1") {
+      fetch("http://localhost:5000/orders/sslcommerz", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(order),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          setLoading(false);
+          window.location.replace(result.url);
+        });
+
+      localStorage.removeItem(user?.email);
+      localStorage.removeItem(`${user?.email}Cart`);
     }
-
-    localStorage.removeItem(user?.email);
-    localStorage.removeItem(`${user?.email}Cart`);
   };
-
-  console.log(burger, cartFoods);
 
   return (
     <div className="mb-10">
