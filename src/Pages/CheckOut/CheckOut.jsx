@@ -22,6 +22,7 @@ import { FaAddressCard, FaPhone } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../Hooks/useAxios";
 import { ImSpinner9 } from "react-icons/im";
+import { useQuery } from "@tanstack/react-query";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -158,6 +159,21 @@ const CheckOut = () => {
   };
 
   // Handling place order event
+
+  let [address, setAddress] = useState("");
+
+  let { data: addressData } = useQuery({
+    queryKey: ["myDeliveryAddress"],
+    queryFn: async () => {
+      let res = await axios.get(`/my-address?email=${user?.email}`).then();
+      return res.data.address;
+    },
+  });
+
+  useEffect(() => {
+    setAddress(addressData || "");
+  }, [addressData]);
+
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleRadioChange = (event) => {
@@ -176,7 +192,7 @@ const CheckOut = () => {
   let total = subtotal + 50;
 
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
 
   let handlePlaceOrder = (e) => {

@@ -1,7 +1,7 @@
 import { MdOutlineMail } from "react-icons/md";
 import useAuth from "../../Hooks/useAuth";
 import { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPhone } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
 import { FaAddressCard } from "react-icons/fa";
 import { imageUpload } from "../../../Utility/ImageUpload/ImageUpload";
@@ -25,8 +25,10 @@ const MyProfile = () => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
   const [yourName, setYourName] = useState("");
-  const [address, setAddress] = useState("");
+  const [currentAddress, setCurrentAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   let [loading, setLoading] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -64,8 +66,13 @@ const MyProfile = () => {
   const handleOpen1 = () => {
     setOpen1(!open1);
   };
-  const handleOpen2 = () => {
+  const handleOpen2 = (address) => {
     setOpen2(!open2);
+    setCurrentAddress(address || "");
+  };
+  const handleOpen3 = (phone) => {
+    setOpen3(!open3);
+    setPhoneNumber(phone || "");
   };
 
   const handleChangeName = (e) => {
@@ -99,7 +106,10 @@ const MyProfile = () => {
     setLoading(true);
 
     await axios
-      .post("/update-address", { address: address, email: user?.email })
+      .post("/update-address", {
+        address: currentAddress,
+        email: user?.email,
+      })
       .then(() => {
         refetch();
         setLoading(false);
@@ -107,10 +117,25 @@ const MyProfile = () => {
       });
   };
 
+  const handleChangePhoneNumber = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    await axios
+      .post("/update-phone", {
+        phone: phoneNumber,
+        email: user?.email,
+      })
+      .then(() => {
+        refetch();
+        setLoading(false);
+        setOpen3(!open3);
+      });
+  };
+
   if (isLoading) {
     return <RouteChangeLoader />;
   }
-  console.log(data);
 
   return (
     <div>
@@ -118,13 +143,14 @@ const MyProfile = () => {
         <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
           <div className="border-b px-4 pb-6">
             <div className="text-center my-4">
-              <div className="flex">
+              <div className="flex justify-center mb-2">
                 <img
-                  className="h-32 w-32 rounded-full border-4 border-gray-400 dark:border-gray-800 mx-auto my-4"
+                  className="h-32 w-32 rounded-full border-4 border-gray-400 dark:border-gray-800"
                   src={user?.photoURL || "https://i.ibb.co/HN9NtYY/user.png"}
                   alt=""
                 />
-                <div className="relative right-[110px] top-[10px]">
+
+                <div className="">
                   {" "}
                   <FaEdit
                     fontSize={"25"}
@@ -158,7 +184,7 @@ const MyProfile = () => {
                               >
                                 <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                               </svg>
-                              <span className="text-base font-medium  elipsis elipse">
+                              <span className="text-base font-medium  line-clamp-1">
                                 {selectedFile
                                   ? selectedFile.name
                                   : "Select profile picture"}
@@ -197,7 +223,6 @@ const MyProfile = () => {
                 </Dialog>
               </div>
               <div className="py-2 flex flex-col gap-2">
-                {/*  */}
                 <div className="flex justify-center items-center gap-4">
                   <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">
                     {user?.displayName}
@@ -251,7 +276,7 @@ const MyProfile = () => {
                   </form>
                 </Dialog>
 
-                <div className="flex flex-col justify-center items-center gap-3">
+                <div className="flex flex-col justify-center items-center gap-4">
                   <div className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center">
                     <MdOutlineMail fontSize={"20"} />
                     {user?.email}
@@ -267,7 +292,19 @@ const MyProfile = () => {
                     <FaEdit
                       fontSize={"20"}
                       className="cursor-pointer text-black"
-                      onClick={handleOpen2}
+                      onClick={() => handleOpen2(data?.address)}
+                    />
+                  </div>
+
+                  <div className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center">
+                    <FaPhone fontSize={"20"} />
+                    <span>
+                      {data?.phone ? data?.phone : "Enter your phone number"}
+                    </span>
+                    <FaEdit
+                      fontSize={"20"}
+                      className="cursor-pointer text-black"
+                      onClick={() => handleOpen3(data?.phone)}
                     />
                   </div>
 
@@ -288,14 +325,14 @@ const MyProfile = () => {
                           <Input
                             label="Address"
                             size="lg"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
+                            value={currentAddress}
+                            onChange={(e) => setCurrentAddress(e.target.value)}
                           />
                         </CardBody>
                         <CardFooter className="pt-0">
                           <Button
                             variant="gradient"
-                            disabled={loading || !address ? true : false}
+                            disabled={loading || !currentAddress ? true : false}
                             fullWidth
                             type="submit"
                           >
@@ -306,6 +343,53 @@ const MyProfile = () => {
                               </div>
                             ) : (
                               "Update Address"
+                            )}
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </form>
+                  </Dialog>
+
+                  {/* Phone number update modal */}
+                  <Dialog
+                    size="xs"
+                    open={open3}
+                    handler={handleOpen3}
+                    className="bg-transparent shadow-none"
+                  >
+                    <form onSubmit={handleChangePhoneNumber}>
+                      <Card className="mx-auto w-full max-w-[24rem]">
+                        <CardBody className="flex flex-col gap-4">
+                          <Typography variant="h5" color="blue-gray">
+                            Update your phone number
+                          </Typography>
+
+                          <Input
+                            label="Phone number"
+                            type="number"
+                            size="lg"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                          />
+                        </CardBody>
+                        <CardFooter className="pt-0">
+                          <Button
+                            variant="gradient"
+                            disabled={
+                              loading || !phoneNumber || phoneNumber.length < 11
+                                ? true
+                                : false
+                            }
+                            fullWidth
+                            type="submit"
+                          >
+                            {loading ? (
+                              <div className="flex justify-center items-center gap-4">
+                                <ImSpinner9 className="animate-spin text-[20px]" />
+                                Updating
+                              </div>
+                            ) : (
+                              "Update Phone Number"
                             )}
                           </Button>
                         </CardFooter>

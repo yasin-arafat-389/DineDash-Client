@@ -38,15 +38,27 @@ const router = createBrowserRouter([
         path: "/browse-foods",
         element: <BrowseFoods />,
       },
+      {
+        path: "/restaurants/:name",
+        element: <RestaurantPage />,
+      },
 
       // -------------------------- Use profile menus --------------------------
       {
         path: "/my-profile",
-        element: <MyProfile />,
+        element: (
+          <PrivateRoute>
+            <MyProfile />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-orders",
-        element: <MyOrders />,
+        element: (
+          <PrivateRoute>
+            <MyOrders />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/cart",
@@ -55,10 +67,6 @@ const router = createBrowserRouter([
             <CheckOut />
           </PrivateRoute>
         ),
-      },
-      {
-        path: "/restaurants/:name",
-        element: <RestaurantPage />,
       },
     ],
   },
