@@ -103,7 +103,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <div className="mx-auto p-2 shadow-lg sticky top-0 bg-white z-10">
+    <div className="mx-auto p-2 shadow-md sticky top-0 bg-[#F9FBE7] z-10">
       <div className="w-[95%] mx-auto flex items-center text-blue-gray-900 justify-between">
         <img
           className="w-[100px]"

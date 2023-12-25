@@ -68,15 +68,37 @@ const RestaurantPage = () => {
     const existingCart =
       JSON.parse(localStorage.getItem(`${user?.email}Cart`)) || [];
 
+    const date = new Date();
+    const day = date.getDate();
+    const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(
+      date
+    );
+    const year = date.getFullYear();
+    const formattedDate = `${day} ${month} ${year}`;
+
+    function generateRandomString() {
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = "";
+
+      for (let i = 0; i < 8; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+      }
+
+      return result;
+    }
+
     let saveToLocalStorage = {
-      id: details?._id,
-      user: user?.email,
       name: details?.name,
       image: details?.image,
       price: details?.price,
+      status: "order received",
+      date: formattedDate,
       quantity: quantity,
       totalPrice: totalPrice,
       restaurant: pathname,
+      orderId: generateRandomString(),
     };
 
     const existingItemIndex = existingCart.findIndex(

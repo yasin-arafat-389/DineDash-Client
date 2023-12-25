@@ -40,14 +40,37 @@ const Cart = ({ ingredients, provider }) => {
     const customBurger =
       JSON.parse(localStorage.getItem(`${user?.email}`)) || [];
 
+    const date = new Date();
+    const day = date.getDate();
+    const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(
+      date
+    );
+    const year = date.getFullYear();
+    const formattedDate = `${day} ${month} ${year}`;
+
+    function generateRandomString() {
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = "";
+
+      for (let i = 0; i < 8; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+      }
+
+      return result;
+    }
+
     const updatedBurger = [
       ...customBurger,
       {
-        name: "customBurger",
         ingredients: ingredients,
         totalPrice: totalPrice,
         note: customNote,
         provider: provider,
+        status: "order received",
+        date: formattedDate,
+        orderId: generateRandomString(),
       },
     ];
 

@@ -159,20 +159,21 @@ const CheckOut = () => {
   };
 
   // Handling place order event
-
   let [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
 
-  let { data: addressData } = useQuery({
+  let { data: customerData } = useQuery({
     queryKey: ["myDeliveryAddress"],
     queryFn: async () => {
       let res = await axios.get(`/my-address?email=${user?.email}`).then();
-      return res.data.address;
+      return res.data;
     },
   });
 
   useEffect(() => {
-    setAddress(addressData || "");
-  }, [addressData]);
+    setAddress(customerData?.address || "");
+    setPhone(customerData?.phone || "");
+  }, [customerData]);
 
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -191,8 +192,6 @@ const CheckOut = () => {
   let subtotal = customBurgerTotalPrice + otherFoodsTotalPrice;
   let total = subtotal + 50;
 
-  const [phone, setPhone] = useState("");
-  // const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
 
   let handlePlaceOrder = (e) => {
@@ -217,6 +216,18 @@ const CheckOut = () => {
       });
     }
 
+    function generateRandomString() {
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = "";
+
+      for (let i = 0; i < 8; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+      }
+      return result;
+    }
+
     let order = {
       name: user?.displayName,
       email: user?.email,
@@ -226,6 +237,7 @@ const CheckOut = () => {
       cartFood: cartFoods.length > 0 ? cartFoods : [],
       orderTotal: total,
       deliveryCharge: 50,
+      order: generateRandomString(),
       paymentMethod:
         selectedOption === "radio_1" ? "Cash On Delivery" : "SSLCOMMERZ",
     };
@@ -476,9 +488,9 @@ const CheckOut = () => {
           </div>
         </div>
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
-          <p className="text-xl font-medium">Payment Details</p>
+          <p className="text-xl font-medium">Delivery Details</p>
           <p className="text-gray-400">
-            Complete your order by providing your payment details.
+            Complete your order by providing your delivery details.
           </p>
 
           {/* Checkout Form */}

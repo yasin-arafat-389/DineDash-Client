@@ -17,6 +17,7 @@ import {
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
+import toast from "react-hot-toast";
 
 const MyProfile = () => {
   let { user, update } = useAuth();
@@ -54,6 +55,17 @@ const MyProfile = () => {
       .then(() => {
         setLoading(false);
         setOpen1(!open1);
+        toast.success(`Profile picture has been changed!`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -82,6 +94,17 @@ const MyProfile = () => {
       .then(() => {
         setLoading(false);
         setOpen(!open);
+        toast.success(`Name has been changed!`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -114,6 +137,17 @@ const MyProfile = () => {
         refetch();
         setLoading(false);
         setOpen2(!open2);
+        toast.success(`Address has been changed!`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
+        });
       });
   };
 
@@ -130,6 +164,17 @@ const MyProfile = () => {
         refetch();
         setLoading(false);
         setOpen3(!open3);
+        toast.success(`Phone number has been changed!`, {
+          style: {
+            border: "2px solid green",
+            padding: "8px",
+            color: "#713200",
+          },
+          iconTheme: {
+            primary: "green",
+            secondary: "#FFFAEE",
+          },
+        });
       });
   };
 
@@ -138,8 +183,8 @@ const MyProfile = () => {
   }
 
   return (
-    <div>
-      <div className="bg-[#CDF5FD] py-12">
+    <div className="bg-[#CDF5FD]">
+      <div className=" py-12">
         <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
           <div className="border-b px-4 pb-6">
             <div className="text-center my-4">

@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <div>
-      <div className="bg-white pt-4 sm:pt-10 lg:pt-12">
+      <div className="bg-[#F0EDD4] pt-4 sm:pt-10 lg:pt-12">
         <footer className="mx-auto max-w-screen-2xl px-4 md:px-8">
           <div className="mb-16 grid grid-cols-2 gap-12 pt-10 md:grid-cols-4 lg:grid-cols-6 lg:gap-8 lg:pt-12">
             <div className="col-span-full lg:col-span-2">
@@ -12,7 +12,7 @@ const Footer = () => {
                 />
               </div>
 
-              <p className="mb-6 text-gray-500 sm:pr-8">
+              <p className="mb-6 text-gray-600 sm:pr-8">
                 Experience the Next Generation of Food Delivery Magic, delivered
                 to your doorstep with unparalleled convenience and speed.
               </p>
@@ -20,7 +20,7 @@ const Footer = () => {
               <div className="flex gap-4">
                 <a
                   target="_blank"
-                  className="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600"
+                  className="text-gray-600 transition duration-100 hover:text-gray-700 active:text-gray-600"
                 >
                   <svg
                     className="h-5 w-5"
@@ -36,7 +36,7 @@ const Footer = () => {
 
                 <a
                   target="_blank"
-                  className="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600"
+                  className="text-gray-600 transition duration-100 hover:text-gray-700 active:text-gray-600"
                 >
                   <svg
                     className="h-5 w-5"
@@ -52,7 +52,7 @@ const Footer = () => {
 
                 <a
                   target="_blank"
-                  className="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600"
+                  className="text-gray-600 transition duration-100 hover:text-gray-700 active:text-gray-600"
                 >
                   <svg
                     className="h-5 w-5"
@@ -68,7 +68,7 @@ const Footer = () => {
 
                 <a
                   target="_blank"
-                  className="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600"
+                  className="text-gray-600 transition duration-100 hover:text-gray-700 active:text-gray-600"
                 >
                   <svg
                     className="h-5 w-5"
@@ -91,25 +91,25 @@ const Footer = () => {
 
               <nav className="flex flex-col gap-4">
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Overview
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Solutions
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Pricing
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Customers
                   </a>
                 </div>
@@ -123,31 +123,31 @@ const Footer = () => {
 
               <nav className="flex flex-col gap-4">
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     About
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Investor Relations
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Jobs
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Press
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Blog
                   </a>
                 </div>
@@ -161,25 +161,25 @@ const Footer = () => {
 
               <nav className="flex flex-col gap-4">
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Contact
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Documentation
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Chat
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     FAQ
                   </a>
                 </div>
@@ -193,19 +193,19 @@ const Footer = () => {
 
               <nav className="flex flex-col gap-4">
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Terms of Service
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Privacy Policy
                   </a>
                 </div>
 
                 <div>
-                  <a className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
+                  <a className="text-gray-600 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
                     Cookie settings
                   </a>
                 </div>
@@ -213,7 +213,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="border-t py-8 text-center text-sm text-gray-400">
+          <div className="border-t py-8 text-center text-sm text-gray-600">
             © 2021 - Present DineDash. All rights reserved.
           </div>
         </footer>
