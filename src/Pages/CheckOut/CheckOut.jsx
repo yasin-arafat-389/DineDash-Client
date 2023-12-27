@@ -225,6 +225,7 @@ const CheckOut = () => {
         const randomIndex = Math.floor(Math.random() * characters.length);
         result += characters.charAt(randomIndex);
       }
+
       return result;
     }
 
@@ -237,7 +238,8 @@ const CheckOut = () => {
       cartFood: cartFoods.length > 0 ? cartFoods : [],
       orderTotal: total,
       deliveryCharge: 50,
-      order: generateRandomString(),
+      order: Date.now() + Math.random(5),
+      randString: generateRandomString(),
       paymentMethod:
         selectedOption === "radio_1" ? "Cash On Delivery" : "SSLCOMMERZ",
     };
@@ -245,21 +247,10 @@ const CheckOut = () => {
     if (selectedOption === "radio_1") {
       axios.post("/orders", order).then(() => {
         setLoading(false);
-        toast.success(`Successfully placed order 👍`, {
-          style: {
-            border: "2px solid green",
-            padding: "8px",
-            color: "#713200",
-          },
-          iconTheme: {
-            primary: "green",
-            secondary: "#FFFAEE",
-          },
-        });
 
         localStorage.removeItem(user?.email);
         localStorage.removeItem(`${user?.email}Cart`);
-        navigate("/my-orders");
+        navigate("/order-success");
       });
     }
 

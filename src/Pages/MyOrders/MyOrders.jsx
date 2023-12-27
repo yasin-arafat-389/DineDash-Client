@@ -1,16 +1,14 @@
-import { useState } from "react";
-import RegularOrders from "./RegularOrders";
-import CustomMadeBurgers from "./CustomMadeBurgers";
+import NavBar from "../../Components/Navbar/NavBar";
+import { NavLink, Outlet } from "react-router-dom";
+import Footer from "../../Components/Footer/Footer";
+import ScrollToTop from "../../../Utility/ScrollToTop/ScrollToTop";
 
 const MyOrders = () => {
-  const [activeTab, setActiveTab] = useState("tab1");
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
   return (
     <div>
+      <ScrollToTop />
+      <NavBar />
+
       <div className="bg-[#EFF0F4] pb-10">
         <h2 className="flex flex-row flex-nowrap items-center py-10">
           <span className="flex-grow block border-t border-black ml-[100px]"></span>
@@ -20,34 +18,23 @@ const MyOrders = () => {
           <span className="flex-grow block border-t border-black mr-[100px]"></span>
         </h2>
 
-        <div>
-          <div className="w-[60%] mx-auto grid grid-cols-2 gap-5">
-            <button
-              className={`p-4 rounded ${
-                activeTab === "tab1"
-                  ? "bg-indigo-500 text-white font-bold shadow-md"
-                  : "bg-gray-400 text-[#000] font-bold"
-              } flex items-center justify-center`}
-              onClick={() => handleTabClick("tab1")}
-            >
+        <div className="flex justify-center items-center gap-4">
+          <NavLink to="/my-orders">
+            <button className="p-2 text-lg rounded-lg border-2 border-blue-600">
               Regular Orders
             </button>
-            <button
-              className={`p-4 rounded ${
-                activeTab === "tab2"
-                  ? "bg-indigo-500 text-white font-bold shadow-md"
-                  : "bg-gray-400 text-[#000] font-bold"
-              } flex items-center justify-center`}
-              onClick={() => handleTabClick("tab2")}
-            >
+          </NavLink>
+
+          <NavLink to="/custom-made-burgers">
+            <button className="p-2 text-lg rounded-lg border-2 border-blue-600">
               Custom Made Burgers
             </button>
-          </div>
+          </NavLink>
         </div>
-
-        {activeTab === "tab1" && <RegularOrders />}
-        {activeTab === "tab2" && <CustomMadeBurgers />}
+        <Outlet />
       </div>
+
+      <Footer />
     </div>
   );
 };

@@ -11,6 +11,11 @@ import PrivateRoute from "./PrivateRoute";
 import BrowseFoods from "../Pages/BrowseFoods/BrowseFoods";
 import MyProfile from "../Pages/MyProfile/MyProfile";
 import MyOrders from "../Pages/MyOrders/MyOrders";
+import RegularOrders from "../Pages/MyOrders/RegularOrders";
+import CustomMadeBurgers from "../Pages/MyOrders/CustomMadeBurgers";
+import OrderSuccess from "../Pages/OrderSuccess/OrderSuccess";
+import PaymentCancelled from "../Pages/PaymenCancelled/PaymentCancelled";
+import SuccessPage from "../Pages/SuccessPage/SuccessPage";
 
 const router = createBrowserRouter([
   {
@@ -53,18 +58,55 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/my-orders",
-        element: (
-          <PrivateRoute>
-            <MyOrders />
-          </PrivateRoute>
-        ),
-      },
-      {
         path: "/cart",
         element: (
           <PrivateRoute>
             <CheckOut />
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+
+  // -------------------------- Order success/failed message layout --------------------------
+  {
+    path: "/",
+    element: <OrderSuccess />,
+    children: [
+      {
+        path: "/order-success",
+        element: <SuccessPage />,
+      },
+      {
+        path: "/payment-cancelled",
+        element: <PaymentCancelled />,
+      },
+    ],
+  },
+
+  // -------------------------- My Orders layout --------------------------
+
+  {
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <MyOrders />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "/my-orders",
+        element: (
+          <PrivateRoute>
+            <RegularOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/custom-made-burgers",
+        element: (
+          <PrivateRoute>
+            <CustomMadeBurgers />
           </PrivateRoute>
         ),
       },
