@@ -23,8 +23,6 @@ const RegularOrders = () => {
     cartFood.push(...item.cartFood);
   });
 
-  console.log(cartFood);
-
   if (isLoading) {
     return <RouteChangeLoader />;
   }
@@ -32,7 +30,11 @@ const RegularOrders = () => {
   return (
     <div>
       {cartFood?.length === 0 ? (
-        <NoOrders title="You have no  orders yet!!" route="/browse-foods" />
+        <NoOrders
+          title="You have no  orders yet!!"
+          buttonText="Browse Foods"
+          route="/browse-foods"
+        />
       ) : (
         cartFood?.map((item, index) => (
           <div

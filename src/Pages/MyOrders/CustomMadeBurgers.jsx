@@ -30,7 +30,11 @@ const CustomMadeBurgers = () => {
   return (
     <div>
       {burgers?.length === 0 ? (
-        <NoOrders title="You have no orders yet!!" route="/burger-builder" />
+        <NoOrders
+          title="You have no orders yet!!"
+          buttonText="Create your own burger"
+          route="/burger-builder"
+        />
       ) : (
         burgers?.map((item, index) => (
           <div

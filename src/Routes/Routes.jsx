@@ -74,7 +74,7 @@ const router = createBrowserRouter([
     element: <OrderSuccess />,
     children: [
       {
-        path: "/order-success",
+        path: "/order-success/:redirectTo",
         element: <SuccessPage />,
       },
       {

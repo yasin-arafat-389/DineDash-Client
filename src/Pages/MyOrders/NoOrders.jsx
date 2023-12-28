@@ -2,7 +2,7 @@
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
-const NoOrders = ({ title, route }) => {
+const NoOrders = ({ title, route, buttonText }) => {
   let navigate = useNavigate();
 
   return (
@@ -22,7 +22,7 @@ const NoOrders = ({ title, route }) => {
           className="capitalize text-lg mt-5"
           color="blue"
         >
-          Browse foods
+          {buttonText}
         </Button>
       </div>
     </div>

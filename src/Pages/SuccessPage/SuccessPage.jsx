@@ -1,7 +1,11 @@
 import { FaCheckCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const SuccessPage = () => {
+  const { redirectTo } = useParams();
+
+  console.log(redirectTo);
+
   return (
     <div>
       <div className="bg-gray-100">
@@ -17,7 +21,11 @@ const SuccessPage = () => {
             <p className="text-gray-600 text-lg"> Have a great day! 😊 </p>
             <div className="py-10 text-center">
               <Link
-                to="/my-orders"
+                to={
+                  redirectTo === "myOrders"
+                    ? "/my-orders"
+                    : "/custom-made-burgers"
+                }
                 className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3"
               >
                 GO TO MY ORDERS
