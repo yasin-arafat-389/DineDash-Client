@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
-import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 import { MdOutlineCallReceived } from "react-icons/md";
 import { Chip } from "@material-tailwind/react";
 import NoOrders from "./NoOrders";
+import { GridLoader } from "react-spinners";
 
 const RegularOrders = () => {
   let { user } = useAuth();
@@ -24,7 +24,11 @@ const RegularOrders = () => {
   });
 
   if (isLoading) {
-    return <RouteChangeLoader />;
+    return (
+      <div className="flex justify-center items-center my-[100px]">
+        <GridLoader color="#36d7b7" size={40} />
+      </div>
+    );
   }
 
   return (

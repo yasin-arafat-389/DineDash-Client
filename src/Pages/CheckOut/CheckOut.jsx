@@ -250,7 +250,15 @@ const CheckOut = () => {
 
         localStorage.removeItem(user?.email);
         localStorage.removeItem(`${user?.email}Cart`);
-        navigate("/order-success");
+
+        let redirectTo;
+        if (order.cartFood?.length > 0) {
+          redirectTo = "myOrders";
+        } else {
+          redirectTo = "customMadeBurgers";
+        }
+
+        navigate(`/order-success/${redirectTo}`);
       });
     }
 

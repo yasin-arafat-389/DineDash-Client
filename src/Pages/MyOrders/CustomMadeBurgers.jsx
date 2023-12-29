@@ -3,8 +3,8 @@ import { MdOutlineCallReceived } from "react-icons/md";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
-import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 import NoOrders from "./NoOrders";
+import { GridLoader } from "react-spinners";
 
 const CustomMadeBurgers = () => {
   let { user } = useAuth();
@@ -24,7 +24,11 @@ const CustomMadeBurgers = () => {
   });
 
   if (isLoading) {
-    return <RouteChangeLoader />;
+    return (
+      <div className="flex justify-center items-center my-[100px]">
+        <GridLoader color="#36d7b7" size={40} />
+      </div>
+    );
   }
 
   return (
