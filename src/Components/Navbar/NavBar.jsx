@@ -86,6 +86,12 @@ function NavList() {
           Cart
         </NavLink>
       </li>
+
+      <li>
+        <NavLink to="/be-a-partner" className="p-3 font-bold">
+          Be A Partner
+        </NavLink>
+      </li>
     </ul>
   );
 }

@@ -16,6 +16,7 @@ import CustomMadeBurgers from "../Pages/MyOrders/CustomMadeBurgers";
 import OrderSuccess from "../Pages/OrderSuccess/OrderSuccess";
 import PaymentCancelled from "../Pages/PaymenCancelled/PaymentCancelled";
 import SuccessPage from "../Pages/SuccessPage/SuccessPage";
+import BePartner from "../Pages/BePartner/BePartner";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/restaurants/:name",
         element: <RestaurantPage />,
+      },
+      {
+        path: "/be-a-partner",
+        element: <BePartner />,
       },
 
       // -------------------------- Use profile menus --------------------------
