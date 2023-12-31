@@ -17,6 +17,7 @@ import OrderSuccess from "../Pages/OrderSuccess/OrderSuccess";
 import PaymentCancelled from "../Pages/PaymenCancelled/PaymentCancelled";
 import SuccessPage from "../Pages/SuccessPage/SuccessPage";
 import BePartner from "../Pages/BePartner/BePartner";
+import PartnerRequest from "../Pages/PartnerRequest/PartnerRequest";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: "/be-a-partner",
         element: <BePartner />,
+      },
+      {
+        path: "/partner-request",
+        element: (
+          <PrivateRoute>
+            <PartnerRequest />
+          </PrivateRoute>
+        ),
       },
 
       // -------------------------- Use profile menus --------------------------

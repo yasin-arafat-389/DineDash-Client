@@ -46,7 +46,7 @@ const BePartner = () => {
                 {`you'll`} unlock a world of opportunities and elevate your
                 brand to the next level.
               </p>
-              <Link to="/" target="_blank">
+              <Link to="/partner-request">
                 {" "}
                 <Button className="capitalize text-md bg-blue-400" fullWidth>
                   Become A Partner
