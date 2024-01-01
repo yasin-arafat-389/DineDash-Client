@@ -23,7 +23,11 @@ const PartnerRequest = () => {
   let { user } = useAuth();
   let [loading, setLoading] = useState(false);
 
-  let { data: partnerRequestStatus = false, isLoading } = useQuery({
+  let {
+    data: partnerRequestStatus = false,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["getPartnerRequestStatus"],
     queryFn: async () => {
       let res = await axios.get(`/partner-request?email=${user?.email}`).then();
@@ -123,6 +127,7 @@ const PartnerRequest = () => {
         text: "Admin will review your request and get back to you soon. Expect an email with instruction within 24 hours.",
         icon: "success",
       });
+      refetch();
     });
   };
 
@@ -131,8 +136,8 @@ const PartnerRequest = () => {
   }
 
   return (
-    <div className="bg-[#92C7CF]">
-      <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div>
+      <div className="min-h-screen bg-[#C3E2C2] py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
             <div className="max-w-md mx-auto">
