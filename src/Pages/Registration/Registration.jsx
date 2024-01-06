@@ -57,7 +57,6 @@ const Registration = () => {
     if (selectedFile) {
       let imageData = await imageUpload(image, setLoading);
       imgData = imageData;
-      console.log(imgData);
     }
 
     createUser(email, password)

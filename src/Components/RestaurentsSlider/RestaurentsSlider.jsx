@@ -65,7 +65,7 @@ const RestaurentsSlider = () => {
                       <div className="card">
                         <img
                           src={item.thumbnail}
-                          className="w-[200px] mx-auto"
+                          className="w-[200px] h-[150px] mx-auto"
                         />
                         <div className="card__arrow">
                           <svg
