@@ -7,7 +7,6 @@ import useAxios from "../../Hooks/useAxios";
 import useAuth from "../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
-import { imageUpload } from "../../../Utility/ImageUpload/ImageUpload";
 
 const PartnerRequest = () => {
   let axios = useAxios();
@@ -26,12 +25,6 @@ const PartnerRequest = () => {
     },
   });
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file);
-  };
-
   const handleRegister = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -41,7 +34,6 @@ const PartnerRequest = () => {
     let number = form.number.value;
     let restaurantName = form.restaurantName.value;
     let income = form.income.value;
-    let image = form.image.files[0];
 
     if (number.length < 11) {
       Swal.fire({
@@ -97,28 +89,12 @@ const PartnerRequest = () => {
       setLoading(false);
       return;
     }
-    if (!selectedFile) {
-      Swal.fire({
-        icon: "warning",
-        text: "You must select your restaurant logo",
-      });
-      setLoading(false);
-      return;
-    }
-
-    let imgData = null;
-
-    if (selectedFile) {
-      let imageData = await imageUpload(image, setLoading);
-      imgData = imageData;
-    }
 
     let info = {
       email,
       number,
       restaurantName,
       income,
-      thumbnail: imgData?.data?.display_url,
       status: "pending",
     };
 
@@ -191,34 +167,6 @@ const PartnerRequest = () => {
                       icon={<h1>৳</h1>}
                       name="income"
                     />
-
-                    <div className="w-full">
-                      <div>
-                        <label className="flex gap-4 p-2 cursor-pointer border-2 border-gray-400 rounded-lg shadow-xl justify-center items-center">
-                          <svg
-                            className="w-8 h-8"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                          </svg>
-                          <span className="text-base line-clamp-1 font-medium">
-                            {selectedFile
-                              ? selectedFile.name
-                              : "Select Your Restaurant Logo"}
-                          </span>
-                          <input
-                            type="file"
-                            className="hidden"
-                            onChange={handleFileChange}
-                            id="image"
-                            name="image"
-                            accept="image/*"
-                          />
-                        </label>
-                      </div>
-                    </div>
                   </div>
 
                   <Button
