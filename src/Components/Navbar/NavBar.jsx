@@ -111,11 +111,13 @@ export default function NavBar() {
   return (
     <div className="mx-auto p-2 shadow-md sticky top-0 bg-[#F9FBE7] z-10">
       <div className="w-[95%] mx-auto flex items-center text-blue-gray-900 justify-between">
-        <img
-          className="w-[100px]"
-          src="https://i.ibb.co/kBDBhVs/dinedash.png"
-          alt=""
-        />
+        <Link to={"/"}>
+          <img
+            className="w-[100px]"
+            src="https://i.ibb.co/kBDBhVs/dinedash.png"
+            alt=""
+          />
+        </Link>
         <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
           <NavList />
         </div>
