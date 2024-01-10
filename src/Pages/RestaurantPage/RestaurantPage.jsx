@@ -9,6 +9,7 @@ import { AiFillMinusCircle } from "react-icons/ai";
 import { AiFillPlusCircle } from "react-icons/ai";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import NoFoodsFound from "../../../Utility/NoFoodsFound/NoFoodsFound";
 
 const RestaurantPage = () => {
   let restaurantPath = useParams();
@@ -157,7 +158,11 @@ const RestaurantPage = () => {
           <div className="bg-[#eff6f3]">
             <div className="w-[80%] mx-auto">
               {/* Title */}
-              <div className="secHeader py-10 flex items-center gap-3 text-red-500">
+              <div
+                className={`secHeader py-10 flex items-center gap-3 text-red-500 ${
+                  food.length <= 0 && "hidden"
+                }`}
+              >
                 <AiFillFire className="text-[24px] " />
                 <h3 className="text-[#333333] text-[24px] font-bold">
                   Featured from {pathname}
@@ -165,89 +170,95 @@ const RestaurantPage = () => {
               </div>
 
               {/* Cards */}
-              <div className="resCards grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 pb-16">
-                {food.map((item, index) => (
-                  <div key={index}>
-                    <button
-                      onClick={() => handleOpen(item)}
-                      className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
-                    >
-                      <div className="foodContent w-2/3 flex flex-col gap-2">
-                        <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
-                          {item?.name}
-                        </h1>
-                        <p className="elipseDesc text-[#767676] text-[15px]">
-                          {item?.description}
-                        </p>
-                        <p className="text-[#333333] text-[22px] font-bold">
-                          ৳ {item?.price}
-                        </p>
-                      </div>
-
-                      <div className="foodImage-rc w-1/3">
-                        <img
-                          src={item?.image}
-                          className="rounded-xl h-[120px]"
-                        />
-                      </div>
-                    </button>
-                  </div>
-                ))}
-
-                {/* Modal fo details of food */}
-                <Dialog open={open} handler={handleOpen}>
-                  <div className="p-5">
-                    <img
-                      src={details?.image}
-                      className="rounded-lg mx-auto h-[300px] w-full"
-                    />
-
-                    <h1 className="text-[#333333] font-bold text-[30px] mt-4 text-center">
-                      {details?.name}
-                    </h1>
-
-                    <p className="text-[#767676] text-[18px] text-center">
-                      {details?.description}
-                    </p>
-
-                    <h1 className="text-[#333333] font-bold text-[30px] mt-4">
-                      ৳ {details?.price}
-                    </h1>
-
-                    <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
-                      <div className="flex flex-row gap-3">
-                        <AiFillMinusCircle
-                          className="text-pink-500 text-[30px] cursor-pointer"
-                          onClick={handleDecreaseQuantity}
-                        />
-                        <p className="text-[20px] font-bold">{quantity}</p>
-                        <AiFillPlusCircle
-                          className="text-pink-500 text-[30px] cursor-pointer"
-                          onClick={handleIncreaseQuantity}
-                        />
-                      </div>
-                      {user ? (
-                        <Button
-                          fullWidth
-                          className="bg-indigo-600 hover:bg-indigo-800"
-                          onClick={handleAddToCart}
+              {food.length === 0 ? (
+                <NoFoodsFound restaurantName={pathname} />
+              ) : (
+                <>
+                  <div className="resCards grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-10 pb-16">
+                    {food.map((item, index) => (
+                      <div key={index}>
+                        <button
+                          onClick={() => handleOpen(item)}
+                          className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                         >
-                          Add To Cart
-                        </Button>
-                      ) : (
-                        <Link to="/sign-in" state={location?.pathname}>
-                          <Button
-                            className="bg-indigo-600 hover:bg-indigo-800"
-                            onClick={handleShowAlert}
-                          >
-                            Add To Cart
-                          </Button>
-                        </Link>
-                      )}
-                    </div>
+                          <div className="foodContent w-2/3 flex flex-col gap-2">
+                            <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
+                              {item?.name}
+                            </h1>
+                            <p className="elipseDesc text-[#767676] text-[15px]">
+                              {item?.description}
+                            </p>
+                            <p className="text-[#333333] text-[22px] font-bold">
+                              ৳ {item?.price}
+                            </p>
+                          </div>
+
+                          <div className="foodImage-rc w-1/3">
+                            <img
+                              src={item?.image}
+                              className="rounded-xl h-[120px]"
+                            />
+                          </div>
+                        </button>
+                      </div>
+                    ))}
+
+                    {/* Modal fo details of food */}
+                    <Dialog open={open} handler={handleOpen}>
+                      <div className="p-5">
+                        <img
+                          src={details?.image}
+                          className="rounded-lg mx-auto h-[300px] w-full"
+                        />
+
+                        <h1 className="text-[#333333] font-bold text-[30px] mt-4 text-center">
+                          {details?.name}
+                        </h1>
+
+                        <p className="text-[#767676] text-[18px] text-center">
+                          {details?.description}
+                        </p>
+
+                        <h1 className="text-[#333333] font-bold text-[30px] mt-4">
+                          ৳ {details?.price}
+                        </h1>
+
+                        <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
+                          <div className="flex flex-row gap-3">
+                            <AiFillMinusCircle
+                              className="text-pink-500 text-[30px] cursor-pointer"
+                              onClick={handleDecreaseQuantity}
+                            />
+                            <p className="text-[20px] font-bold">{quantity}</p>
+                            <AiFillPlusCircle
+                              className="text-pink-500 text-[30px] cursor-pointer"
+                              onClick={handleIncreaseQuantity}
+                            />
+                          </div>
+                          {user ? (
+                            <Button
+                              fullWidth
+                              className="bg-indigo-600 hover:bg-indigo-800"
+                              onClick={handleAddToCart}
+                            >
+                              Add To Cart
+                            </Button>
+                          ) : (
+                            <Link to="/sign-in" state={location?.pathname}>
+                              <Button
+                                className="bg-indigo-600 hover:bg-indigo-800"
+                                onClick={handleShowAlert}
+                              >
+                                Add To Cart
+                              </Button>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </Dialog>
                   </div>
-                </Dialog>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </>
