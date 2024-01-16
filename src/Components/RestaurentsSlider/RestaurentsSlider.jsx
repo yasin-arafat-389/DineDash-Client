@@ -64,7 +64,10 @@ const RestaurentsSlider = () => {
                     <li>
                       <div className="card">
                         <img
-                          src={item.thumbnail}
+                          src={
+                            item.thumbnail ||
+                            "https://i.ibb.co/f0ftL5B/pngtree-gray-network-placeholder-png-image-3416659-removebg-preview.png"
+                          }
                           className="w-[200px] h-[150px] mx-auto"
                         />
                         <div className="card__arrow">

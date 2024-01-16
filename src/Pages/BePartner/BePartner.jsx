@@ -55,8 +55,10 @@ const BePartner = () => {
 
               <h1 className="mt-8 text-xl text-gray-600 dark:text-gray-400">
                 If you are already a partner, login to your{" "}
-                <Link to="/" target="_blank">
-                  {" "}
+                <Link
+                  to="https://dinedash-dashboard.web.app/login"
+                  target="_blank"
+                >
                   <span className="text-blue-600 hover:underline font-bold">
                     Dashboard
                   </span>
