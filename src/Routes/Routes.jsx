@@ -18,6 +18,7 @@ import PaymentCancelled from "../Pages/PaymenCancelled/PaymentCancelled";
 import SuccessPage from "../Pages/SuccessPage/SuccessPage";
 import BePartner from "../Pages/BePartner/BePartner";
 import PartnerRequest from "../Pages/PartnerRequest/PartnerRequest";
+import BeRider from "../Pages/BeRider/BeRider";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/be-a-partner",
         element: <BePartner />,
+      },
+      {
+        path: "/be-a-rider",
+        element: <BeRider />,
       },
       {
         path: "/partner-request",

@@ -7,6 +7,7 @@ import {
   Card,
   IconButton,
   Collapse,
+  MenuHandler,
 } from "@material-tailwind/react";
 import ProfileMenu from "./ProfileMenu";
 
@@ -16,6 +17,7 @@ import { HiRocketLaunch } from "react-icons/hi2";
 import { Link, NavLink } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
 import useAuth from "../../Hooks/useAuth";
+import { BsChevronDown } from "react-icons/bs";
 
 function MyProfileMenu() {
   let { user } = useAuth();
@@ -58,6 +60,8 @@ function NavListMenu() {
 }
 
 function NavList() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <NavListMenu />
@@ -87,11 +91,41 @@ function NavList() {
         </NavLink>
       </li>
 
-      <li>
-        <NavLink to="/be-a-partner" className="p-3 font-bold">
-          Be A Partner
-        </NavLink>
-      </li>
+      <Menu open={isMenuOpen} handler={setIsMenuOpen}>
+        <MenuHandler>
+          <div
+            className="font-bold cursor-pointer rounded-lg flex gap-2 justify-center items-center p-2
+          bg-[#0866ff] text-white"
+          >
+            <span>Partnership Program</span>
+            <BsChevronDown
+              strokeWidth={2.5}
+              className={`h-3 w-3 transition-transform ${
+                isMenuOpen ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+        </MenuHandler>
+        <MenuList className="shadow-xl">
+          <div className="mb-2 outline-none">
+            <Link
+              to={"/be-a-partner"}
+              className="p-2 w-full flex rounded-md mb-1 outline-none font-bold hover:bg-gray-100"
+            >
+              Become A Partner
+            </Link>
+          </div>
+
+          <div className="outline-none">
+            <Link
+              to={"/be-a-rider"}
+              className="p-2 w-full flex rounded-md mb-1 outline-none font-bold hover:bg-gray-100"
+            >
+              Become A Rider
+            </Link>
+          </div>
+        </MenuList>
+      </Menu>
     </ul>
   );
 }
