@@ -19,6 +19,7 @@ import SuccessPage from "../Pages/SuccessPage/SuccessPage";
 import BePartner from "../Pages/BePartner/BePartner";
 import PartnerRequest from "../Pages/PartnerRequest/PartnerRequest";
 import BeRider from "../Pages/BeRider/BeRider";
+import RiderRequest from "../Pages/RiderRequest/RiderRequest";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <PartnerRequest />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/rider-request",
+        element: (
+          <PrivateRoute>
+            <RiderRequest />
           </PrivateRoute>
         ),
       },
