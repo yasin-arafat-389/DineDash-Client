@@ -161,6 +161,7 @@ const CheckOut = () => {
   // Handling place order event
   let [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [region, setRegion] = useState("");
 
   let { data: customerData } = useQuery({
     queryKey: ["myDeliveryAddress"],
@@ -216,6 +217,15 @@ const CheckOut = () => {
       });
     }
 
+    if (!region) {
+      setLoading(false);
+      return Swal.fire({
+        title: "Oopss!!",
+        text: "Your have not selected your region",
+        icon: "warning",
+      });
+    }
+
     function generateRandomString() {
       const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -240,6 +250,7 @@ const CheckOut = () => {
       deliveryCharge: 50,
       order: Date.now() + Math.random(5),
       randString: generateRandomString(),
+      region: region,
       paymentMethod:
         selectedOption === "radio_1" ? "Cash On Delivery" : "SSLCOMMERZ",
     };
@@ -564,6 +575,20 @@ const CheckOut = () => {
                   <FaAddressCard className="text-blue-600" />
                 </div>
               </div>
+
+              <select
+                name="region"
+                className="w-full mt-5 text-gray-700 border border-blue-500"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+              >
+                <option value="" selected disabled hidden>
+                  Select Region
+                </option>
+                <option value="Mirpur">Mirpur</option>
+                <option value="Dhanmondi">Dhanmondi</option>
+                <option value="Uttara">Uttara</option>
+              </select>
 
               {/* Payment Methods */}
               <div className="flex flex-col gap-5">
