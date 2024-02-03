@@ -1,10 +1,15 @@
-import { Chip } from "@material-tailwind/react";
-import { MdOutlineCallReceived } from "react-icons/md";
+import {
+  MdCancel,
+  MdDeliveryDining,
+  MdOutlineCallReceived,
+} from "react-icons/md";
 import useAuth from "../../Hooks/useAuth";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import NoOrders from "./NoOrders";
 import { GridLoader } from "react-spinners";
+import { PiCookingPotFill } from "react-icons/pi";
+import { FaCheckCircle } from "react-icons/fa";
 
 const CustomMadeBurgers = () => {
   let { user } = useAuth();
@@ -82,14 +87,36 @@ const CustomMadeBurgers = () => {
                 </h1>
               </div>
 
-              <div className="flex justify-center items-center">
-                <Chip
-                  className={`capitalize text-[15px] ${
-                    item.status === "order received" ? "bg-gray-500" : ""
-                  }`}
-                  value={item.status}
-                  icon={<MdOutlineCallReceived className="text-xl" />}
-                />
+              <div className="flex flex-col gap-3 items-center">
+                <span className="text-[16px] text-blue-400 font-bold">
+                  Status
+                </span>
+                <div
+                  className={`custom-chip text-base font-bold p-2 rounded-lg capitalize flex justify-center items-center gap-2 ${
+                    item.status === "order received" &&
+                    "bg-brown-500 text-white"
+                  } ${
+                    item.status === "cooking" && "bg-indigo-500 text-white"
+                  } ${
+                    item.status === "out for delivery" &&
+                    "bg-teal-500 text-white"
+                  } ${
+                    item.status === "completed" && "bg-green-500 text-white"
+                  } ${item.status === "cancelled" && "bg-red-500 text-white"}`}
+                >
+                  {item.status === "order received" && (
+                    <MdOutlineCallReceived size={"20"} />
+                  )}
+                  {item.status === "cooking" && (
+                    <PiCookingPotFill size={"30"} />
+                  )}
+                  {item.status === "out for delivery" && (
+                    <MdDeliveryDining size={"30"} />
+                  )}
+                  {item.status === "completed" && <FaCheckCircle size={"20"} />}
+                  {item.status === "cancelled" && <MdCancel size={"20"} />}
+                  <span>{item.status}</span>
+                </div>
               </div>
             </div>
           </div>
