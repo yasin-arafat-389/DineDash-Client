@@ -196,7 +196,7 @@ const RestaurantPage = () => {
                           <div className="foodImage-rc w-1/3">
                             <img
                               src={item?.image}
-                              className="rounded-xl h-[120px]"
+                              className="rounded-xl h-[120px] w-full"
                             />
                           </div>
                         </button>
