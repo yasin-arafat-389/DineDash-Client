@@ -70,6 +70,7 @@ const Cart = ({ ingredients, provider }) => {
         provider: provider,
         status: "order received",
         date: formattedDate,
+        isAcceptedByRider: false,
         orderId: generateRandomString(),
       },
     ];

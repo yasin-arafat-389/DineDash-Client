@@ -153,6 +153,7 @@ const BrowseFoods = () => {
       quantity: quantity,
       totalPrice: totalPrice,
       restaurant: details?.restaurant,
+      isAcceptedByRider: false,
       orderId: generateRandomString(),
     };
 

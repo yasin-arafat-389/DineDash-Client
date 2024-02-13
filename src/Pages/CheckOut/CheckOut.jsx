@@ -666,7 +666,7 @@ const CheckOut = () => {
 
             <button
               type="submit"
-              className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+              className="mt-4 mb-8 w-full rounded-md bg-blue-600 px-6 py-3 font-medium text-white"
               disabled={loading ? true : false}
             >
               {loading ? (

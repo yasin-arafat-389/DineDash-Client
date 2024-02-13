@@ -99,6 +99,7 @@ const RestaurantPage = () => {
       quantity: quantity,
       totalPrice: totalPrice,
       restaurant: pathname,
+      isAcceptedByRider: false,
       orderId: generateRandomString(),
     };
 
