@@ -1,6 +1,5 @@
 import useAxios from "../../Hooks/useAxios";
 import { Link, useParams } from "react-router-dom";
-import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 import "./RestaurantPage.css";
 import { AiFillFire } from "react-icons/ai";
 import { useEffect, useState } from "react";
@@ -10,6 +9,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import NoFoodsFound from "../../../Utility/NoFoodsFound/NoFoodsFound";
+import RestaurantPageSkeletonLoader from "../../../Utility/RestaurantPageSkeletonLoader/RestaurantPageSkeletonLoader";
 
 const RestaurantPage = () => {
   let restaurantPath = useParams();
@@ -140,7 +140,7 @@ const RestaurantPage = () => {
   return (
     <div>
       {loading ? (
-        <RouteChangeLoader />
+        <RestaurantPageSkeletonLoader pathname={pathname} />
       ) : (
         <>
           {/* Banner */}
