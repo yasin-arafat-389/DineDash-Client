@@ -8,11 +8,11 @@ import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
-import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 import "./BrowseFoods.css";
 import { IoSearch } from "react-icons/io5";
 import Swal from "sweetalert2";
 import NoDataFound from "../../../Utility/NoDataFound/NoDataFound";
+import BrowseByFoodsSkeletonLoader from "../../../Utility/BrowseByFoodsSkeletonLoader/BrowseByFoodsSkeletonLoader";
 
 const BrowseFoods = () => {
   let axios = useAxios();
@@ -80,6 +80,7 @@ const BrowseFoods = () => {
   });
 
   let handleSearchFood = async (e) => {
+    window.scrollTo(0, 200);
     setSearchLoading(true);
     e.preventDefault();
     if (searchInput === "") {
@@ -101,7 +102,7 @@ const BrowseFoods = () => {
   };
 
   if (isLoading || isFilteredLoading || searchLoading) {
-    return <RouteChangeLoader />;
+    return <BrowseByFoodsSkeletonLoader />;
   }
 
   if (!data?.foodCounts) return;
@@ -111,12 +112,12 @@ const BrowseFoods = () => {
 
   const handlePagination = (page) => {
     setPage(page);
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 200);
   };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 200);
   };
 
   const handleAddToCart = () => {
@@ -238,7 +239,7 @@ const BrowseFoods = () => {
                 value={selectedCategory}
                 onChange={(e) => {
                   setSelectedCategory(e.target.value);
-                  window.scrollTo(0, 0);
+                  window.scrollTo(0, 200);
                 }}
               >
                 <option disabled value="">
