@@ -96,7 +96,7 @@ const CheckOut = () => {
 
   const handleIncrement = (id) => {
     const updatedCart = cartFoods.map((item) => {
-      if (item.id === id) {
+      if (item.identifier === id) {
         const updatedQuantity = item.quantity + 1;
         const updatedTotalPrice = updatedQuantity * item.price;
         return {
@@ -113,7 +113,7 @@ const CheckOut = () => {
 
   const handleDecrement = (id) => {
     const updatedCart = cartFoods.map((item) => {
-      if (item.id === id) {
+      if (item.identifier === id) {
         const updatedQuantity = Math.max(item.quantity - 1, 1); // Ensure quantity is not less than 1
         const updatedTotalPrice = updatedQuantity * item.price;
         return {
@@ -461,19 +461,19 @@ const CheckOut = () => {
 
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                         <div className="flex items-center border-gray-100 justify-center">
-                          <span
-                            className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-pink-500 hover:text-blue-50"
-                            onClick={() => handleDecrement(item.id)}
+                          <button
+                            className="cursor-pointer rounded-l bg-gray-200 py-1 px-3.5 duration-100 hover:bg-pink-500 hover:text-blue-50 text-lg"
+                            onClick={() => handleDecrement(item.identifier)}
                           >
                             -
-                          </span>
+                          </button>
                           <h2 className="mx-3">{item?.quantity}</h2>
-                          <span
-                            className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100        hover:bg-pink-500 hover:text-blue-50"
-                            onClick={() => handleIncrement(item.id)}
+                          <button
+                            className="cursor-pointer rounded-r bg-gray-200 py-1 px-3 duration-100        hover:bg-pink-500 hover:text-blue-50 text-lg"
+                            onClick={() => handleIncrement(item.identifier)}
                           >
                             +
-                          </span>
+                          </button>
                         </div>
                         <div className="flex flex-col gap-4 items-center space-x-4">
                           <h2 className="text-lg font-bold text-gray-900">

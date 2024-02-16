@@ -146,6 +146,7 @@ const BrowseFoods = () => {
     }
 
     let saveToLocalStorage = {
+      identifier: details._id,
       name: details?.name,
       image: details?.image,
       price: details?.price,
@@ -159,7 +160,7 @@ const BrowseFoods = () => {
     };
 
     const existingItemIndex = existingCart.findIndex(
-      (item) => item.id === details?._id
+      (item) => item.identifier === details?._id
     );
 
     if (existingItemIndex !== -1) {
@@ -523,7 +524,34 @@ const BrowseFoods = () => {
                       >
                         <div className="foodContent w-2/3 flex flex-col gap-2">
                           <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
-                            {item?.name}
+                            {item.name.split(" ").map((word, i) => {
+                              const searchQueryIndex = word
+                                .toLowerCase()
+                                .indexOf(searchInput.toLowerCase());
+                              if (searchQueryIndex !== -1) {
+                                const before = word.substring(
+                                  0,
+                                  searchQueryIndex
+                                );
+                                const match = word.substring(
+                                  searchQueryIndex,
+                                  searchQueryIndex + searchInput.length
+                                );
+                                const after = word.substring(
+                                  searchQueryIndex + searchInput.length
+                                );
+                                return (
+                                  <span key={i}>
+                                    {before}
+                                    <span className="bg-yellow-400">
+                                      {match}
+                                    </span>
+                                    {after}{" "}
+                                  </span>
+                                );
+                              }
+                              return <span key={i}>{word} </span>;
+                            })}
                           </h1>
                           <p className="elipseDesc text-[#767676] text-[15px]">
                             {item?.description}

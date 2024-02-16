@@ -2,6 +2,8 @@
   background-color: #0866ff;
   color: #fff;
   border-radius: 10px;
+  padding: 12px;
+  font-weight: bold;
 }
 
 .loginBTN {

@@ -91,6 +91,7 @@ const RestaurantPage = () => {
     }
 
     let saveToLocalStorage = {
+      identifier: details._id,
       name: details?.name,
       image: details?.image,
       price: details?.price,
@@ -104,7 +105,7 @@ const RestaurantPage = () => {
     };
 
     const existingItemIndex = existingCart.findIndex(
-      (item) => item.id === details?._id
+      (item) => item.identifier === details?._id
     );
 
     if (existingItemIndex !== -1) {
@@ -129,6 +130,9 @@ const RestaurantPage = () => {
       },
     });
     setOpen();
+
+    // console.log(details);
+    // console.log(existingCart);
   };
 
   useEffect(() => {

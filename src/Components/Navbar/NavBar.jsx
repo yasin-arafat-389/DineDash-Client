@@ -68,25 +68,53 @@ function NavList() {
 
       {/* Main Menu */}
       <li>
-        <NavLink to="/" className="p-3 font-bold">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "active"
+              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+          }
+        >
           Home
         </NavLink>
       </li>
 
       <li>
-        <NavLink to="/burger-builder" className="p-3 font-bold">
+        <NavLink
+          to="/burger-builder"
+          className={({ isActive }) =>
+            isActive
+              ? "active"
+              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+          }
+        >
           Burger Builder
         </NavLink>
       </li>
 
       <li>
-        <NavLink to="/browse-foods" className="p-3 font-bold">
+        <NavLink
+          to="/browse-foods"
+          className={({ isActive }) =>
+            isActive
+              ? "active"
+              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+          }
+        >
           Browse Food
         </NavLink>
       </li>
 
       <li>
-        <NavLink to="/cart" className="p-3 font-bold">
+        <NavLink
+          to="/cart"
+          className={({ isActive }) =>
+            isActive
+              ? "active"
+              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+          }
+        >
           Cart
         </NavLink>
       </li>
