@@ -19,16 +19,26 @@ const MyOrders = () => {
         </h2>
 
         <div className="flex justify-center items-center gap-4">
-          <NavLink to="/my-orders">
-            <button className="p-2 text-lg rounded-lg border-2 border-blue-600">
-              Regular Orders
-            </button>
+          <NavLink
+            to="/my-orders"
+            className={({ isActive }) =>
+              isActive
+                ? "active"
+                : "p-2 text-lg rounded-lg border-2 border-blue-600"
+            }
+          >
+            <button>Regular Orders</button>
           </NavLink>
 
-          <NavLink to="/custom-made-burgers">
-            <button className="p-2 text-lg rounded-lg border-2 border-blue-600">
-              Custom Made Burgers
-            </button>
+          <NavLink
+            to="/custom-made-burgers"
+            className={({ isActive }) =>
+              isActive
+                ? "active"
+                : "p-2 text-lg rounded-lg border-2 border-blue-600"
+            }
+          >
+            <button>Custom Made Burgers</button>
           </NavLink>
         </div>
         <Outlet />
