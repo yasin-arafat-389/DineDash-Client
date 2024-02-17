@@ -34,3 +34,12 @@
   transform: scale(0.95);
   box-shadow: none;
 }
+
+.cartActive {
+  color: #000;
+  border-radius: 10px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  padding: 12px;
+}

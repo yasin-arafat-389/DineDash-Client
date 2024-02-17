@@ -4,11 +4,14 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { increment } from "../../Redux/CartCountSlice/CartCountSlice";
 
 const Cart = ({ ingredients, provider }) => {
   let navigate = useNavigate();
   let [customNote, setCustomNote] = useState();
   let { user } = useAuth();
+  let dispatch = useDispatch();
 
   // Calculating ingredients
   const calculateIngredientCounts = (ingredients) => {
@@ -37,6 +40,7 @@ const Cart = ({ ingredients, provider }) => {
 
   // Handling add to cart
   const handleAddToCart = async () => {
+    dispatch(increment());
     const customBurger =
       JSON.parse(localStorage.getItem(`${user?.email}`)) || [];
 

@@ -23,6 +23,11 @@ import { useNavigate } from "react-router-dom";
 import useAxios from "../../Hooks/useAxios";
 import { ImSpinner9 } from "react-icons/im";
 import { useQuery } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import {
+  decrement,
+  resetCart,
+} from "../../Redux/CartCountSlice/CartCountSlice";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -30,6 +35,7 @@ const CheckOut = () => {
   let { user } = useAuth();
   let axios = useAxios();
   let navigate = useNavigate();
+  let dispatch = useDispatch();
 
   // Modal
   const [open, setOpen] = useState(false);
@@ -67,6 +73,7 @@ const CheckOut = () => {
       confirmButtonText: "Yes, remove it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(decrement());
         const updatedBurger = [...burger];
         updatedBurger.splice(index, 1);
         setBurger(updatedBurger);
@@ -114,7 +121,7 @@ const CheckOut = () => {
   const handleDecrement = (id) => {
     const updatedCart = cartFoods.map((item) => {
       if (item.identifier === id) {
-        const updatedQuantity = Math.max(item.quantity - 1, 1); // Ensure quantity is not less than 1
+        const updatedQuantity = Math.max(item.quantity - 1, 1);
         const updatedTotalPrice = updatedQuantity * item.price;
         return {
           ...item,
@@ -139,6 +146,7 @@ const CheckOut = () => {
       confirmButtonText: "Yes, remove it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(decrement());
         const updatedCart = [...cartFoods];
         updatedCart.splice(index, 1);
         setCartFoods(updatedCart);
@@ -261,6 +269,7 @@ const CheckOut = () => {
 
         localStorage.removeItem(user?.email);
         localStorage.removeItem(`${user?.email}Cart`);
+        dispatch(resetCart());
 
         let redirectTo;
         if (order.cartFood?.length > 0) {
@@ -287,6 +296,7 @@ const CheckOut = () => {
 
       localStorage.removeItem(user?.email);
       localStorage.removeItem(`${user?.email}Cart`);
+      dispatch(resetCart());
     }
   };
 

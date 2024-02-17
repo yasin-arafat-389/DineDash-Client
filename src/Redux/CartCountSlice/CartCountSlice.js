@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  count: 0,
+  count: parseInt(localStorage.getItem(`cartCount`)) || 0,
 };
 
 const cartCountSlice = createSlice({
@@ -10,13 +10,19 @@ const cartCountSlice = createSlice({
   reducers: {
     increment: (state) => {
       state.count = state.count + 1;
+      localStorage.setItem(`cartCount`, state.count);
     },
     decrement: (state) => {
       state.count = state.count - 1;
+      localStorage.setItem(`cartCount`, state.count);
+    },
+    resetCart: (state) => {
+      state.count = 0;
+      localStorage.setItem(`cartCount`, state.count);
     },
   },
 });
 
-export const { increment, decrement } = cartCountSlice.actions;
+export const { increment, decrement, resetCart } = cartCountSlice.actions;
 
 export default cartCountSlice.reducer;

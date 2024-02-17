@@ -8,8 +8,10 @@ import {
   IconButton,
   Collapse,
   MenuHandler,
+  Badge,
 } from "@material-tailwind/react";
 import ProfileMenu from "./ProfileMenu";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 // Icons
 import { HiBars2 } from "react-icons/hi2";
@@ -18,6 +20,7 @@ import { Link, NavLink } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
 import useAuth from "../../Hooks/useAuth";
 import { BsChevronDown } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 function MyProfileMenu() {
   let { user } = useAuth();
@@ -60,7 +63,9 @@ function NavListMenu() {
 }
 
 function NavList() {
+  let { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  let count = useSelector((state) => state.cartCount.count);
 
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
@@ -106,7 +111,7 @@ function NavList() {
         </NavLink>
       </li>
 
-      <li>
+      {/* <li>
         <NavLink
           to="/cart"
           className={({ isActive }) =>
@@ -116,6 +121,21 @@ function NavList() {
           }
         >
           Cart
+        </NavLink>
+      </li> */}
+
+      <li>
+        <NavLink
+          to="/cart"
+          className={({ isActive }) =>
+            isActive
+              ? "cartActive"
+              : "hover:bg-gray-300 flex justify-center items-center p-3 font-bold rounded-lg transition-all"
+          }
+        >
+          <Badge content={user ? count : 0}>
+            <HiOutlineShoppingBag size={"30"} />
+          </Badge>
         </NavLink>
       </li>
 

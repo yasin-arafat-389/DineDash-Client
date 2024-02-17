@@ -10,12 +10,15 @@ import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import NoFoodsFound from "../../../Utility/NoFoodsFound/NoFoodsFound";
 import RestaurantPageSkeletonLoader from "../../../Utility/RestaurantPageSkeletonLoader/RestaurantPageSkeletonLoader";
+import { increment } from "../../Redux/CartCountSlice/CartCountSlice";
+import { useDispatch } from "react-redux";
 
 const RestaurantPage = () => {
   let restaurantPath = useParams();
   let pathname = restaurantPath.name;
   let axios = useAxios();
   let { user } = useAuth();
+  let dispatch = useDispatch();
 
   // States
   const [loading, setLoading] = useState(false);
@@ -114,6 +117,7 @@ const RestaurantPage = () => {
         saveToLocalStorage.totalPrice;
     } else {
       existingCart.push(saveToLocalStorage);
+      dispatch(increment());
     }
 
     localStorage.setItem(`${user?.email}Cart`, JSON.stringify(existingCart));

@@ -13,9 +13,13 @@ import { IoSearch } from "react-icons/io5";
 import Swal from "sweetalert2";
 import NoDataFound from "../../../Utility/NoDataFound/NoDataFound";
 import BrowseByFoodsSkeletonLoader from "../../../Utility/BrowseByFoodsSkeletonLoader/BrowseByFoodsSkeletonLoader";
+import { useDispatch } from "react-redux";
+import { increment } from "../../Redux/CartCountSlice/CartCountSlice";
 
 const BrowseFoods = () => {
   let axios = useAxios();
+
+  let dispatch = useDispatch();
 
   // States
   const [details, setDetails] = useState();
@@ -169,6 +173,7 @@ const BrowseFoods = () => {
         saveToLocalStorage.totalPrice;
     } else {
       existingCart.push(saveToLocalStorage);
+      dispatch(increment());
     }
 
     localStorage.setItem(`${user?.email}Cart`, JSON.stringify(existingCart));
