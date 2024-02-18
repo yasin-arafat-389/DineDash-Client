@@ -62,119 +62,114 @@ function NavListMenu() {
   );
 }
 
-function NavList() {
+function NavList({ closeCollapse }) {
   let { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   let count = useSelector((state) => state.cartCount.count);
 
   return (
-    <ul className="mb-4 mt-2 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
-      <NavListMenu />
+    <>
+      <ul className="mb-4 mt-2 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
+        <NavListMenu />
 
-      {/* Main Menu */}
-      <li>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "active"
-              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
-          }
-        >
-          Home
-        </NavLink>
-      </li>
-
-      <li>
-        <NavLink
-          to="/burger-builder"
-          className={({ isActive }) =>
-            isActive
-              ? "active"
-              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
-          }
-        >
-          Burger Builder
-        </NavLink>
-      </li>
-
-      <li>
-        <NavLink
-          to="/browse-foods"
-          className={({ isActive }) =>
-            isActive
-              ? "active"
-              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
-          }
-        >
-          Browse Food
-        </NavLink>
-      </li>
-
-      {/* <li>
-        <NavLink
-          to="/cart"
-          className={({ isActive }) =>
-            isActive
-              ? "active"
-              : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
-          }
-        >
-          Cart
-        </NavLink>
-      </li> */}
-
-      <li>
-        <NavLink
-          to="/cart"
-          className={({ isActive }) =>
-            isActive
-              ? "cartActive"
-              : "hover:bg-gray-300 flex justify-center items-center p-3 font-bold rounded-lg transition-all"
-          }
-        >
-          <Badge content={user ? count : 0}>
-            <HiOutlineShoppingBag size={"30"} />
-          </Badge>
-        </NavLink>
-      </li>
-
-      <Menu open={isMenuOpen} handler={setIsMenuOpen}>
-        <MenuHandler>
-          <div
-            className="font-bold cursor-pointer rounded-lg flex gap-2 justify-center items-center p-2
-          bg-[#0866ff] text-white"
+        {/* Main Menu */}
+        <li>
+          <NavLink
+            onClick={closeCollapse}
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "active"
+                : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+            }
           >
-            <span>Partnership Program</span>
-            <BsChevronDown
-              strokeWidth={2.5}
-              className={`h-3 w-3 transition-transform ${
-                isMenuOpen ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-        </MenuHandler>
-        <MenuList className="shadow-xl">
-          <div className="mb-2 outline-none">
-            <Link
-              to={"/be-a-partner"}
-              className="p-2 w-full flex rounded-md mb-1 outline-none font-bold hover:bg-gray-100"
-            >
-              Become A Partner
-            </Link>
-          </div>
+            Home
+          </NavLink>
+        </li>
 
-          <div className="outline-none">
-            <Link
-              to={"/be-a-rider"}
-              className="p-2 w-full flex rounded-md mb-1 outline-none font-bold hover:bg-gray-100"
+        <li>
+          <NavLink
+            onClick={closeCollapse}
+            to="/burger-builder"
+            className={({ isActive }) =>
+              isActive
+                ? "active"
+                : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+            }
+          >
+            Burger Builder
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            onClick={closeCollapse}
+            to="/browse-foods"
+            className={({ isActive }) =>
+              isActive
+                ? "active"
+                : "hover:bg-gray-300 p-3 font-bold rounded-lg transition-all"
+            }
+          >
+            Browse Food
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to={"/cart"}
+            onClick={closeCollapse}
+            className={({ isActive }) =>
+              isActive
+                ? "cartActive"
+                : "hover:bg-gray-300 p-3 flex font-bold rounded-lg transition-all"
+            }
+          >
+            <Badge content={user ? count : 0}>
+              <HiOutlineShoppingBag size={"30"} />
+            </Badge>
+          </NavLink>
+        </li>
+
+        <Menu open={isMenuOpen} handler={setIsMenuOpen}>
+          <MenuHandler>
+            <div
+              className="font-bold cursor-pointer rounded-lg flex gap-2 justify-center items-center p-2
+          bg-[#0866ff] text-white"
             >
-              Become A Rider
-            </Link>
-          </div>
-        </MenuList>
-      </Menu>
-    </ul>
+              <span>Partnership Program</span>
+              <BsChevronDown
+                strokeWidth={2.5}
+                className={`h-3 w-3 transition-transform ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+          </MenuHandler>
+          <MenuList className="shadow-xl">
+            <div className="mb-2 outline-none">
+              <Link
+                onClick={closeCollapse}
+                to={"/be-a-partner"}
+                className="p-2 w-full flex rounded-md mb-1 outline-none font-bold hover:bg-gray-100"
+              >
+                Become A Partner
+              </Link>
+            </div>
+
+            <div className="outline-none">
+              <Link
+                onClick={closeCollapse}
+                to={"/be-a-rider"}
+                className="p-2 w-full flex rounded-md mb-1 outline-none font-bold hover:bg-gray-100"
+              >
+                Become A Rider
+              </Link>
+            </div>
+          </MenuList>
+        </Menu>
+      </ul>
+    </>
   );
 }
 
@@ -207,7 +202,9 @@ export default function NavBar() {
           size="sm"
           color="blue-gray"
           variant="text"
-          onClick={toggleIsNavOpen}
+          onClick={() => {
+            toggleIsNavOpen();
+          }}
           className="ml-auto mr-2 lg:hidden"
         >
           <HiBars2 className="h-6 w-6" />
@@ -215,8 +212,8 @@ export default function NavBar() {
         {/* <ProfileMenu /> */}
         <MyProfileMenu />
       </div>
-      <Collapse open={isNavOpen} className="overflow-scroll">
-        <NavList />
+      <Collapse open={isNavOpen}>
+        <NavList closeCollapse={toggleIsNavOpen} />
       </Collapse>
     </div>
   );

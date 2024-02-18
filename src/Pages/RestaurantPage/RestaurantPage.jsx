@@ -134,9 +134,6 @@ const RestaurantPage = () => {
       },
     });
     setOpen();
-
-    // console.log(details);
-    // console.log(existingCart);
   };
 
   useEffect(() => {
