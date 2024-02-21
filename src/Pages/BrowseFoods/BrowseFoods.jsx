@@ -36,6 +36,16 @@ const BrowseFoods = () => {
 
   let { user } = useAuth();
 
+  // handling scroll reveal
+  const [isScrolled, setIsScrolled] = useState(false);
+  const handleScroll = (e) => {
+    if (e.target.scrollTop > 130) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
   const handleOpen = (items) => {
     setOpen(!open);
     setDetails(items);
@@ -60,6 +70,8 @@ const BrowseFoods = () => {
   useEffect(() => {
     if (!open) {
       setQuantity(1);
+      setIsScrolled(false);
+      setOpen(false);
     }
   }, [open]);
 
@@ -349,60 +361,98 @@ const BrowseFoods = () => {
 
                 {/* Modal fo details of food */}
                 <Dialog open={open} handler={handleOpen}>
-                  <div className="p-5">
-                    <img
-                      src={details?.image}
-                      className="rounded-lg mx-auto h-[300px] w-full"
-                    />
+                  <div
+                    onScroll={handleScroll}
+                    className="h-[400px] md:h-[400px] lg:h-[600px] overflow-auto rounded-lg flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex">
+                        <img
+                          src={details?.image}
+                          className="mx-auto h-[300px] w-full"
+                        />
 
-                    <h1 className="text-[#333333] font-bold text-[30px] mt-4 text-center">
-                      {details?.name}
-                    </h1>
+                        {/* conditional display */}
+                        <div
+                          className={`absolute transition-all duration-300 ${
+                            isScrolled
+                              ? "bg-white shadow-2xl"
+                              : "bg-transparent"
+                          } w-full rounded-t-lg p-3 flex gap-2 justify-between`}
+                        >
+                          <h1
+                            className={`${
+                              !isScrolled && "invisible"
+                            } text-lg text-black flex items-center`}
+                          >
+                            {details?.name}
+                          </h1>
 
-                    <p className="text-[#767676] text-[18px] text-center">
-                      {details?.description}
-                    </p>
+                          <button
+                            onClick={() => setOpen(!open)}
+                            className={`h-8 w-8 mr-5 mt-2 rounded-full ${
+                              !isScrolled
+                                ? "bg-white"
+                                : "border-2 border-gray-800"
+                            } text-xl text-red-600 font-bold`}
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
 
-                    <div className="flex justify-between my-6">
-                      <p className="text-[#333333] text-[22px] font-bold">
-                        ৳ {details?.price}
+                      <h1 className="text-[#333333] font-bold text-[30px] mt-4 px-4 text-left">
+                        {details?.name}
+                      </h1>
+
+                      <p className="text-[#767676] text-[18px] text-left px-4">
+                        {details?.description}
                       </p>
-                      <Chip
-                        className="bg-[#0866ff]"
-                        value={details?.restaurant}
-                      />
                     </div>
 
-                    <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
-                      <div className="flex flex-row gap-3">
-                        <AiFillMinusCircle
-                          className="text-pink-500 text-[30px] cursor-pointer"
-                          onClick={handleDecreaseQuantity}
-                        />
-                        <p className="text-[20px] font-bold">{quantity}</p>
-                        <AiFillPlusCircle
-                          className="text-pink-500 text-[30px] cursor-pointer"
-                          onClick={handleIncreaseQuantity}
+                    {/* Position Fixed */}
+                    <div className="sticky bottom-0 p-3 z-20 bg-white">
+                      <div className="flex justify-between my-6">
+                        <p className="text-[#333333] text-[22px] font-bold">
+                          ৳ {details?.price}
+                        </p>
+                        <Chip
+                          className="bg-[#0866ff]"
+                          value={details?.restaurant}
                         />
                       </div>
-                      {user ? (
-                        <Button
-                          fullWidth
-                          className="bg-indigo-600 hover:bg-indigo-800"
-                          onClick={handleAddToCart}
-                        >
-                          Add To Cart
-                        </Button>
-                      ) : (
-                        <Link to="/sign-in" state={location?.pathname}>
+
+                      <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
+                        <div className="flex flex-row gap-3">
+                          <AiFillMinusCircle
+                            className="text-pink-500 text-[30px] cursor-pointer"
+                            onClick={handleDecreaseQuantity}
+                          />
+                          <p className="text-[20px] font-bold">{quantity}</p>
+                          <AiFillPlusCircle
+                            className="text-pink-500 text-[30px] cursor-pointer"
+                            onClick={handleIncreaseQuantity}
+                          />
+                        </div>
+                        {user ? (
                           <Button
+                            fullWidth
                             className="bg-indigo-600 hover:bg-indigo-800"
-                            onClick={handleShowAlert}
+                            onClick={handleAddToCart}
                           >
                             Add To Cart
                           </Button>
-                        </Link>
-                      )}
+                        ) : (
+                          <Link to="/sign-in" state={location?.pathname}>
+                            <Button
+                              className="bg-indigo-600 hover:bg-indigo-800"
+                              onClick={handleShowAlert}
+                            >
+                              Add To Cart
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </Dialog>
