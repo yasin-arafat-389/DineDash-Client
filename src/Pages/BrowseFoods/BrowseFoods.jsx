@@ -15,6 +15,7 @@ import NoDataFound from "../../../Utility/NoDataFound/NoDataFound";
 import BrowseByFoodsSkeletonLoader from "../../../Utility/BrowseByFoodsSkeletonLoader/BrowseByFoodsSkeletonLoader";
 import { useDispatch } from "react-redux";
 import { increment } from "../../Redux/CartCountSlice/CartCountSlice";
+import ReviewsSkeletonLoader from "./ReviewsSkeletonLoader";
 
 const BrowseFoods = () => {
   let axios = useAxios();
@@ -84,6 +85,20 @@ const BrowseFoods = () => {
       return res.data;
     },
   });
+
+  // Handling fetching food reviews
+  const [foodReviews, setFoodReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
+  useEffect(() => {
+    if (details && details._id) {
+      setLoadingReviews(true);
+      axios.get(`/reviews/foods?id=${details._id}`).then((res) => {
+        setFoodReviews(res.data);
+        setLoadingReviews(false);
+      });
+    }
+  }, [details, axios]);
 
   let { data: filtered, isLoading: isFilteredLoading } = useQuery({
     queryKey: ["selectedFood", selectedCategory],
@@ -173,6 +188,7 @@ const BrowseFoods = () => {
       restaurant: details?.restaurant,
       isAcceptedByRider: false,
       orderId: generateRandomString(),
+      reviewed: false,
     };
 
     const existingItemIndex = existingCart.findIndex(
@@ -408,6 +424,72 @@ const BrowseFoods = () => {
                       <p className="text-[#767676] text-[18px] text-left px-4">
                         {details?.description}
                       </p>
+
+                      <div className="reviews">
+                        <h2 className="flex flex-row flex-nowrap items-center py-10">
+                          <span className="flex-grow block border-t border-blue-600 ml-[30px]"></span>
+                          <span className="flex-none block mx-4 px-4 py-2.5 text-xl rounded leading-none font-medium bg-blue-500 text-white">
+                            Reviews
+                          </span>
+                          <span className="flex-grow block border-t border-blue-600 mr-[30px]"></span>
+                        </h2>
+
+                        <div>
+                          {foodReviews.length === 0 ? (
+                            <div>
+                              <div className="w-full mb-5">
+                                <div
+                                  className="bg-gray-300 w-[100px] h-[100px] mx-auto flex justify-center items-center p-3 rounded-full shadow-lg shadow-blue-500
+                                "
+                                >
+                                  <img
+                                    src="https://i.ibb.co/YPNn9WM/reviews.png"
+                                    className="w-[60px]"
+                                  />
+                                </div>
+
+                                <h1 className="text-center mt-8 text-2xl text-gray-700">
+                                  No reviews for this food yet!!
+                                </h1>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="flex flex-col gap-3">
+                                {loadingReviews ? (
+                                  <>
+                                    <ReviewsSkeletonLoader />
+                                  </>
+                                ) : (
+                                  <>
+                                    {foodReviews.map((item, index) => (
+                                      <div
+                                        key={index}
+                                        className={`w-[90%] mx-auto flex flex-col gap-4 bg-gray-900 text-gray-400 p-4 rounded-lg`}
+                                      >
+                                        <div className="flex justify-between gap-3">
+                                          <div className="flex items-center gap-4">
+                                            <img
+                                              src={item.profileImage}
+                                              className="w-10 h-10 text-center object-cover rounded-full bg-white"
+                                            />
+
+                                            <span>{item.userName}</span>
+                                          </div>
+
+                                          <h1>{item.date}</h1>
+                                        </div>
+
+                                        <div>{item.review}</div>
+                                      </div>
+                                    ))}
+                                  </>
+                                )}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
                     </div>
 
                     {/* Position Fixed */}
