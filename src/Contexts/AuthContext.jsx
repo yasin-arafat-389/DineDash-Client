@@ -10,11 +10,14 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../../Firebase/firebase.config";
+import { useDispatch } from "react-redux";
+import { userEmail } from "../Redux/CartCountSlice/CartCountSlice";
 
 export const authContext = createContext();
 
 const AuthContext = ({ children }) => {
   const provider = new GoogleAuthProvider();
+  let dispatch = useDispatch();
 
   // Hooks
   const [user, setUser] = useState(null);
@@ -47,12 +50,15 @@ const AuthContext = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      if (user) {
+        dispatch(userEmail({ email: user.email }));
+      }
       setLoading(false);
     });
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [dispatch]);
 
   let authInfo = {
     createUser,

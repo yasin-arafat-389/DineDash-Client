@@ -108,7 +108,7 @@ const Login = () => {
       ) : (
         <div>
           <div className="bg-[#0A2540]">
-            <div className="py-10">
+            <div className="py-20">
               <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
                 <div className="hidden bg-gray-200 lg:flex lg:w-1/2">
                   <Lottie animationData={LoginPageAnimation} loop={true} />
@@ -174,20 +174,20 @@ const Login = () => {
                     </div>
 
                     <div className="mt-6">
-                      <button
-                        className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 flex justify-center`}
+                      <Button
+                        className={`w-full bg-[#0866ff] py-4`}
                         type="submit"
                         disabled={loading ? true : false}
                       >
                         {loading ? (
-                          <div className="flex items-center gap-5 ">
+                          <div className="flex justify-center items-center gap-5 ">
                             <ImSpinner9 className="animate-spin text-[20px]" />
                             Signing In
                           </div>
                         ) : (
                           "Sign In"
                         )}
-                      </button>
+                      </Button>
                     </div>
                   </form>
 
