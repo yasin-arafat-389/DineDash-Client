@@ -20,6 +20,7 @@ import BePartner from "../Pages/BePartner/BePartner";
 import PartnerRequest from "../Pages/PartnerRequest/PartnerRequest";
 import BeRider from "../Pages/BeRider/BeRider";
 import RiderRequest from "../Pages/RiderRequest/RiderRequest";
+import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
 
 const router = createBrowserRouter([
   {
@@ -96,7 +97,7 @@ const router = createBrowserRouter([
     ],
   },
 
-  // -------------------------- Order success/failed message layout --------------------------
+  // -------------------------- Order success/failed, email verification message layout --------------------------
   {
     path: "/",
     element: <OrderSuccess />,
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
       {
         path: "/payment-cancelled",
         element: <PaymentCancelled />,
+      },
+      {
+        path: "/verify-email/:verificationCode",
+        element: <VerifyEmail />,
       },
     ],
   },
