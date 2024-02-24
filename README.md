@@ -9,7 +9,7 @@
 - User can build their own burger by dragging and dropping.
 - User can browse foods by category.
 - User can browse foods by restaurant.
-- User can order food from cart page.
+- Partnership program to become a vendor or delivery rider.
 
 # Technologies used
 
