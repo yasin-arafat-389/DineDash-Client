@@ -3,7 +3,9 @@ import { Outlet } from "react-router-dom";
 const OrderSuccess = () => {
   return (
     <>
-      <Outlet />
+      <div className="bg-[#FFF5E6] h-screen">
+        <Outlet />
+      </div>
     </>
   );
 };

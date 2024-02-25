@@ -16,11 +16,14 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 // Icons
 import { HiBars2 } from "react-icons/hi2";
 import { HiRocketLaunch } from "react-icons/hi2";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
 import useAuth from "../../Hooks/useAuth";
 import { BsChevronDown } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { toggleDrawer } from "../../Redux/CartDrawerSlice/CartDrawerSlice";
 
 function MyProfileMenu() {
   let { user } = useAuth();
@@ -66,6 +69,27 @@ function NavList({ closeCollapse }) {
   let { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   let count = useSelector((state) => state.cartCount.count);
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
+
+  const handleOpenDrawer = () => {
+    if (!user) {
+      navigate("/sign-in");
+      toast.error(`You must login first!!`, {
+        style: {
+          border: "2px solid red",
+          padding: "8px",
+          color: "#713200",
+        },
+        iconTheme: {
+          primary: "red",
+          secondary: "#FFFAEE",
+        },
+      });
+      return;
+    }
+    dispatch(toggleDrawer());
+  };
 
   return (
     <>
@@ -116,19 +140,14 @@ function NavList({ closeCollapse }) {
         </li>
 
         <li>
-          <NavLink
-            to={"/cart"}
-            onClick={closeCollapse}
-            className={({ isActive }) =>
-              isActive
-                ? "cartActive"
-                : "hover:bg-gray-300 p-3 flex font-bold rounded-lg transition-all"
-            }
+          <button
+            className="hover:bg-gray-300 px-3 py-2 rounded-lg transition-all"
+            onClick={handleOpenDrawer}
           >
             <Badge content={user ? count : 0}>
               <HiOutlineShoppingBag size={"30"} />
             </Badge>
-          </NavLink>
+          </button>
         </li>
 
         <Menu open={isMenuOpen} handler={setIsMenuOpen}>

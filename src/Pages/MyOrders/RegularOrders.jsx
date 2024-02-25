@@ -8,12 +8,21 @@ import { PiCookingPotFill } from "react-icons/pi";
 import { MdDeliveryDining } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { Button, Dialog, Textarea } from "@material-tailwind/react";
+import { MdReviews } from "react-icons/md";
+import { useState } from "react";
+import { ImSpinner9 } from "react-icons/im";
+import toast from "react-hot-toast";
 
 const RegularOrders = () => {
   let { user } = useAuth();
   let axios = useAxios();
 
-  let { data: myOrders = [], isLoading } = useQuery({
+  let {
+    data: myOrders = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["myOrders"],
     queryFn: async () => {
       let res = await axios.get(`/my-orders?email=${user?.email}`).then();
@@ -25,6 +34,77 @@ const RegularOrders = () => {
   myOrders.forEach((item) => {
     cartFood.push(...item.cartFood);
   });
+
+  // Handling submit review
+  const [openReviewModal, setOpenReviewModal] = useState(false);
+  const [foodDetails, setFoodDetails] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleOpenReviewModal = (foodDetails) => {
+    setOpenReviewModal(!openReviewModal);
+    setFoodDetails(foodDetails);
+  };
+
+  const [review, setReview] = useState("");
+  const handleReviewChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  function getCurrentDate() {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const monthIndex = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+
+    const formattedDate = `${day} ${months[monthIndex]}, ${year}`;
+
+    return formattedDate;
+  }
+
+  const handleSubmitPost = () => {
+    setLoading(true);
+    let payload = {
+      identifier: foodDetails?.identifier,
+      orderId: foodDetails?.orderId,
+      review: review,
+      user: user?.displayName,
+      profileImage: user?.photoURL || "https://i.ibb.co/HN9NtYY/user.png",
+      date: getCurrentDate(),
+    };
+
+    axios.post(`/submit/review`, payload).then(() => {
+      setLoading(false);
+      refetch();
+      setOpenReviewModal(!openReviewModal);
+      toast.success(`Your review has been posted!`, {
+        duration: 3000,
+        style: {
+          border: "2px solid green",
+          padding: "8px",
+          color: "#713200",
+        },
+        iconTheme: {
+          primary: "green",
+          secondary: "#FFFAEE",
+        },
+      });
+    });
+  };
 
   if (isLoading) {
     return (
@@ -125,10 +205,67 @@ const RegularOrders = () => {
                   <span>{item.status}</span>
                 </div>
               </div>
+
+              {item.status === "completed" && item.reviewed === false && (
+                <div className={`flex justify-center items-center`}>
+                  <Button
+                    onClick={() => handleOpenReviewModal(item)}
+                    size="sm"
+                    className="capitalize bg-blue-500 flex gap-3 text-lg justify-center items-center"
+                  >
+                    <MdReviews size={"25"} />
+                    Leave A Review
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         ))
       )}
+
+      <Dialog open={openReviewModal} handler={handleOpenReviewModal}>
+        <div className="p-5">
+          <div className="mb-6">
+            <h1 className="text-xl text-gray-700">
+              Please leave a review for{" "}
+              <span className="text-blue-600 font-bold">
+                {foodDetails.name}
+              </span>
+            </h1>
+          </div>
+
+          <Textarea
+            label="Your Review"
+            value={review}
+            onChange={handleReviewChange}
+          />
+
+          <div className=" flex gap-4 mt-4">
+            <Button
+              className="bg-green-500"
+              onClick={handleSubmitPost}
+              disabled={!review || loading ? true : false}
+            >
+              {loading ? (
+                <div className="flex justify-center items-center gap-4">
+                  <ImSpinner9 className="animate-spin text-[20px]" />
+                  Posting
+                </div>
+              ) : (
+                "Post Review"
+              )}
+            </Button>
+
+            <Button
+              className="bg-red-500"
+              onClick={() => setOpenReviewModal(!openReviewModal)}
+              disabled={loading ? true : false}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };

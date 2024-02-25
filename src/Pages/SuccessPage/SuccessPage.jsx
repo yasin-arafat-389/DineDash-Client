@@ -1,16 +1,18 @@
-import { FaCheckCircle } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import successPageAnimation from "./SuccessAnimation.json";
+import Lottie from "lottie-react";
 
 const SuccessPage = () => {
   const { redirectTo } = useParams();
 
-  console.log(redirectTo);
-
   return (
     <div>
-      <div className="bg-gray-100">
-        <div className="bg-white p-6  md:mx-auto mt-[10%]">
-          <FaCheckCircle className="text-[70px] my-5 text-green-600 mx-auto" />
+      <div>
+        <div className="h-screen flex flex-col justify-center items-center">
+          <div className="w-[20%] mx-auto">
+            <Lottie animationData={successPageAnimation} />
+          </div>
+
           <div className="text-center">
             <h3 className="md:text-3xl text-base text-gray-900 font-semibold text-center">
               Order has been placed successfully!

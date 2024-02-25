@@ -12,6 +12,7 @@ import { createContext, useEffect, useState } from "react";
 import auth from "../../Firebase/firebase.config";
 import { useDispatch } from "react-redux";
 import { userEmail } from "../Redux/CartCountSlice/CartCountSlice";
+import { getUserEmail } from "../Redux/MyCartSlice/MyCartSlice";
 
 export const authContext = createContext();
 
@@ -52,6 +53,7 @@ const AuthContext = ({ children }) => {
       setUser(user);
       if (user) {
         dispatch(userEmail({ email: user.email }));
+        dispatch(getUserEmail({ email: user.email }));
       }
       setLoading(false);
     });

@@ -7,12 +7,15 @@ import useAuth from "../../Hooks/useAuth";
 import LoginPageAnimation from "../../Assets/loginPageAnimation.json";
 import Lottie from "lottie-react";
 import { ImSpinner9 } from "react-icons/im";
+import useAxios from "../../Hooks/useAxios";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   let { login, googleLogin, user } = useAuth();
   let location = useLocation();
   let navigate = useNavigate();
+  let axios = useAxios();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -27,9 +30,36 @@ const Login = () => {
     }));
   };
 
-  let handleLogin = (e) => {
+  let handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    try {
+      const response = await axios.post(`/check/verificationStatus`, {
+        email: formData.email,
+      });
+      if (response.data.status === "not verified yet") {
+        Swal.fire({
+          icon: "warning",
+          text: "You have not verified your gmail yet. Please check your gmail inbox and verify gmail first.",
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (response.data.status === "unregistered user") {
+        Swal.fire({
+          icon: "warning",
+          text: "You have not signed up yet. Please sign up to get started.",
+        });
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.error("Error occurred during verification status check:", error);
+      setLoading(false);
+      return;
+    }
 
     login(formData.email, formData.password)
       .then(() => {

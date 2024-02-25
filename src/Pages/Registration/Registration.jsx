@@ -1,16 +1,19 @@
-import { Input } from "@material-tailwind/react";
-import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
-import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import { ImSpinner9 } from "react-icons/im";
+import signUpImage from "../../Assets/sign-up.svg";
+import { Button, Input } from "@material-tailwind/react";
+import Swal from "sweetalert2";
 import { imageUpload } from "../../../Utility/ImageUpload/ImageUpload";
+import useAxios from "../../Hooks/useAxios";
+import "./Registration.css";
 
 const Registration = () => {
   const [loading, setLoading] = useState(false);
   let { createUser, update, logOut, user } = useAuth();
   let navigate = useNavigate();
+  let axios = useAxios();
 
   const [selectedFile, setSelectedFile] = useState(null);
   const handleFileChange = (e) => {
@@ -18,8 +21,13 @@ const Registration = () => {
     setSelectedFile(file);
   };
 
+  const [preventRouting, setPreventRouting] = useState(false);
+  const [openLoadingOverlay, setOpenLoadingOverlay] = useState(false);
+
   const handleRegister = async (e) => {
+    setPreventRouting(true);
     setLoading(true);
+    setOpenLoadingOverlay(true);
     e.preventDefault();
 
     let form = e.target;
@@ -40,6 +48,7 @@ const Registration = () => {
         text: "Enter a valid gmail address",
       });
       setLoading(false);
+      setOpenLoadingOverlay(false);
       return;
     }
     if (!validPassword) {
@@ -49,80 +58,74 @@ const Registration = () => {
         text: "Password must be at least 6 characters long, containing at least one upper case and special character",
       });
       setLoading(false);
+      setOpenLoadingOverlay(false);
       return;
     }
 
     let imgData = null;
 
     if (selectedFile) {
-      let imageData = await imageUpload(image, setLoading);
+      let imageData = await imageUpload(
+        image,
+        setLoading,
+        setOpenLoadingOverlay
+      );
       imgData = imageData;
     }
 
     createUser(email, password)
       .then(() => {
         update(name, imgData?.data?.display_url)
-          .then(() => {})
-          .catch((error) => {
-            console.log(error);
-          });
-
-        logOut()
           .then(() => {
-            navigate("/sign-in");
+            logOut()
+              .then(() => {})
+              .catch((error) => {
+                console.log(error);
+              });
           })
           .catch((error) => {
             console.log(error);
           });
 
-        toast.success(`Registration Successfull!!`, {
-          style: {
-            border: "2px solid green",
-            padding: "8px",
-            color: "#713200",
-          },
-          iconTheme: {
-            primary: "green",
-            secondary: "#FFFAEE",
-          },
-        });
+        axios
+          .post(`/send/verificationCode`, { email: email, name: name })
+          .then(() => {
+            form.reset();
+            setLoading(false);
+            setOpenLoadingOverlay(false);
+            Swal.fire({
+              text: "Your account has been created. Please check your gmail inbox and verify your gmail.",
+              icon: "success",
+            });
+          });
       })
       .catch(() => {
-        toast.error(`User Already Exists`, {
-          style: {
-            border: "2px solid red",
-            padding: "8px",
-            color: "#713200",
-          },
-          iconTheme: {
-            primary: "red",
-            secondary: "#FFFAEE",
-          },
+        Swal.fire({
+          text: "The gmail you entered is already in use!!",
+          icon: "warning",
         });
         setLoading(false);
+        setOpenLoadingOverlay(false);
       });
   };
 
-  if (user) {
-    <Navigate to="/" />;
-  }
+  useEffect(() => {
+    if (user && preventRouting === false) {
+      navigate("/");
+    }
+  }, [user, navigate, preventRouting]);
 
   return (
     <div>
-      {user ? (
-        ""
-      ) : (
-        <div
-          className=""
-          style={{
-            backgroundImage: `url("https://i.ibb.co/cvZxCpt/pngtree-gray-gear-technology-poster-background-material-picture-image-1006228.png")`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-          }}
-        >
+      <div>
+        <div className="bg-[#0A2540]">
           <div className="py-20">
-            <div className=" w-full max-w-sm mx-auto overflow-hidden rounded-lg shadow-md dark:bg-gray-800 bg-white">
-              <div className="px-6 py-4">
+            <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
+              <div className="hidden bg-gray-200 lg:flex lg:w-1/2">
+                <img src={signUpImage} alt="" />
+              </div>
+
+              <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
                 <div className="flex justify-center mx-auto">
                   <img
                     className="w-[30%]"
@@ -131,11 +134,7 @@ const Registration = () => {
                   />
                 </div>
 
-                <h3 className="mt-3 text-2xl font-bold text-center text-[#000] ">
-                  Sign Up
-                </h3>
-
-                <p className="mt-1 text-center font-semibold text-gray-600">
+                <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
                   Sign Up to join DineDash Family
                 </p>
 
@@ -198,8 +197,9 @@ const Registration = () => {
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
-                    <button
-                      className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                    <Button
+                      type="submit"
+                      className="w-full my-4 bg-[#0866ff]"
                       disabled={loading ? true : false}
                     >
                       {loading ? (
@@ -210,10 +210,11 @@ const Registration = () => {
                       ) : (
                         "Sign Up"
                       )}
-                    </button>
+                    </Button>
                   </div>
                 </form>
-                <div className="flex items-center justify-center text-center py-4">
+
+                <div className="flex items-center justify-center text-center pb-2">
                   <span className="text-sm text-gray-900 dark:text-gray-200">
                     Already have an account?
                   </span>
@@ -227,9 +228,28 @@ const Registration = () => {
                 </div>
               </div>
             </div>
+
+            {/* Overlay to display in loading state */}
+            <div
+              className={`${openLoadingOverlay === true ? "block" : "hidden"} `}
+            >
+              <div className="fixed top-0 left-0 z-50 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white border py-5 px-5 rounded-lg flex items-center flex-col">
+                  <div className="loader-dots block relative w-20 h-5 mt-2">
+                    <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="text-gray-700 text-lg font-medium mt-5 text-center">
+                    Registration may take 6-10 seconds. <br /> Please hold on.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -1,12 +1,15 @@
-import { MdCancel } from "react-icons/md";
+import Lottie from "lottie-react";
+import paymentCancelledAnimation from "./paymentCancelledAnimation.json";
 import { Link } from "react-router-dom";
 
 const PaymentCancelled = () => {
   return (
     <div>
-      <div className="bg-gray-100">
-        <div className="bg-white p-6  md:mx-auto mt-[10%]">
-          <MdCancel className="text-[70px] my-5 text-red-600 mx-auto" />
+      <div className="h-screen flex flex-col justify-center items-center">
+        <div className="p-6 md:mx-auto">
+          <div className="w-[25%] mx-auto my-4">
+            <Lottie animationData={paymentCancelledAnimation} />
+          </div>
           <div className="text-center">
             <h3 className="md:text-3xl text-base text-gray-900 font-semibold text-center">
               Your payment has been cancelled!

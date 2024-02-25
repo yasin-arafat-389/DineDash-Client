@@ -12,6 +12,7 @@ import NoFoodsFound from "../../../Utility/NoFoodsFound/NoFoodsFound";
 import RestaurantPageSkeletonLoader from "../../../Utility/RestaurantPageSkeletonLoader/RestaurantPageSkeletonLoader";
 import { increment } from "../../Redux/CartCountSlice/CartCountSlice";
 import { useDispatch } from "react-redux";
+import ReviewsSkeletonLoader from "../BrowseFoods/ReviewsSkeletonLoader";
 
 const RestaurantPage = () => {
   let restaurantPath = useParams();
@@ -24,6 +25,15 @@ const RestaurantPage = () => {
   const [loading, setLoading] = useState(false);
   const [food, setFood] = useState([]);
   const [details, setDetails] = useState();
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const handleScroll = (e) => {
+    if (e.target.scrollTop > 130) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
 
   // Fetching food data filtered by restaurant name
   useEffect(() => {
@@ -67,6 +77,20 @@ const RestaurantPage = () => {
   };
 
   let totalPrice = quantity * details?.price;
+
+  // Handling fetching food reviews
+  const [foodReviews, setFoodReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
+  useEffect(() => {
+    if (details && details._id) {
+      setLoadingReviews(true);
+      axios.get(`/reviews/foods?id=${details._id}`).then((res) => {
+        setFoodReviews(res.data);
+        setLoadingReviews(false);
+      });
+    }
+  }, [details, axios]);
 
   const handleAddToCart = () => {
     const existingCart =
@@ -139,6 +163,8 @@ const RestaurantPage = () => {
   useEffect(() => {
     if (!open) {
       setQuantity(1);
+      setIsScrolled(false);
+      setOpen(false);
     }
   }, [open]);
 
@@ -211,54 +237,163 @@ const RestaurantPage = () => {
 
                     {/* Modal fo details of food */}
                     <Dialog open={open} handler={handleOpen}>
-                      <div className="p-5">
-                        <img
-                          src={details?.image}
-                          className="rounded-lg mx-auto h-[300px] w-full"
-                        />
-
-                        <h1 className="text-[#333333] font-bold text-[30px] mt-4 text-center">
-                          {details?.name}
-                        </h1>
-
-                        <p className="text-[#767676] text-[18px] text-center">
-                          {details?.description}
-                        </p>
-
-                        <h1 className="text-[#333333] font-bold text-[30px] mt-4">
-                          ৳ {details?.price}
-                        </h1>
-
-                        <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
-                          <div className="flex flex-row gap-3">
-                            <AiFillMinusCircle
-                              className="text-pink-500 text-[30px] cursor-pointer"
-                              onClick={handleDecreaseQuantity}
+                      <div
+                        onScroll={handleScroll}
+                        className="h-[400px] md:h-[400px] lg:h-[600px] overflow-auto rounded-lg flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex">
+                            <img
+                              src={details?.image}
+                              className="mx-auto h-[300px] w-full"
                             />
-                            <p className="text-[20px] font-bold">{quantity}</p>
-                            <AiFillPlusCircle
-                              className="text-pink-500 text-[30px] cursor-pointer"
-                              onClick={handleIncreaseQuantity}
-                            />
-                          </div>
-                          {user ? (
-                            <Button
-                              fullWidth
-                              className="bg-indigo-600 hover:bg-indigo-800"
-                              onClick={handleAddToCart}
+
+                            {/* conditional display */}
+                            <div
+                              className={`absolute transition-all duration-300 ${
+                                isScrolled
+                                  ? "bg-white shadow-2xl"
+                                  : "bg-transparent"
+                              } w-full rounded-t-lg p-3 flex gap-2 justify-between`}
                             >
-                              Add To Cart
-                            </Button>
-                          ) : (
-                            <Link to="/sign-in" state={location?.pathname}>
+                              <h1
+                                className={`${
+                                  !isScrolled && "invisible"
+                                } text-lg text-black flex items-center`}
+                              >
+                                {details?.name}
+                              </h1>
+
+                              <button
+                                onClick={() => setOpen(!open)}
+                                className={`h-8 w-8 mr-5 mt-2 rounded-full ${
+                                  !isScrolled
+                                    ? "bg-white"
+                                    : "border-2 border-gray-800"
+                                } text-xl text-red-600 font-bold`}
+                              >
+                                X
+                              </button>
+                            </div>
+                          </div>
+
+                          <h1 className="text-[#333333] font-bold text-center text-[30px] mt-4 px-4">
+                            {details?.name}
+                          </h1>
+
+                          <p className="text-[#767676] text-[18px] text-left px-4">
+                            {details?.description}
+                          </p>
+
+                          {/* reviews */}
+                          <div className="reviews">
+                            <h2 className="flex flex-row flex-nowrap items-center py-10">
+                              <span className="flex-grow block border-t border-blue-600 ml-[30px]"></span>
+                              <span className="flex-none block mx-4 px-4 py-2.5 text-xl rounded leading-none font-medium bg-blue-500 text-white">
+                                Reviews
+                              </span>
+                              <span className="flex-grow block border-t border-blue-600 mr-[30px]"></span>
+                            </h2>
+
+                            <div>
+                              {foodReviews.length === 0 ? (
+                                <div>
+                                  <div className="w-full mb-5">
+                                    <div
+                                      className="bg-gray-300 w-[100px] h-[100px] mx-auto flex justify-center items-center p-3 rounded-full shadow-lg shadow-blue-500
+                                "
+                                    >
+                                      <img
+                                        src="https://i.ibb.co/YPNn9WM/reviews.png"
+                                        className="w-[60px]"
+                                      />
+                                    </div>
+
+                                    <h1 className="text-center mt-8 text-2xl text-gray-700">
+                                      No reviews for this food yet!!
+                                    </h1>
+                                  </div>
+                                </div>
+                              ) : (
+                                <>
+                                  <div className="flex flex-col gap-3">
+                                    {loadingReviews ? (
+                                      <>
+                                        <ReviewsSkeletonLoader />
+                                      </>
+                                    ) : (
+                                      <>
+                                        {foodReviews.map((item, index) => (
+                                          <div
+                                            key={index}
+                                            className={`w-[90%] mx-auto flex flex-col gap-4 bg-gray-900 text-gray-400 p-4 rounded-lg`}
+                                          >
+                                            <div className="flex justify-between gap-3">
+                                              <div className="flex items-center gap-4">
+                                                <img
+                                                  src={item.profileImage}
+                                                  className="w-10 h-10 text-center object-cover rounded-full bg-white"
+                                                />
+
+                                                <span>{item.userName}</span>
+                                              </div>
+
+                                              <h1>{item.date}</h1>
+                                            </div>
+
+                                            <div>{item.review}</div>
+                                          </div>
+                                        ))}
+                                      </>
+                                    )}
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Position Fixed */}
+                        <div className="sticky bottom-0 p-3 z-20 bg-white">
+                          <div className="flex my-6">
+                            <p className="text-[#333333] text-[22px] font-bold">
+                              Tk {details?.price}
+                            </p>
+                          </div>
+
+                          <div className="addToCartPart mt-5 flex gap-5 justify-center items-center">
+                            <div className="flex flex-row gap-3">
+                              <AiFillMinusCircle
+                                className="text-pink-500 text-[30px] cursor-pointer"
+                                onClick={handleDecreaseQuantity}
+                              />
+                              <p className="text-[20px] font-bold">
+                                {quantity}
+                              </p>
+                              <AiFillPlusCircle
+                                className="text-pink-500 text-[30px] cursor-pointer"
+                                onClick={handleIncreaseQuantity}
+                              />
+                            </div>
+                            {user ? (
                               <Button
+                                fullWidth
                                 className="bg-indigo-600 hover:bg-indigo-800"
-                                onClick={handleShowAlert}
+                                onClick={handleAddToCart}
                               >
                                 Add To Cart
                               </Button>
-                            </Link>
-                          )}
+                            ) : (
+                              <Link to="/sign-in" state={location?.pathname}>
+                                <Button
+                                  className="bg-indigo-600 hover:bg-indigo-800"
+                                  onClick={handleShowAlert}
+                                >
+                                  Add To Cart
+                                </Button>
+                              </Link>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </Dialog>
