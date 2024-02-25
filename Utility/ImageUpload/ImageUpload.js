@@ -1,7 +1,12 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const imageUpload = async (image, setLoading, setOpen1) => {
+export const imageUpload = async (
+  image,
+  setLoading,
+  setOpen1,
+  setOpenLoadingOverlay
+) => {
   const formData = new FormData();
   formData.append("image", image);
 
@@ -14,6 +19,7 @@ export const imageUpload = async (image, setLoading, setOpen1) => {
     .catch(() => {
       setLoading(false);
       setOpen1 && setOpen1(false);
+      setOpenLoadingOverlay && setOpenLoadingOverlay(false);
       Swal.fire({
         icon: "warning",
         text: "Please choose another image. This image might be corrupted!!",
