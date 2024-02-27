@@ -2,12 +2,27 @@ import NavBar from "../../Components/Navbar/NavBar";
 import { NavLink, Outlet } from "react-router-dom";
 import Footer from "../../Components/Footer/Footer";
 import ScrollToTop from "../../../Utility/ScrollToTop/ScrollToTop";
+import { closeDrawer } from "../../Redux/CartDrawerSlice/CartDrawerSlice";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import CartDrawer from "../../Components/CartDrawer/CartDrawer";
 
 const MyOrders = () => {
+  const cartDrawerOpen = useSelector((state) => state.cartDrawer.open);
+  const dispatch = useDispatch();
+
+  const handleCloseDrawer = () => {
+    dispatch(closeDrawer());
+  };
+
   return (
     <div>
       <ScrollToTop />
       <NavBar />
+      <CartDrawer />
+      {cartDrawerOpen && (
+        <div className="overlayOnDrawerOpen" onClick={handleCloseDrawer} />
+      )}
 
       <div className="bg-[#EFF0F4] pb-10">
         <h2 className="flex flex-row flex-nowrap items-center py-10">
