@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { increment } from "../../Redux/CartCountSlice/CartCountSlice";
+import { getUpdatedCustomOrder } from "../../Redux/MyCartSlice/MyCartSlice";
 
 const Cart = ({ ingredients, provider }) => {
   let navigate = useNavigate();
@@ -81,6 +82,8 @@ const Cart = ({ ingredients, provider }) => {
 
     localStorage.setItem(`${user?.email}`, JSON.stringify(updatedBurger));
 
+    dispatch(getUpdatedCustomOrder());
+
     toast.success(`Custom burger added to cart!`, {
       style: {
         border: "2px solid green",
@@ -92,7 +95,7 @@ const Cart = ({ ingredients, provider }) => {
         secondary: "#FFFAEE",
       },
     });
-    navigate("/cart");
+    navigate("/checkout");
   };
 
   let handleShowAlert = () => {
