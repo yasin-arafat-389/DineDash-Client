@@ -142,7 +142,9 @@ function NavList({ closeCollapse }) {
         <li>
           <button
             className="hover:bg-gray-300 px-3 py-2 rounded-lg transition-all"
-            onClick={handleOpenDrawer}
+            onClick={
+              location.pathname === "/checkout" ? undefined : handleOpenDrawer
+            }
           >
             <Badge content={user ? count : 0}>
               <HiOutlineShoppingBag size={"30"} />
