@@ -28,6 +28,10 @@ import {
   decrement,
   resetCart,
 } from "../../Redux/CartCountSlice/CartCountSlice";
+import {
+  getUpdatedCustomOrder,
+  getUpdatedRegularOrder,
+} from "../../Redux/MyCartSlice/MyCartSlice";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -78,6 +82,7 @@ const CheckOut = () => {
         updatedBurger.splice(index, 1);
         setBurger(updatedBurger);
         localStorage.setItem(`${user?.email}`, JSON.stringify(updatedBurger));
+        dispatch(getUpdatedCustomOrder());
         toast.success(`Burger has been removed!`, {
           style: {
             border: "2px solid green",
@@ -116,6 +121,7 @@ const CheckOut = () => {
     });
     setCartFoods(updatedCart);
     localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
+    dispatch(getUpdatedRegularOrder());
   };
 
   const handleDecrement = (id) => {
@@ -134,6 +140,7 @@ const CheckOut = () => {
 
     setCartFoods(updatedCart);
     localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
+    dispatch(getUpdatedRegularOrder());
   };
 
   const handleRemoveFromCart = (index, food) => {
@@ -151,6 +158,7 @@ const CheckOut = () => {
         updatedCart.splice(index, 1);
         setCartFoods(updatedCart);
         localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
+        dispatch(getUpdatedRegularOrder());
         toast.success(`${food} has been removed!`, {
           style: {
             border: "2px solid green",
@@ -270,6 +278,8 @@ const CheckOut = () => {
         localStorage.removeItem(user?.email);
         localStorage.removeItem(`${user?.email}Cart`);
         dispatch(resetCart());
+        dispatch(getUpdatedRegularOrder());
+        dispatch(getUpdatedCustomOrder());
 
         let redirectTo;
         if (order.cartFood?.length > 0) {
@@ -297,6 +307,8 @@ const CheckOut = () => {
       localStorage.removeItem(user?.email);
       localStorage.removeItem(`${user?.email}Cart`);
       dispatch(resetCart());
+      dispatch(getUpdatedRegularOrder());
+      dispatch(getUpdatedCustomOrder());
     }
   };
 
