@@ -1,7 +1,51 @@
+/* eslint-disable react/prop-types */
+import { useEffect, useMemo, useRef, useState } from "react";
 import BrowseFoods from "../../../Utility/FancyButton/BrowseFoods/BrowseFoods";
 import "./HeroSection.css";
 
 const HeroSection = () => {
+  const images = useMemo(
+    () => [
+      "https://i.ibb.co/sJV7rfp/l1.png",
+      "https://i.ibb.co/q9fn25y/l3.png",
+      "https://i.ibb.co/0rdXZwt/l4.png",
+      "https://i.ibb.co/gWC31nq/l2.png",
+    ],
+    []
+  );
+
+  const divRef = useRef(null);
+  const [isOnScreen, setIsOnScreen] = useState(false);
+
+  const handleIntersection = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setIsOnScreen(true);
+      } else {
+        setIsOnScreen(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    });
+
+    if (divRef.current) {
+      observer.observe(divRef.current);
+    }
+
+    const currentDivRef = divRef.current;
+    return () => {
+      if (currentDivRef) {
+        observer.unobserve(currentDivRef);
+      }
+    };
+  }, []);
+
   return (
     <div>
       <div
@@ -23,7 +67,7 @@ const HeroSection = () => {
                 Experience the Next Generation of Food Delivery Magic
               </h1>
 
-              <div className="flex flex-col gap-2.5 sm:flex-row items-center md:items-start lg:items-start">
+              <div className="flex flex-col gap-2.5 sm:flex-row items-center md:items-start lg:items-start my-5 md:my-0 lg:my-5">
                 <BrowseFoods />
               </div>
             </div>
@@ -38,16 +82,29 @@ const HeroSection = () => {
             </div>
           </section>
 
-          <div className="mt-20">
-            <h2 className="text-center text-[20px] md:text-[28px] lg:text-[40px] font-bold leading-tight text-gray-800 mb-[30px] md:mb-[50px] lg:mb-[70px]">
-              Trusted by <span className="text-blue-600">Restaurents</span> all
-              over Bangladesh
-            </h2>
+          <div className="mt-20 text-center">
+            <div ref={divRef} className="w-[75%] mx-auto overflow-hidden">
+              <h2
+                className={`text-[20px] md:text-[28px] lg:text-[40px] font-bold leading-tight text-gray-800 mb-[30px] md:mb-[50px] lg:mb-[70px] ${
+                  isOnScreen
+                    ? "ease-in-out duration-1000 translate-x-0"
+                    : "translate-x-[-700px]"
+                }`}
+              >
+                Trusted by <span className="text-blue-600">Restaurants</span>{" "}
+                all over Bangladesh
+              </h2>
+            </div>
+
             <section className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-10 justify-items-center">
-              <img src="https://i.ibb.co/sJV7rfp/l1.png" alt="" />
-              <img src="https://i.ibb.co/q9fn25y/l3.png" alt="" />
-              <img src="https://i.ibb.co/0rdXZwt/l4.png" alt="" />
-              <img src="https://i.ibb.co/gWC31nq/l2.png" alt="" />
+              {images.map((src, index) => (
+                <img
+                  key={index}
+                  src={src}
+                  alt={`Image ${index}`}
+                  className="w-[100px] md:w-[60%] lg:w-[60%]"
+                />
+              ))}
             </section>
           </div>
         </div>
