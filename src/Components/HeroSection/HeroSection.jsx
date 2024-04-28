@@ -6,12 +6,7 @@ import { useInView } from "framer-motion";
 
 const HeroSection = () => {
   const images = useMemo(
-    () => [
-      "https://i.ibb.co/sJV7rfp/l1.png",
-      "https://i.ibb.co/q9fn25y/l3.png",
-      "https://i.ibb.co/0rdXZwt/l4.png",
-      "https://i.ibb.co/gWC31nq/l2.png",
-    ],
+    () => ["./bk-logo.png", "./ph-logo.png", "./kfc-logo.png", "./bq-logo.png"],
     []
   );
 
@@ -29,7 +24,7 @@ const HeroSection = () => {
       <div
         className="pb-6 sm:pb-8 lg:pb-12"
         style={{
-          backgroundImage: `url("https://i.ibb.co/GWVwjYw/background-1.png")`,
+          backgroundImage: `url("./hero-bg.png")`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
@@ -73,7 +68,7 @@ const HeroSection = () => {
 
             <div className="w-5/5 md:w-2/5 lg:w-2/5 overflow-hidden">
               <img
-                src="https://i.ibb.co/jwbhTXt/7509757-3683230-removebg-preview-1.png"
+                src="./delivery-hero.png"
                 loading="lazy"
                 alt="Photo by Fakurian Design"
                 className={`h-full w-full object-cover object-center ${
@@ -85,14 +80,14 @@ const HeroSection = () => {
             </div>
           </section>
 
-          <div className="mt-20 text-center">
+          <div className="mt-[100px] text-center">
             <div className="w-[75%] mx-auto overflow-hidden">
               <h2
                 ref={titleRef}
                 className={`text-[20px] md:text-[28px] lg:text-[40px] font-bold leading-tight text-gray-800 mb-[30px] md:mb-[50px] lg:mb-[70px] ${
                   isInView
-                    ? "translate-x-0 duration-1000 ease-in-out"
-                    : "translate-x-[-200px] md:translate-x-[-800px]"
+                    ? "translate-y-0 opacity-100 duration-[1200ms] ease-in-out"
+                    : "translate-y-[100px] opacity-0"
                 }`}
               >
                 Trusted by <span className="text-blue-600">Restaurants</span>{" "}
