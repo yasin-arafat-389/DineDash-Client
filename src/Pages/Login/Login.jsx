@@ -9,6 +9,7 @@ import Lottie from "lottie-react";
 import { ImSpinner9 } from "react-icons/im";
 import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -139,35 +140,75 @@ const Login = () => {
         <div>
           <div className="bg-[#0A2540]">
             <div className="py-20">
-              <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
-                <div className="hidden bg-gray-200 lg:flex lg:w-1/2">
+              <div className="flex w-full max-w-sm mx-auto overflow-hidden  rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
+                <div className="hidden bg-gray-200  lg:flex lg:w-1/2">
                   <Lottie animationData={LoginPageAnimation} loop={true} />
                 </div>
 
-                <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
+                <div className="w-full px-6 py-8 md:px-8 lg:w-1/2 bg-white">
                   <div className="flex justify-center mx-auto">
-                    <img
+                    <motion.img
+                      initial={{
+                        y: 50,
+                        opacity: 0,
+                      }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                      }}
+                      transition={{ duration: 0.8, easings: ["easeInOut"] }}
                       className="w-[30%]"
                       src="https://i.ibb.co/kBDBhVs/dinedash.png"
                       alt=""
                     />
                   </div>
 
-                  <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
-                    Sign In to your account
-                  </p>
-
-                  <Button
-                    onClick={handleGoogleLogin}
-                    size="lg"
-                    fullWidth
-                    variant="outlined"
-                    color="blue-gray"
-                    className="flex items-center justify-center gap-3 mx-auto mt-4"
+                  <motion.p
+                    initial={{
+                      y: 50,
+                      opacity: 0,
+                    }}
+                    whileInView={{
+                      y: 0,
+                      opacity: 1,
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      easings: ["easeInOut"],
+                      delay: 0.2,
+                    }}
+                    className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200"
                   >
-                    <FcGoogle fontSize={"25px"} />
-                    Sign In with Google
-                  </Button>
+                    Sign In to your account
+                  </motion.p>
+
+                  <motion.div
+                    initial={{
+                      y: 50,
+                      opacity: 0,
+                    }}
+                    whileInView={{
+                      y: 0,
+                      opacity: 1,
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      easings: ["easeInOut"],
+                      delay: 0.4,
+                    }}
+                  >
+                    <Button
+                      onClick={handleGoogleLogin}
+                      size="lg"
+                      fullWidth
+                      variant="outlined"
+                      color="blue-gray"
+                      className="flex items-center justify-center gap-3 mx-auto mt-4"
+                    >
+                      <FcGoogle fontSize={"25px"} />
+                      Sign In with Google
+                    </Button>
+                  </motion.div>
 
                   <div className="flex items-center justify-between mt-4">
                     <span className="w-1/5 h-[2px] bg-gray-400 lg:w-1/4"></span>
