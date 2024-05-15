@@ -120,12 +120,12 @@ const Registration = () => {
       <div>
         <div className="bg-[#0A2540]">
           <div className="py-20">
-            <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
+            <div className="flex w-full max-w-sm mx-auto overflow-hidden rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
               <div className="hidden bg-gray-200 lg:flex lg:w-1/2">
                 <img src={signUpImage} alt="" />
               </div>
 
-              <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
+              <div className="w-full px-6 py-8 md:px-8 lg:w-1/2 bg-white">
                 <div className="flex justify-center mx-auto">
                   <img
                     className="w-[30%]"
