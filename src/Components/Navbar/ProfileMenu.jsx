@@ -14,6 +14,7 @@ import { BsChevronDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
+import { motion } from "framer-motion";
 
 const ProfileMenu = () => {
   let { user, logOut } = useAuth();
@@ -98,15 +99,22 @@ const ProfileMenu = () => {
         </Button>
       </MenuHandler>
 
-      <MenuList className="p-1">
+      <MenuList className="p-1 overflow-hidden">
         {profileMenuItems.map((item, index) => (
-          <MenuItem
-            key={index}
-            onClick={item.action}
-            className="flex items-center gap-4 text-[15px] font-bold"
-          >
-            <span>{item.icon}</span>
-            {item.label}
+          <MenuItem key={index} onClick={item.action}>
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.4,
+                easings: ["easeInOut"],
+                delay: index * 0.2,
+              }}
+              className="flex items-center gap-4 text-[15px] font-bold"
+            >
+              <span>{item.icon}</span>
+              {item.label}
+            </motion.div>
           </MenuItem>
         ))}
       </MenuList>

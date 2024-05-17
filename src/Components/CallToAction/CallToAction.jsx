@@ -74,11 +74,10 @@ const CallToAction = () => {
             they way you like it.
           </div>
 
-          <div className="features mt-5">
-            <ul>
+          <div className="features mt-5" ref={stepsRef}>
+            <ul ref={buttonRef}>
               {steps.map((step, index) => (
                 <li
-                  ref={stepsRef}
                   key={index}
                   style={{
                     transitionDelay: isStepsInView ? `${index * 0.4}s` : "0s",
@@ -97,7 +96,6 @@ const CallToAction = () => {
           </div>
 
           <div
-            ref={buttonRef}
             className={`mt-6 ${
               isButtonInView
                 ? "translate-y-0 opacity-100 duration-[0.8s] delay-[1.5s]"

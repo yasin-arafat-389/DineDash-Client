@@ -66,7 +66,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="w-5/5 md:w-2/5 lg:w-2/5 overflow-hidden">
+            <div className="w-5/5 md:w-2/5 lg:w-[70%] overflow-hidden">
               <img
                 src="./delivery-hero.png"
                 loading="lazy"
@@ -87,7 +87,7 @@ const HeroSection = () => {
                 className={`text-[20px] md:text-[28px] lg:text-[40px] font-bold leading-tight text-gray-800 mb-[30px] md:mb-[50px] lg:mb-[70px] ${
                   isInView
                     ? "translate-y-0 opacity-100 duration-[1200ms] ease-in-out"
-                    : "translate-y-[100px] opacity-0"
+                    : "translate-y-[50px] md:translate-y-[100px]  opacity-0"
                 }`}
               >
                 Trusted by <span className="text-blue-600">Restaurants</span>{" "}
