@@ -14,7 +14,7 @@ import ProfileMenu from "./ProfileMenu";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 // Icons
-import { HiBars2 } from "react-icons/hi2";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { HiRocketLaunch } from "react-icons/hi2";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BiLogInCircle } from "react-icons/bi";
@@ -24,6 +24,8 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { toggleDrawer } from "../../Redux/CartDrawerSlice/CartDrawerSlice";
+import { openNavDrawer } from "../../Redux/NavDrawerSlice/NavDrawerSlice";
+import { motion } from "framer-motion";
 
 function MyProfileMenu() {
   let { user } = useAuth();
@@ -167,8 +169,17 @@ function NavList({ closeCollapse }) {
               />
             </div>
           </MenuHandler>
+
           <MenuList className="shadow-xl">
-            <div className="mb-2 outline-none">
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.4,
+                easings: ["easeInOut"],
+              }}
+              className="mb-2 outline-none"
+            >
               <Link
                 onClick={closeCollapse}
                 to={"/be-a-partner"}
@@ -176,9 +187,18 @@ function NavList({ closeCollapse }) {
               >
                 Become A Partner
               </Link>
-            </div>
+            </motion.div>
 
-            <div className="outline-none">
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 0.4,
+                easings: ["easeInOut"],
+                delay: 0.2,
+              }}
+              className="outline-none"
+            >
               <Link
                 onClick={closeCollapse}
                 to={"/be-a-rider"}
@@ -186,7 +206,7 @@ function NavList({ closeCollapse }) {
               >
                 Become A Rider
               </Link>
-            </div>
+            </motion.div>
           </MenuList>
         </Menu>
       </ul>
@@ -196,8 +216,11 @@ function NavList({ closeCollapse }) {
 
 export default function NavBar() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
+  let dispatch = useDispatch();
 
-  const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+  const toggleIsNavOpen = () => {
+    dispatch(openNavDrawer());
+  };
 
   React.useEffect(() => {
     window.addEventListener(
@@ -211,8 +234,8 @@ export default function NavBar() {
       <div className="w-[95%] mx-auto flex items-center text-blue-gray-900 justify-between">
         <Link to={"/"}>
           <img
-            className="w-[100px]"
-            src="https://i.ibb.co/kBDBhVs/dinedash.png"
+            className="w-[80px] md:w-[100px] lg:w-[100px]"
+            src="./dinedash-logo.png"
             alt=""
           />
         </Link>
@@ -226,9 +249,9 @@ export default function NavBar() {
           onClick={() => {
             toggleIsNavOpen();
           }}
-          className="ml-auto mr-2 lg:hidden"
+          className="ml-auto mr-2 lg:hidden outline-none"
         >
-          <HiBars2 className="h-6 w-6" />
+          <GiHamburgerMenu className="h-6 w-6 font-bold" />
         </IconButton>
         {/* <ProfileMenu /> */}
         <MyProfileMenu />

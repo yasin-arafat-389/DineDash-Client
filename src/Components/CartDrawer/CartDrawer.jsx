@@ -84,6 +84,7 @@ const CartDrawer = () => {
   return (
     <div>
       <Drawer
+        onClose={handleCloseDrawer}
         overlay={false}
         placement="right"
         open={open}
