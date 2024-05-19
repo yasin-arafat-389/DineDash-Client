@@ -28,7 +28,7 @@ const RestaurentsSlider = () => {
           perView: 2,
         },
         640: {
-          perView: 1,
+          perView: 2,
         },
       },
     }).mount();
