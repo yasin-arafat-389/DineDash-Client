@@ -1,9 +1,15 @@
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const BeRider = () => {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       <div>
         <section className="flex items-center bg-stone-100 xl:h-screen font-poppins dark:bg-gray-800 ">
           <div className="justify-center flex-1 max-w-6xl py-4 mx-auto lg:py-6 md:px-6">
@@ -11,7 +17,7 @@ const BeRider = () => {
               <div className="w-full px-4 mb-10 lg:w-1/2 lg:mb-0">
                 <div className="relative lg:max-w-md">
                   <img
-                    src="https://i.ibb.co/bJXrkP8/delivery-staff-ride-motorcycles-shopping-concept-1150-34879.jpg"
+                    src="./delivery-staff-ride-motorcycles-shopping-concept-1150-34879.jpg"
                     alt="aboutimage"
                     className="relative  object-cover w-full rounded h-96"
                   />
@@ -32,27 +38,75 @@ const BeRider = () => {
               </div>
               <div className="w-full px-6 mb-10 lg:w-1/2 lg:mb-0 ">
                 <div className="pl-4 mb-6 border-l-4 border-blue-500 ">
-                  <span className="text-sm text-gray-600 font-bold dark:text-gray-400">
+                  <motion.p
+                    initial={{ y: 100, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    exit={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.8, easings: ["easeInOut"] }}
+                    className="text-sm text-gray-600 font-bold dark:text-gray-400"
+                  >
                     Join Our Team as a Rider!
-                  </span>
-                  <h1 className="mt-2 text-3xl font-black text-gray-700 md:text-3xl dark:text-gray-300">
+                  </motion.p>
+
+                  <motion.h1
+                    initial={{ y: 100, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{
+                      duration: 0.8,
+                      easings: ["easeInOut"],
+                      delay: 0.3,
+                    }}
+                    className="mt-2 text-2xl font-black text-gray-700 md:text-3xl dark:text-gray-300"
+                  >
                     Explore opportunities to join our team as a valued rider 🛵
-                  </h1>
+                  </motion.h1>
                 </div>
-                <p className="mb-6 text-base leading-7 text-gray-600 dark:text-gray-400">
+
+                <motion.p
+                  initial={{ y: 100, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    easings: ["easeInOut"],
+                    delay: 0.5,
+                  }}
+                  className="mb-6 text-base leading-7 text-gray-600 dark:text-gray-400"
+                >
                   Discover the thrill of being a key player in our dynamic food
                   delivery network. As a rider, {"you'll"} enjoy flexible
                   schedules, competitive compensation, and the satisfaction of
                   connecting people with their favorite meals. Join us on the
                   road to success and become an essential part of DineDash.
-                </p>
-                <Link to="/rider-request">
-                  <Button className="capitalize text-md bg-blue-400" fullWidth>
-                    Become A Rider
-                  </Button>
-                </Link>
+                </motion.p>
 
-                <h1 className="mt-8 text-xl text-gray-600 dark:text-gray-400">
+                <motion.div
+                  initial={{ y: 100, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    easings: ["easeInOut"],
+                    delay: 0.7,
+                  }}
+                >
+                  <Link to="/rider-request">
+                    <Button
+                      className="capitalize text-md bg-blue-400"
+                      fullWidth
+                    >
+                      Become A Rider
+                    </Button>
+                  </Link>
+                </motion.div>
+
+                <motion.h1
+                  initial={{ y: 100, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    easings: ["easeInOut"],
+                  }}
+                  className="mt-8 text-sm md:text-xl text-gray-600 dark:text-gray-400"
+                >
                   If you are already a rider, login to your{" "}
                   <Link
                     to="https://dinedash-dashboard.web.app/login"
@@ -62,13 +116,13 @@ const BeRider = () => {
                       Dashboard
                     </span>
                   </Link>
-                </h1>
+                </motion.h1>
               </div>
             </div>
           </div>
         </section>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
