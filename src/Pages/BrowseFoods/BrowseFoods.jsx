@@ -90,7 +90,7 @@ const BrowseFoods = () => {
     <>
       <div>
         <div
-          className="h-[200px] flex justify-center items-center text-[40px] md:ext-[50px] lg:ext-[50px] restaurantTitle"
+          className="h-[100px] md:h-[200px] lg:h-[200px] flex justify-center items-center text-[30px] md:text-[50px] lg:text-[50px] restaurantTitle"
           style={{
             backgroundImage: `url("https://i.ibb.co/YNFfVNq/res-bg.png")`,
             backgroundRepeat: "no-repeat",
@@ -101,7 +101,7 @@ const BrowseFoods = () => {
         </div>
 
         <div className="bg-[#eff6f3]">
-          <div className="flex flex-col w-[90%] mx-auto py-20 gap-3">
+          <div className="flex flex-col w-[90%] mx-auto py-10 md:py-20 lg:py-20 gap-3">
             <div
               className={`${
                 selectedCategory || searchResult.length > 0 ? "block" : "hidden"
@@ -116,7 +116,7 @@ const BrowseFoods = () => {
               </Button>
             </div>
             {/* Filters */}
-            <div className="foodItems w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+            <div className="foodItems w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 md:gap-10 lg:gap-10">
               {/* filter by category */}
               <select
                 disabled={
@@ -205,14 +205,14 @@ const BrowseFoods = () => {
                       className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                     >
                       <div className="foodContent w-2/3 flex flex-col gap-2">
-                        <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
+                        <h1 className="FoodTitle elipseTitle text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                           {item?.name}
                         </h1>
-                        <p className="elipseDesc text-[#767676] text-[15px]">
+                        <p className="elipseDesc text-[#767676] text-[12px] md:text-[15px] lg:text-[15px]">
                           {item?.description}
                         </p>
 
-                        <p className="text-[#333333] text-[22px] font-bold">
+                        <p className="text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                           ৳ {item?.price}
                         </p>
                       </div>
@@ -245,14 +245,14 @@ const BrowseFoods = () => {
                       className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                     >
                       <div className="foodContent w-2/3 flex flex-col gap-2">
-                        <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
+                        <h1 className="FoodTitle elipseTitle text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                           {item?.name}
                         </h1>
-                        <p className="elipseDesc text-[#767676] text-[15px]">
+                        <p className="elipseDesc text-[#767676] text-[12px] md:text-[15px] lg:text-[15px]">
                           {item?.description}
                         </p>
 
-                        <p className="text-[#333333] text-[22px] font-bold">
+                        <p className="text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                           ৳ {item?.price}
                         </p>
                       </div>
@@ -288,7 +288,7 @@ const BrowseFoods = () => {
                         className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                       >
                         <div className="foodContent w-2/3 flex flex-col gap-2">
-                          <h1 className="FoodTitle elipseTitle text-[#333333] text-[22px] font-bold">
+                          <h1 className="FoodTitle elipseTitle text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                             {item.name.split(" ").map((word, i) => {
                               const searchQueryIndex = word
                                 .toLowerCase()
@@ -318,11 +318,11 @@ const BrowseFoods = () => {
                               return <span key={i}>{word} </span>;
                             })}
                           </h1>
-                          <p className="elipseDesc text-[#767676] text-[15px]">
+                          <p className="elipseDesc text-[#767676] text-[12px] md:text-[15px] lg:text-[15px]">
                             {item?.description}
                           </p>
 
-                          <p className="text-[#333333] text-[22px] font-bold">
+                          <p className="text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                             ৳ {item?.price}
                           </p>
                         </div>
@@ -347,21 +347,30 @@ const BrowseFoods = () => {
                   noSearchResult
                     ? "hidden"
                     : "flex"
-                } items-center justify-center gap-3`}
+                } items-center justify-center gap-3 w-[80%] mx-auto`}
               >
                 <Button
                   variant="text"
-                  className="flex items-center gap-2"
+                  className="hidden md:flex lg:flex items-center gap-2"
                   onClick={() => handlePageChange(Math.max(page - 1, 0))}
                   disabled={page === 0}
                 >
                   <FaArrowLeft strokeWidth={2} className="h-4 w-4" />
                   Previous
                 </Button>
+
+                <Button
+                  size="sm"
+                  onClick={() => handlePageChange(Math.max(page - 1, 0))}
+                  disabled={page === 0}
+                  className="flex md:hidden lg:hidden capitalize bg-blue-600"
+                >
+                  Previous
+                </Button>
                 {pages.map((item, index) => (
                   <button
                     key={index}
-                    className={` px-3 py-1 font-bold text-[18px] hover:bg-[#2121211a] rounded-lg ${
+                    className={` px-3 py-1 font-bold text-[12px] md:text-[18px] lg:text-[18px] hover:bg-[#2121211a] rounded-lg ${
                       page === index
                         ? "bg-black text-white rounded-lg hover:bg-black"
                         : "bg-transparent"
@@ -373,7 +382,7 @@ const BrowseFoods = () => {
                 ))}
                 <Button
                   variant="text"
-                  className="flex items-center gap-2"
+                  className="hidden md:flex lg:flex items-center gap-2"
                   onClick={() =>
                     handlePageChange(Math.min(page + 1, totalPages - 1))
                   }
@@ -381,6 +390,17 @@ const BrowseFoods = () => {
                 >
                   Next
                   <FaArrowRight strokeWidth={2} className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  size="sm"
+                  onClick={() =>
+                    handlePageChange(Math.min(page + 1, totalPages - 1))
+                  }
+                  disabled={page === totalPages - 1}
+                  className="flex md:hidden lg:hidden capitalize bg-blue-600"
+                >
+                  Next
                 </Button>
               </div>
             </div>
