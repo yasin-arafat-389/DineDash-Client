@@ -20,10 +20,10 @@ const ReviewsSkeletonLoader = () => {
     `}
       </style>
 
-      {[1, 2, 3].map((item, index) => (
+      {[1, 2].map((item, index) => (
         <div
           key={index}
-          className={`w-[90%] mx-auto flex flex-col gap-4 bg-gray-900 text-gray-400 p-4 rounded-lg mb-5`}
+          className={`w-full mt-7 mx-auto flex flex-col gap-4 bg-gray-900 text-gray-400 p-4 rounded-lg mb-5`}
         >
           <div className="flex justify-between gap-3">
             <div className="flex items-center gap-2">
