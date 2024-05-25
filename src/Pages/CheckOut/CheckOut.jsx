@@ -32,6 +32,7 @@ import {
   getUpdatedCustomOrder,
   getUpdatedRegularOrder,
 } from "../../Redux/MyCartSlice/MyCartSlice";
+import { motion } from "framer-motion";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -313,7 +314,13 @@ const CheckOut = () => {
   };
 
   return (
-    <div className="mb-10">
+    <motion.div
+      className="mb-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Modal for updating note */}
       <Dialog open={open} handler={() => setOpen(false)}>
         <DialogHeader>Edit your note</DialogHeader>
@@ -703,7 +710,7 @@ const CheckOut = () => {
           </form>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
