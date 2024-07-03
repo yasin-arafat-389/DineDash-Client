@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useAxios from "../../Hooks/useAxios";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
-import { Button } from "@material-tailwind/react";
+import { Button, Progress, Rating } from "@material-tailwind/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -11,6 +11,8 @@ import { getUpdatedRegularOrder } from "../../Redux/MyCartSlice/MyCartSlice";
 import { openDrawer } from "../../Redux/CartDrawerSlice/CartDrawerSlice";
 import useAuth from "../../Hooks/useAuth";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { IoWarning } from "react-icons/io5";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import ReviewsSkeletonLoader from "./ReviewsSkeletonLoader";
 
 const FoodDetails = () => {
@@ -42,6 +44,51 @@ const FoodDetails = () => {
       return res.data;
     },
   });
+
+  const calculateAverageRating = (reviews) => {
+    if (reviews.length === 0) return 0;
+
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return totalRating / reviews.length;
+  };
+
+  // Get the average rating
+  const averageRating = calculateAverageRating(reviews);
+
+  // Function to calculate the percentage of each rating
+  const calculateRatingPercentages = (reviews) => {
+    const totalReviews = reviews.length;
+
+    // Initialize rating counts for each rating (1 to 5)
+    const ratingCounts = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+    };
+
+    // Count the occurrences of each rating
+    reviews.forEach((review) => {
+      ratingCounts[review.rating] = (ratingCounts[review.rating] || 0) + 1;
+    });
+
+    // Calculate the percentage of each rating and format the result
+    const ratingPercentages = [
+      { one: ((ratingCounts[1] / totalReviews) * 100).toFixed(2) + "%" },
+      { two: ((ratingCounts[2] / totalReviews) * 100).toFixed(2) + "%" },
+      { three: ((ratingCounts[3] / totalReviews) * 100).toFixed(2) + "%" },
+      { four: ((ratingCounts[4] / totalReviews) * 100).toFixed(2) + "%" },
+      { five: ((ratingCounts[5] / totalReviews) * 100).toFixed(2) + "%" },
+    ];
+
+    return ratingPercentages;
+  };
+
+  // Get the rating percentages
+  const ratingPercentages = calculateRatingPercentages(reviews);
+
+  console.log(ratingPercentages);
 
   //   Handling Tabs
   const [activeTab, setActiveTab] = useState("tab1");
@@ -346,26 +393,138 @@ const FoodDetails = () => {
                     ) : (
                       <div>
                         <div className="flex flex-col gap-3 mt-7">
-                          {reviews.map((item, index) => (
-                            <div
-                              key={index}
-                              className={`w-full flex flex-col gap-4 bg-gray-900 text-gray-400 p-4 rounded-lg`}
-                            >
-                              <div className="flex justify-between gap-3">
-                                <div className="flex items-center gap-4">
-                                  <img
-                                    src={item.profileImage}
-                                    className="w-10 h-10 text-center object-cover rounded-full bg-white"
-                                  />
+                          {/*  */}
+                          <div className="flex">
+                            {/*  */}
+                            <div className="w-1/2 flex flex-col gap-3 items-center">
+                              <h1 className="text-5xl font-bold">
+                                {Math.ceil(averageRating)}
+                              </h1>
+                              <Rating
+                                value={Math.ceil(averageRating)}
+                                readonly
+                              />
+                              <h1 className="text-xl font-semibold">
+                                Total <span>{reviews.length} ratings</span>
+                              </h1>
+                            </div>
 
-                                  <span>{item.userName}</span>
-                                </div>
+                            <div className="w-1/2 flex flex-col gap-3">
+                              {/* 5 stars */}
+                              <div className="w-full flex gap-3 justify-between items-center">
+                                <h1 className="font-semibold text-lg w-[90px]">
+                                  5 stars
+                                </h1>
+                                <Progress
+                                  value={parseInt(ratingPercentages[4].five)}
+                                  color="amber"
+                                  className="bg-gray-300"
+                                />
 
-                                <h1>{item.date}</h1>
+                                {}
+                                <h1>{ratingPercentages[4].five}</h1>
                               </div>
 
-                              <div>{item.review}</div>
+                              {/* 4 stars */}
+                              <div className="w-full flex gap-3 justify-between items-center">
+                                <h1 className="font-semibold text-lg w-[90px]">
+                                  4 stars
+                                </h1>
+                                <Progress
+                                  value={parseInt(ratingPercentages[3].four)}
+                                  color="amber"
+                                  className="bg-gray-300"
+                                />
+
+                                <h1>{ratingPercentages[3].four}</h1>
+                              </div>
+
+                              {/* 3 stars */}
+                              <div className="w-full flex gap-3 justify-between items-center">
+                                <h1 className="font-semibold text-lg w-[90px]">
+                                  3 stars
+                                </h1>
+                                <Progress
+                                  value={parseInt(ratingPercentages[2].three)}
+                                  color="amber"
+                                  className="bg-gray-300"
+                                />
+
+                                <h1>{ratingPercentages[2].three}</h1>
+                              </div>
+
+                              {/* 2 stars */}
+                              <div className="w-full flex gap-3 justify-between items-center">
+                                <h1 className="font-semibold text-lg w-[90px]">
+                                  2 stars
+                                </h1>
+                                <Progress
+                                  value={parseInt(ratingPercentages[1].two)}
+                                  color="amber"
+                                  className="bg-gray-300"
+                                />
+
+                                <h1>{ratingPercentages[1].two}</h1>
+                              </div>
+
+                              {/* 1 stars */}
+                              <div className="w-full flex gap-3 justify-between items-center">
+                                <h1 className="font-semibold text-lg w-[90px]">
+                                  1 stars
+                                </h1>
+                                <Progress
+                                  value={parseInt(ratingPercentages[0].one)}
+                                  color="amber"
+                                  className="bg-gray-300"
+                                />
+
+                                <h1>{ratingPercentages[0].one}</h1>
+                              </div>
                             </div>
+                          </div>
+
+                          <div className="my-6">
+                            {Math.ceil(averageRating) >= 3 ? (
+                              <h1 className="flex justify-center items-center gap-3 w-[80%] mx-auto bg-green-600 py-3 rounded-xl text-white text-xl font-bold text-center">
+                                <IoMdCheckmarkCircleOutline size={35} />
+                                Users rating for this food is good enough.
+                                Consider buying this food.
+                              </h1>
+                            ) : (
+                              <h1 className="flex justify-center items-center gap-3 w-[80%] mx-auto bg-red-600 py-3 rounded-xl text-white text-xl font-bold text-center">
+                                <IoWarning size={35} />
+                                Users rating for this food is not good enough.
+                              </h1>
+                            )}
+                          </div>
+
+                          {reviews.map((item, index) => (
+                            <>
+                              <div
+                                key={index}
+                                className={`w-full flex flex-col gap-4 border-2 border-gray-600 bg-gray-200 text-gray-800 
+                                p-4 rounded-lg`}
+                              >
+                                <div className="flex justify-between gap-3">
+                                  <div className="flex items-center gap-4">
+                                    <img
+                                      src={item.profileImage}
+                                      className="w-10 h-10 text-center object-cover rounded-full bg-white"
+                                    />
+
+                                    <span>{item.userName}</span>
+                                  </div>
+
+                                  <h1>{item.date}</h1>
+                                </div>
+
+                                <div>
+                                  <Rating value={item.rating} readonly />
+                                </div>
+
+                                <div>{item.review}</div>
+                              </div>
+                            </>
                           ))}
                         </div>
                       </div>

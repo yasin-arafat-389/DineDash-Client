@@ -8,11 +8,12 @@ import { PiCookingPotFill } from "react-icons/pi";
 import { MdDeliveryDining } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-import { Button, Dialog, Textarea } from "@material-tailwind/react";
+import { Button, Dialog, Rating, Textarea } from "@material-tailwind/react";
 import { MdReviews } from "react-icons/md";
 import { useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const RegularOrders = () => {
   let { user } = useAuth();
@@ -50,6 +51,11 @@ const RegularOrders = () => {
     setReview(event.target.value);
   };
 
+  const [rating, setRating] = useState(0);
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
   function getCurrentDate() {
     const months = [
       "Jan",
@@ -82,10 +88,13 @@ const RegularOrders = () => {
       identifier: foodDetails?.identifier,
       orderId: foodDetails?.orderId,
       review: review,
+      rating: rating,
       user: user?.displayName,
       profileImage: user?.photoURL || "https://i.ibb.co/HN9NtYY/user.png",
       date: getCurrentDate(),
     };
+
+    console.log(payload);
 
     axios.post(`/submit/review`, payload).then(() => {
       setLoading(false);
@@ -115,7 +124,12 @@ const RegularOrders = () => {
   }
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       {cartFood?.length === 0 ? (
         <NoOrders
           title="You have no  orders yet!!"
@@ -148,7 +162,7 @@ const RegularOrders = () => {
               </div>
 
               <div>
-                <h1 className="flex flex-col gap-3 justify-center items-center">
+                <h1 className="flex flex-col gap-0 md:gap-3 justify-center items-center mt-3">
                   <span className="text-[16px] text-blue-400 font-bold">
                     Quantity
                   </span>
@@ -157,7 +171,7 @@ const RegularOrders = () => {
               </div>
 
               <div>
-                <h1 className="flex flex-col gap-3 justify-center items-center">
+                <h1 className="flex flex-col gap-0 md:gap-3 justify-center items-center mt-3">
                   <span className="text-[16px] text-blue-400 font-bold">
                     Price
                   </span>
@@ -166,7 +180,7 @@ const RegularOrders = () => {
               </div>
 
               <div>
-                <h1 className="flex flex-col gap-3 justify-center items-center">
+                <h1 className="flex flex-col gap-0 md:gap-3 justify-center items-center mt-3">
                   <span className="text-[16px] text-blue-400 font-bold">
                     Restaurant
                   </span>
@@ -174,7 +188,7 @@ const RegularOrders = () => {
                 </h1>
               </div>
 
-              <div className="flex flex-col gap-3 items-center">
+              <div className="flex flex-col gap-0 md:gap-3 items-center mt-3">
                 <span className="text-[16px] text-blue-400 font-bold">
                   Status
                 </span>
@@ -207,7 +221,7 @@ const RegularOrders = () => {
               </div>
 
               {item.status === "completed" && item.reviewed === false && (
-                <div className={`flex justify-center items-center`}>
+                <div className={`flex justify-center items-center mt-3`}>
                   <Button
                     onClick={() => handleOpenReviewModal(item)}
                     size="sm"
@@ -234,6 +248,11 @@ const RegularOrders = () => {
             </h1>
           </div>
 
+          <div className="mb-6">
+            <h1 className="text-lg font-bold">Rate this food.</h1>
+            <Rating value={rating} onChange={handleRatingChange} />
+          </div>
+
           <Textarea
             label="Your Review"
             value={review}
@@ -244,7 +263,7 @@ const RegularOrders = () => {
             <Button
               className="bg-green-500"
               onClick={handleSubmitPost}
-              disabled={!review || loading ? true : false}
+              disabled={!review || rating === 0 || loading ? true : false}
             >
               {loading ? (
                 <div className="flex justify-center items-center gap-4">
@@ -266,7 +285,7 @@ const RegularOrders = () => {
           </div>
         </div>
       </Dialog>
-    </div>
+    </motion.div>
   );
 };
 
