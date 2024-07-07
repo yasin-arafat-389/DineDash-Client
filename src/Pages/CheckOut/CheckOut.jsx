@@ -6,6 +6,7 @@ import {
   DialogBody,
   DialogFooter,
   DialogHeader,
+  Input,
   Textarea,
   Typography,
 } from "@material-tailwind/react";
@@ -33,6 +34,7 @@ import {
   getUpdatedRegularOrder,
 } from "../../Redux/MyCartSlice/MyCartSlice";
 import { motion } from "framer-motion";
+import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
@@ -180,10 +182,18 @@ const CheckOut = () => {
   const [phone, setPhone] = useState("");
   const [region, setRegion] = useState("");
 
-  let { data: customerData } = useQuery({
+  let { data: customerData, isLoading: customerDataLoading } = useQuery({
     queryKey: ["myDeliveryAddress"],
     queryFn: async () => {
       let res = await axios.get(`/my-address?email=${user?.email}`).then();
+      return res.data;
+    },
+  });
+
+  let { data: myOffers = [], isLoading: isMyOffersLoading } = useQuery({
+    queryKey: ["allOffers"],
+    queryFn: async () => {
+      let res = await axios.get(`/get-coupons?allCoupons="allCoupons"`).then();
       return res.data;
     },
   });
@@ -312,6 +322,72 @@ const CheckOut = () => {
       dispatch(getUpdatedCustomOrder());
     }
   };
+
+  const [couponCode, setCouponCode] = useState("");
+  const [couponLoading, setCouponLoading] = useState(false);
+
+  const handleSubmitCouponCode = async (e) => {
+    e.preventDefault();
+    setCouponLoading(true);
+
+    const matchCouponCode = myOffers.filter(
+      (coupon) => coupon.couponCode === couponCode
+    );
+
+    if (matchCouponCode.length === 0) {
+      setCouponLoading(false);
+      Swal.fire({
+        title: `There are no such coupon code as ${couponCode}`,
+        icon: "error",
+      });
+      return;
+    }
+
+    const foodInCart = cartFoods.filter(
+      (food) =>
+        food?.name === matchCouponCode[0]?.selectedFood?.name &&
+        food?.restaurant === matchCouponCode[0]?.restaurant
+    );
+
+    if (foodInCart.length > 0) {
+      await axios
+        .post(
+          `/apply-coupon?email=${user.email}&couponId=${matchCouponCode[0]._id}`
+        )
+        .then((response) => {
+          if (response.data.success) {
+            setCouponLoading(false);
+            Swal.fire({
+              title: `Coupon applied successfully!!`,
+              icon: "success",
+            });
+            return;
+          }
+
+          if (response.data.success === false) {
+            setCouponLoading(false);
+            Swal.fire({
+              title: `You have already applied this coupon!!`,
+              icon: "warning",
+            });
+            return;
+          }
+        });
+    } else {
+      setCouponLoading(false);
+      Swal.fire({
+        text: `You must add the food to the cart associated to the coupon code ${couponCode} to avail the discount.`,
+        icon: "warning",
+      });
+      return;
+    }
+  };
+
+  if (customerDataLoading || isMyOffersLoading) {
+    return <RouteChangeLoader />;
+  }
+
+  // console.log(myOffers);
 
   return (
     <motion.div
@@ -498,7 +574,7 @@ const CheckOut = () => {
                           </button>
                           <h2 className="mx-3">{item?.quantity}</h2>
                           <button
-                            className="cursor-pointer rounded-r bg-gray-200 py-1 px-3 duration-100        hover:bg-pink-500 hover:text-blue-50 text-lg"
+                            className="cursor-pointer rounded-r bg-gray-200 py-1 px-3 duration-100 hover:bg-pink-500 hover:text-blue-50 text-lg"
                             onClick={() => handleIncrement(item.identifier)}
                           >
                             +
@@ -524,6 +600,39 @@ const CheckOut = () => {
                 </>
               ))
             )}
+          </div>
+
+          {/* Coupon */}
+          <div className="mt-8 border-[2px] border-dashed border-blue-500 shadow-xl py-6 px-8 rounded-lg">
+            <form onSubmit={handleSubmitCouponCode}>
+              <h1 className="text-xl font-bold text-gray-700 mb-3">
+                Have a coupon?
+              </h1>
+              <Input
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                required
+                size="md"
+                label="Enter Coupon Code"
+                className="border-black"
+              />
+
+              <Button
+                disabled={couponLoading}
+                type="submit"
+                className="mt-4 bg-blue-600"
+                fullWidth
+              >
+                {couponLoading ? (
+                  <div className="flex justify-center items-center gap-4">
+                    <ImSpinner9 className="animate-spin text-[20px]" />
+                    Applying
+                  </div>
+                ) : (
+                  "Apply Coupon"
+                )}
+              </Button>
+            </form>
           </div>
         </div>
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
