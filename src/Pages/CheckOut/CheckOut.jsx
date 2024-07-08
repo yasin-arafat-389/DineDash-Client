@@ -35,10 +35,11 @@ import {
 } from "../../Redux/MyCartSlice/MyCartSlice";
 import { motion } from "framer-motion";
 import RouteChangeLoader from "../../../Utility/Loaders/RouteChangeLoader/RouteChangeLoader";
+import { useSelector } from "react-redux";
 
 const CheckOut = () => {
   const [burger, setBurger] = useState([]);
-  const [cartFoods, setCartFoods] = useState([]);
+  let cartFoods = useSelector((state) => state.myCart.regularOrders);
   let { user } = useAuth();
   let axios = useAxios();
   let navigate = useNavigate();
@@ -101,14 +102,6 @@ const CheckOut = () => {
     });
   };
 
-  // Handlimg Cart foods
-  useEffect(() => {
-    const storedFood = JSON.parse(localStorage.getItem(`${user?.email}Cart`));
-    if (storedFood) {
-      setCartFoods(storedFood);
-    }
-  }, [user]);
-
   const handleIncrement = (id) => {
     const updatedCart = cartFoods.map((item) => {
       if (item.identifier === id) {
@@ -122,7 +115,7 @@ const CheckOut = () => {
       }
       return item;
     });
-    setCartFoods(updatedCart);
+
     localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
     dispatch(getUpdatedRegularOrder());
   };
@@ -141,7 +134,6 @@ const CheckOut = () => {
       return item;
     });
 
-    setCartFoods(updatedCart);
     localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
     dispatch(getUpdatedRegularOrder());
   };
@@ -159,7 +151,6 @@ const CheckOut = () => {
         dispatch(decrement());
         const updatedCart = [...cartFoods];
         updatedCart.splice(index, 1);
-        setCartFoods(updatedCart);
         localStorage.setItem(`${user?.email}Cart`, JSON.stringify(updatedCart));
         dispatch(getUpdatedRegularOrder());
         toast.success(`${food} has been removed!`, {
@@ -361,6 +352,26 @@ const CheckOut = () => {
               title: `Coupon applied successfully!!`,
               icon: "success",
             });
+
+            const cartKey = `${user.email}Cart`;
+            const cartData = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+            const updatedCart = cartData.map((item) => {
+              if (item.identifier === foodInCart[0].identifier) {
+                return {
+                  ...item,
+                  totalPrice:
+                    foodInCart[0].totalPrice -
+                    matchCouponCode[0].discountAmount,
+                };
+              }
+              return item;
+            });
+
+            localStorage.setItem(cartKey, JSON.stringify(updatedCart));
+
+            dispatch(getUpdatedRegularOrder());
+
             return;
           }
 
@@ -386,8 +397,6 @@ const CheckOut = () => {
   if (customerDataLoading || isMyOffersLoading) {
     return <RouteChangeLoader />;
   }
-
-  // console.log(myOffers);
 
   return (
     <motion.div
@@ -603,38 +612,41 @@ const CheckOut = () => {
           </div>
 
           {/* Coupon */}
-          <div className="mt-8 border-[2px] border-dashed border-blue-500 shadow-xl py-6 px-8 rounded-lg">
-            <form onSubmit={handleSubmitCouponCode}>
-              <h1 className="text-xl font-bold text-gray-700 mb-3">
-                Have a coupon?
-              </h1>
-              <Input
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                required
-                size="md"
-                label="Enter Coupon Code"
-                className="border-black"
-              />
+          {cartFoods.length > 0 && (
+            <div className="mt-8 border-[2px] border-dashed border-blue-500 shadow-xl py-6 px-8 rounded-lg">
+              <form onSubmit={handleSubmitCouponCode}>
+                <h1 className="text-xl font-bold text-gray-700 mb-3">
+                  Have a coupon?
+                </h1>
+                <Input
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  required
+                  size="md"
+                  label="Enter Coupon Code"
+                  className="border-black"
+                />
 
-              <Button
-                disabled={couponLoading}
-                type="submit"
-                className="mt-4 bg-blue-600"
-                fullWidth
-              >
-                {couponLoading ? (
-                  <div className="flex justify-center items-center gap-4">
-                    <ImSpinner9 className="animate-spin text-[20px]" />
-                    Applying
-                  </div>
-                ) : (
-                  "Apply Coupon"
-                )}
-              </Button>
-            </form>
-          </div>
+                <Button
+                  disabled={couponLoading}
+                  type="submit"
+                  className="mt-4 bg-blue-600"
+                  fullWidth
+                >
+                  {couponLoading ? (
+                    <div className="flex justify-center items-center gap-4">
+                      <ImSpinner9 className="animate-spin text-[20px]" />
+                      Applying
+                    </div>
+                  ) : (
+                    "Apply Coupon"
+                  )}
+                </Button>
+              </form>
+            </div>
+          )}
         </div>
+
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
           <p className="text-xl font-medium">Delivery Details</p>
           <p className="text-gray-400">
