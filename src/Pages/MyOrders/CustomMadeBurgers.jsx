@@ -10,6 +10,7 @@ import NoOrders from "./NoOrders";
 import { GridLoader } from "react-spinners";
 import { PiCookingPotFill } from "react-icons/pi";
 import { FaCheckCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const CustomMadeBurgers = () => {
   let { user } = useAuth();
@@ -37,7 +38,12 @@ const CustomMadeBurgers = () => {
   }
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       {burgers?.length === 0 ? (
         <NoOrders
           title="You have no orders yet!!"
@@ -66,11 +72,11 @@ const CustomMadeBurgers = () => {
                   src="https://promptsideas.b-cdn.net/prompts/1273/G5mkQ72DKdLzGbDJXCkK.png"
                   className="w-[150px] h-[100px] rounded-md object-cover"
                 />
-                <h1 className="title text-lg">Custom Made Burger</h1>
+                <h1 className="title text-lg md:text-lg">Custom Made Burger</h1>
               </div>
 
               <div>
-                <h1 className="flex flex-col gap-3 justify-center items-center">
+                <h1 className="flex flex-col gap-0 md:gap-3 justify-center items-center mt-3">
                   <span className="text-[16px] text-blue-400 font-bold">
                     Price
                   </span>
@@ -79,7 +85,7 @@ const CustomMadeBurgers = () => {
               </div>
 
               <div>
-                <h1 className="flex flex-col gap-3 justify-center items-center">
+                <h1 className="flex flex-col gap-0 md:gap-3 justify-center items-center mt-3">
                   <span className="text-[16px] text-blue-400 font-bold">
                     Restaurant
                   </span>
@@ -87,7 +93,7 @@ const CustomMadeBurgers = () => {
                 </h1>
               </div>
 
-              <div className="flex flex-col gap-3 items-center">
+              <div className="flex flex-col gap-0 md:gap-3 justify-center items-center mt-3">
                 <span className="text-[16px] text-blue-400 font-bold">
                   Status
                 </span>
@@ -122,7 +128,7 @@ const CustomMadeBurgers = () => {
           </div>
         ))
       )}
-    </div>
+    </motion.div>
   );
 };
 

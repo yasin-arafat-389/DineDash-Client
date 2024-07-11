@@ -14,6 +14,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoWarning } from "react-icons/io5";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import ReviewsSkeletonLoader from "./ReviewsSkeletonLoader";
+import { BiSolidOffer } from "react-icons/bi";
 
 const FoodDetails = () => {
   let axios = useAxios();
@@ -87,8 +88,6 @@ const FoodDetails = () => {
 
   // Get the rating percentages
   const ratingPercentages = calculateRatingPercentages(reviews);
-
-  console.log(ratingPercentages);
 
   //   Handling Tabs
   const [activeTab, setActiveTab] = useState("tab1");
@@ -196,6 +195,14 @@ const FoodDetails = () => {
     setQuantity(1);
   };
 
+  let { data: myOffers = [], isLoading: isMyOffersLoading } = useQuery({
+    queryKey: ["myOffersById"],
+    queryFn: async () => {
+      let res = await axios.get(`/get-coupons?foodId=${foodId}`).then();
+      return res.data;
+    },
+  });
+
   if (isError) {
     return navigate("/browse-foods");
   }
@@ -223,9 +230,23 @@ const FoodDetails = () => {
 
       <div className="bg-gray-100">
         <section className="text-gray-600 body-font overflow-hidden">
-          <div className="container px-5 py-10 md:py-24 lg:py-24 mx-auto">
+          <div className="container px-5 py-10 md:py-24 lg:py-15 mx-auto">
+            {/* Discount Banner */}
+            {myOffers && (
+              <div className="w-[65%] text-xl mx-auto mb-10 flex justify-center items-center gap-3 bg-[#219C90] text-white py-3 rounded-lg font-bold">
+                <BiSolidOffer fontSize={"33"} />
+                <p>
+                  Use coupon code{" "}
+                  <span className="bg-[#E0A75E] p-2 rounded-xl">
+                    {myOffers.couponCode}
+                  </span>{" "}
+                  to get {myOffers.discountAmount} taka off.
+                </p>
+              </div>
+            )}
+
             <div className="lg:w-4/5 mx-auto flex flex-wrap">
-              {isFetching ? (
+              {isFetching || isMyOffersLoading ? (
                 <div className="lg:w-1/2 w-full lg:h-[400px] h-64 rounded bg-gray-500 animate-pulse"></div>
               ) : (
                 <img
@@ -235,7 +256,7 @@ const FoodDetails = () => {
               )}
 
               <div className="lg:w-1/2 w-full lg:pl-10 lg:py-0 mt-6 lg:mt-0">
-                {isFetching ? (
+                {isFetching || isMyOffersLoading ? (
                   <div className="h-5 w-[150px] rounded-lg bg-gray-400 animate-pulse"></div>
                 ) : (
                   <h2 className="text-lg title-font text-gray-700 tracking-widest">
@@ -243,7 +264,7 @@ const FoodDetails = () => {
                   </h2>
                 )}
 
-                {isFetching ? (
+                {isFetching || isMyOffersLoading ? (
                   <div className="h-10 w-[300px] mt-3 rounded-lg bg-gray-400 animate-pulse"></div>
                 ) : (
                   <h1 className="text-gray-900 text-3xl title-font font-medium mb-1 mt-3">
@@ -267,7 +288,7 @@ const FoodDetails = () => {
                 </div>
 
                 <div className="flex mt-3">
-                  {isFetching ? (
+                  {isFetching || isMyOffersLoading ? (
                     <div className="h-5 w-[150px] rounded-lg bg-gray-400 animate-pulse"></div>
                   ) : (
                     <div className="flex items-center gap-2">
@@ -280,7 +301,7 @@ const FoodDetails = () => {
                 </div>
 
                 <div className="flex mt-7">
-                  {isFetching ? (
+                  {isFetching || isMyOffersLoading ? (
                     <span className="h-10 w-[150px] rounded-lg bg-gray-400 animate-pulse"></span>
                   ) : (
                     <span className="title-font font-medium text-2xl text-gray-900">
@@ -354,7 +375,7 @@ const FoodDetails = () => {
 
                 {activeTab === "tab1" && (
                   <div>
-                    {isFetching ? (
+                    {isFetching || isMyOffersLoading ? (
                       <>
                         <div className="h-3 mt-7 w-full rounded-lg bg-gray-400 animate-pulse"></div>
                         <div className="h-3 mt-1 w-full rounded-lg bg-gray-400 animate-pulse"></div>

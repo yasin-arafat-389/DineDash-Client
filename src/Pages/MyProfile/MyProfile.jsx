@@ -5,6 +5,7 @@ import { FaEdit, FaPhone } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
 import { FaAddressCard } from "react-icons/fa";
 import { imageUpload } from "../../../Utility/ImageUpload/ImageUpload";
+import { motion } from "framer-motion";
 import {
   Button,
   Card,
@@ -183,26 +184,55 @@ const MyProfile = () => {
   }
 
   return (
-    <div className="bg-[#CDF5FD]">
+    <motion.div
+      className="bg-[#CDF5FD]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       <div className=" py-12">
-        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: window.innerWidth <= 768 ? "90%" : "50%" }}
+          transition={{
+            duration: 0.6,
+            easings: ["easeInOut"],
+          }}
+          className="mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg"
+        >
           <div className="border-b px-4 pb-6">
             <div className="text-center my-4">
               <div className="flex justify-center mb-2">
-                <img
+                <motion.img
+                  initial={{ y: 70, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    easings: ["easeInOut"],
+                    delay: 0.4,
+                  }}
                   className="h-32 w-32 rounded-full border-4 border-gray-400 dark:border-gray-800"
                   src={user?.photoURL || "https://i.ibb.co/HN9NtYY/user.png"}
                   alt=""
                 />
 
-                <div className="">
+                <motion.div
+                  initial={{ y: 70, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    easings: ["easeInOut"],
+                    delay: 0.4,
+                  }}
+                >
                   {" "}
                   <FaEdit
                     fontSize={"25"}
                     className="cursor-pointer"
                     onClick={handleOpen1}
                   />{" "}
-                </div>
+                </motion.div>
 
                 {/* Profile pic change modal */}
                 <Dialog
@@ -267,8 +297,18 @@ const MyProfile = () => {
                   </form>
                 </Dialog>
               </div>
+
               <div className="py-2 flex flex-col gap-2">
-                <div className="flex justify-center items-center gap-4">
+                <motion.div
+                  initial={{ y: 70, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    easings: ["easeInOut"],
+                    delay: 0.6,
+                  }}
+                  className="flex justify-center items-center gap-4"
+                >
                   <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">
                     {user?.displayName}
                   </h3>
@@ -277,7 +317,7 @@ const MyProfile = () => {
                     className="cursor-pointer"
                     onClick={handleOpen}
                   />{" "}
-                </div>
+                </motion.div>
 
                 {/* Name update modal */}
                 <Dialog
@@ -322,12 +362,30 @@ const MyProfile = () => {
                 </Dialog>
 
                 <div className="flex flex-col justify-center items-center gap-4">
-                  <div className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center">
+                  <motion.div
+                    initial={{ y: 70, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{
+                      duration: 0.6,
+                      easings: ["easeInOut"],
+                      delay: 0.8,
+                    }}
+                    className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center"
+                  >
                     <MdOutlineMail fontSize={"20"} />
                     {user?.email}
-                  </div>
+                  </motion.div>
 
-                  <div className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center">
+                  <motion.div
+                    initial={{ y: 70, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{
+                      duration: 0.6,
+                      easings: ["easeInOut"],
+                      delay: 1,
+                    }}
+                    className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center"
+                  >
                     <FaAddressCard fontSize={"20"} />
                     <span>
                       {data?.address
@@ -339,9 +397,18 @@ const MyProfile = () => {
                       className="cursor-pointer text-black"
                       onClick={() => handleOpen2(data?.address)}
                     />
-                  </div>
+                  </motion.div>
 
-                  <div className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center">
+                  <motion.div
+                    initial={{ y: 70, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{
+                      duration: 0.6,
+                      easings: ["easeInOut"],
+                      delay: 1.2,
+                    }}
+                    className="flex justify-center gap-3 text-gray-700 dark:text-gray-300 items-center"
+                  >
                     <FaPhone fontSize={"20"} />
                     <span>
                       {data?.phone ? data?.phone : "Enter your phone number"}
@@ -351,7 +418,7 @@ const MyProfile = () => {
                       className="cursor-pointer text-black"
                       onClick={() => handleOpen3(data?.phone)}
                     />
-                  </div>
+                  </motion.div>
 
                   {/* Address update modal */}
                   <Dialog
@@ -445,9 +512,9 @@ const MyProfile = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -9,7 +9,6 @@ import Lottie from "lottie-react";
 import { ImSpinner9 } from "react-icons/im";
 import useAxios from "../../Hooks/useAxios";
 import Swal from "sweetalert2";
-import { motion } from "framer-motion";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -147,68 +146,28 @@ const Login = () => {
 
                 <div className="w-full px-6 py-8 md:px-8 lg:w-1/2 bg-white">
                   <div className="flex justify-center mx-auto">
-                    <motion.img
-                      initial={{
-                        y: 50,
-                        opacity: 0,
-                      }}
-                      whileInView={{
-                        y: 0,
-                        opacity: 1,
-                      }}
-                      transition={{ duration: 0.8, easings: ["easeInOut"] }}
+                    <img
                       className="w-[30%]"
                       src="https://i.ibb.co/kBDBhVs/dinedash.png"
                       alt=""
                     />
                   </div>
 
-                  <motion.p
-                    initial={{
-                      y: 50,
-                      opacity: 0,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      easings: ["easeInOut"],
-                      delay: 0.2,
-                    }}
-                    className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200"
-                  >
+                  <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
                     Sign In to your account
-                  </motion.p>
+                  </p>
 
-                  <motion.div
-                    initial={{
-                      y: 50,
-                      opacity: 0,
-                    }}
-                    whileInView={{
-                      y: 0,
-                      opacity: 1,
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      easings: ["easeInOut"],
-                      delay: 0.4,
-                    }}
+                  <Button
+                    onClick={handleGoogleLogin}
+                    size="lg"
+                    fullWidth
+                    variant="outlined"
+                    color="blue-gray"
+                    className="flex items-center justify-center gap-3 mx-auto mt-4"
                   >
-                    <Button
-                      onClick={handleGoogleLogin}
-                      size="lg"
-                      fullWidth
-                      variant="outlined"
-                      color="blue-gray"
-                      className="flex items-center justify-center gap-3 mx-auto mt-4"
-                    >
-                      <FcGoogle fontSize={"25px"} />
-                      Sign In with Google
-                    </Button>
-                  </motion.div>
+                    <FcGoogle fontSize={"25px"} />
+                    Sign In with Google
+                  </Button>
 
                   <div className="flex items-center justify-between mt-4">
                     <span className="w-1/5 h-[2px] bg-gray-400 lg:w-1/4"></span>

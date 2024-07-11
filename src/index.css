@@ -8,6 +8,40 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0);
   z-index: 999;
+  backdrop-filter: blur(0);
+  transition: background-color 0.5s ease-in-out,
+    backdrop-filter 0.5s ease-in-out;
+}
+
+.overlayOnDrawerOpen.show {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.overlayOnNavDrawerOpen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 999;
+  backdrop-filter: blur(0);
+  transition: background-color 0.5s ease-in-out,
+    backdrop-filter 0.5s ease-in-out;
+}
+
+.overlayOnNavDrawerOpen.show {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.activeInResponsiveMode {
+  background-color: #0866ff;
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: bold;
 }

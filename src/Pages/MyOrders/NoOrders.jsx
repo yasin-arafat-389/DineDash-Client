@@ -13,7 +13,7 @@ const NoOrders = ({ title, route, buttonText }) => {
           className="w-[100px]"
         />
 
-        <h1 className="text-4xl font-bold my-5 italic text-deep-orange-200">
+        <h1 className="text-2xl md:text-4xl font-bold my-5 italic text-deep-orange-200">
           {title}
         </h1>
 

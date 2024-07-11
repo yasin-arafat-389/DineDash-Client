@@ -21,6 +21,7 @@ import PartnerRequest from "../Pages/PartnerRequest/PartnerRequest";
 import BeRider from "../Pages/BeRider/BeRider";
 import RiderRequest from "../Pages/RiderRequest/RiderRequest";
 import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
+import FoodDetails from "../Pages/BrowseFoods/FoodDetails";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/browse-foods",
         element: <BrowseFoods />,
+      },
+      {
+        path: "/food-details/:id",
+        element: <FoodDetails />,
       },
       {
         path: "/restaurants/:name",

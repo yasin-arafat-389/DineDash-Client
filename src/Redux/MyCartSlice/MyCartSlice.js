@@ -19,9 +19,20 @@ const myCartSlice = createSlice({
       state.customOrders =
         JSON.parse(localStorage.getItem(`${payload?.email}`)) || [];
     },
+
+    getUpdatedRegularOrder: (state) => {
+      state.regularOrders =
+        JSON.parse(localStorage.getItem(`${state?.email}Cart`)) || [];
+    },
+
+    getUpdatedCustomOrder: (state) => {
+      state.customOrders =
+        JSON.parse(localStorage.getItem(`${state?.email}`)) || [];
+    },
   },
 });
 
-export const { getUserEmail } = myCartSlice.actions;
+export const { getUserEmail, getUpdatedRegularOrder, getUpdatedCustomOrder } =
+  myCartSlice.actions;
 
 export default myCartSlice.reducer;

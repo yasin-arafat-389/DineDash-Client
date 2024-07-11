@@ -22,7 +22,7 @@ const RestaurantPageSkeletonLoader = ({ pathname }) => {
       </style>
 
       <div
-        className="h-[200px] flex justify-center items-center text-[40px] md:ext-[50px] lg:ext-[50px] restaurantTitle"
+        className="h-[100px] md:h-[200px] flex justify-center items-center text-[40px] md:text-[50px] lg:ext-[50px] restaurantTitle"
         style={{
           backgroundImage: `url("https://i.ibb.co/YNFfVNq/res-bg.png")`,
           backgroundRepeat: "no-repeat",
@@ -58,8 +58,8 @@ const RestaurantPageSkeletonLoader = ({ pathname }) => {
                 >
                   <div className="foodContent w-2/3 flex flex-col gap-2">
                     <h1 className="h-5 w-full rounded-lg bg-gray-400 animate-pulse"></h1>
-                    <h1 className="h-14 w-full rounded-lg bg-gray-400 animate-pulse"></h1>
-                    <h1 className="h-5 w-[30px] rounded-lg bg-gray-400 animate-pulse"></h1>
+                    <h1 className="h-12 w-full rounded-lg bg-gray-400 animate-pulse"></h1>
+                    <h1 className="h-5 w-[70px] rounded-lg bg-gray-400 animate-pulse"></h1>
                   </div>
                   <div className="foodImage-rc w-1/3">
                     <h1 className="rounded-xl h-[120px] w-full bg-gray-400 animate-pulse" />

@@ -2,21 +2,39 @@ import NavBar from "../../Components/Navbar/NavBar";
 import { NavLink, Outlet } from "react-router-dom";
 import Footer from "../../Components/Footer/Footer";
 import ScrollToTop from "../../../Utility/ScrollToTop/ScrollToTop";
-import { closeDrawer } from "../../Redux/CartDrawerSlice/CartDrawerSlice";
+import CartDrawer from "../../Components/CartDrawer/CartDrawer";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import CartDrawer from "../../Components/CartDrawer/CartDrawer";
+import { closeDrawer } from "../../Redux/CartDrawerSlice/CartDrawerSlice";
+import { useEffect } from "react";
 
 const MyOrders = () => {
-  const cartDrawerOpen = useSelector((state) => state.cartDrawer.open);
-  const dispatch = useDispatch();
+  let dispatch = useDispatch();
 
+  const cartDrawerOpen = useSelector((state) => state.cartDrawer.open);
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());
   };
 
+  useEffect(() => {
+    if (cartDrawerOpen) {
+      setTimeout(() => {
+        const overlay = document.querySelector(".overlayOnDrawerOpen");
+        if (overlay) {
+          overlay.classList.add("show");
+        }
+      }, 5);
+    }
+  }, [cartDrawerOpen]);
+
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
       <ScrollToTop />
       <NavBar />
       <CartDrawer />
@@ -39,7 +57,7 @@ const MyOrders = () => {
             className={({ isActive }) =>
               isActive
                 ? "active"
-                : "p-2 text-lg rounded-lg border-2 border-blue-600"
+                : "p-2 text-lg font-normal md:font-bold rounded-lg border-2 border-blue-600"
             }
           >
             <button>Regular Orders</button>
@@ -50,7 +68,7 @@ const MyOrders = () => {
             className={({ isActive }) =>
               isActive
                 ? "active"
-                : "p-2 text-lg rounded-lg border-2 border-blue-600"
+                : "p-2 text-lg font-normal md:font-bold rounded-lg border-2 border-blue-600"
             }
           >
             <button>Custom Made Burgers</button>
@@ -60,7 +78,7 @@ const MyOrders = () => {
       </div>
 
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

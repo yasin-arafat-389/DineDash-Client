@@ -10,6 +10,7 @@ import { IoSearch } from "react-icons/io5";
 import Swal from "sweetalert2";
 import NoDataFound from "../../../Utility/NoDataFound/NoDataFound";
 import BrowseByFoodsSkeletonLoader from "../../../Utility/BrowseByFoodsSkeletonLoader/BrowseByFoodsSkeletonLoader";
+import { BiSolidOffer } from "react-icons/bi";
 
 const BrowseFoods = () => {
   let axios = useAxios();
@@ -63,7 +64,15 @@ const BrowseFoods = () => {
     });
   };
 
-  if (isLoading || isFilteredLoading || searchLoading) {
+  let { data: myOffers = [], isLoading: isMyOffersLoading } = useQuery({
+    queryKey: ["allOffers"],
+    queryFn: async () => {
+      let res = await axios.get(`/get-coupons?allCoupons="allCoupons"`).then();
+      return res.data;
+    },
+  });
+
+  if (isLoading || isFilteredLoading || searchLoading || isMyOffersLoading) {
     return <BrowseByFoodsSkeletonLoader />;
   }
 
@@ -202,7 +211,7 @@ const BrowseFoods = () => {
                   <div key={index}>
                     <button
                       onClick={() => handleRedirectToDetailsPage(item)}
-                      className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
+                      className="bg-white flex gap-5 items-center w-full h-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                     >
                       <div className="foodContent w-2/3 flex flex-col gap-2">
                         <h1 className="FoodTitle elipseTitle text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
@@ -215,6 +224,25 @@ const BrowseFoods = () => {
                         <p className="text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                           ৳ {item?.price}
                         </p>
+
+                        <div>
+                          {myOffers
+                            .filter(
+                              (food) => food.selectedFood._id === item._id
+                            )
+                            .map((matchedFood, index) => (
+                              <div
+                                key={index}
+                                className="flex justify-center items-center gap-2 mt-2 bg-[#219C90] text-white py-1 rounded-lg font-bold"
+                              >
+                                <BiSolidOffer fontSize={"22"} />
+                                <p>
+                                  Get {matchedFood.discountAmount} taka
+                                  discount.
+                                </p>
+                              </div>
+                            ))}
+                        </div>
                       </div>
 
                       <div className="foodImage-rc w-1/3">
@@ -242,7 +270,7 @@ const BrowseFoods = () => {
                   <div key={index}>
                     <button
                       onClick={() => handleRedirectToDetailsPage(item)}
-                      className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
+                      className="bg-white flex gap-5 items-center w-full h-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                     >
                       <div className="foodContent w-2/3 flex flex-col gap-2">
                         <h1 className="FoodTitle elipseTitle text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
@@ -255,6 +283,25 @@ const BrowseFoods = () => {
                         <p className="text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                           ৳ {item?.price}
                         </p>
+
+                        <div>
+                          {myOffers
+                            .filter(
+                              (food) => food.selectedFood._id === item._id
+                            )
+                            .map((matchedFood, index) => (
+                              <div
+                                key={index}
+                                className="flex justify-center items-center gap-2 mt-2 bg-[#219C90] text-white py-1 rounded-lg font-bold"
+                              >
+                                <BiSolidOffer fontSize={"22"} />
+                                <p>
+                                  Get {matchedFood.discountAmount} taka
+                                  discount.
+                                </p>
+                              </div>
+                            ))}
+                        </div>
                       </div>
 
                       <div className="foodImage-rc w-1/3">
@@ -285,7 +332,7 @@ const BrowseFoods = () => {
                     <div key={index}>
                       <button
                         onClick={() => handleRedirectToDetailsPage(item)}
-                        className="bg-white flex gap-5 items-center w-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
+                        className="bg-white flex gap-5 items-center w-full h-full text-left border-2 border-gray-400 p-5 rounded-xl shadow-lg hover:shadow-2xl transition-all"
                       >
                         <div className="foodContent w-2/3 flex flex-col gap-2">
                           <h1 className="FoodTitle elipseTitle text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
@@ -325,6 +372,25 @@ const BrowseFoods = () => {
                           <p className="text-[#333333] text-[18px] md:text-[22px] lg:text-[22px] font-bold">
                             ৳ {item?.price}
                           </p>
+
+                          <div>
+                            {myOffers
+                              .filter(
+                                (food) => food.selectedFood._id === item._id
+                              )
+                              .map((matchedFood, index) => (
+                                <div
+                                  key={index}
+                                  className="flex justify-center items-center gap-2 mt-2 bg-[#219C90] text-white py-1 rounded-lg font-bold"
+                                >
+                                  <BiSolidOffer fontSize={"22"} />
+                                  <p>
+                                    Get {matchedFood.discountAmount} taka
+                                    discount.
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
                         </div>
 
                         <div className="foodImage-rc w-1/3">
